@@ -1,0 +1,29 @@
+nav.nav-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  height: 65px;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.nav-icons {
+  display: flex;
+  flex-direction: row;
+  justify-self: center;
+  align-self: center;
+  gap: 1rem;
+  font-size: 25px;
+}
+
+.nav-usericon {
+  justify-self: flex-end;
+  font-size: 25px;
+}
+
+.nav-logo {
+  cursor: pointer;
+}

@@ -1,0 +1,31 @@
+.splash-container {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  z-index: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
+.splash-content {
+  margin-left: auto;
+  margin-right: auto;
+  left: 0;
+  right: 0;
+  text-align: center;
+  position: absolute;
+  z-index: 1;
+  color: white;
+}
+
+.splash-bground-broll {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.splash-title {
+  font-size: 45px;
+}
