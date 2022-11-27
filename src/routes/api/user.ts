@@ -27,6 +27,8 @@ userRouter.post("/register", async (req, res) => {
 					},
 				],
 			});
+		} else {
+			console.log(error);
 		}
 	}
 	req.session.userId = user.id;

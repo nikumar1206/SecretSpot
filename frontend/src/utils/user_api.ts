@@ -7,7 +7,7 @@ interface userInterface {
 
 export const loginUser = async (userInfo: userInterface) => {
 	try {
-		let data = axios.post("/api/users/login", userInfo);
+		let data = await axios.post("/api/users/login", userInfo);
 		return data;
 	} catch (error) {
 		console.log(error);
@@ -16,9 +16,9 @@ export const loginUser = async (userInfo: userInterface) => {
 
 export const registerUser = async (userInfo: userInterface) => {
 	try {
-		let data = axios.post("/api/users/register", userInfo);
-		return data;
+		let res = await axios.post("/api/users/register", userInfo);
+		return res.data;
 	} catch (error) {
-		console.log(error);
+		throw new Error(`${error}`);
 	}
 };
