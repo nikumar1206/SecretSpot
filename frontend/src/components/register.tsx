@@ -1,6 +1,9 @@
-import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { registerUser } from "../utils/user_api";
+interface fieldError {
+	field: string;
+	message: string;
+}
 
 type fieldInput = "email" | "password";
 const Register = () => {
@@ -8,18 +11,22 @@ const Register = () => {
 		email: "",
 		password: "",
 	});
+	const [errors, setErrors] = useState<null | fieldError[]>(null);
 
 	const handleUpdate = (field: fieldInput) => {
 		return (e: React.FormEvent<HTMLInputElement>): void =>
 			setUser({ ...user, [field]: e.currentTarget.value });
 	};
-	const handleSubmit = (e: React.SyntheticEvent) => {
+	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		const { error } = useMutation({
-			mutationKey: ["registerUser"],
-			mutationFn: () => registerUser(user),
-		});
+		let data = await registerUser(user);
+		console.log(data.errors);
+
+		if (data.errors) {
+			setErrors(data.errors);
+		}
 	};
+
 	return (
 		<form className="register-form" onSubmit={handleSubmit}>
 			<label htmlFor="email">Email</label>
@@ -31,6 +38,11 @@ const Register = () => {
 				onChange={handleUpdate("password")}
 			/>
 			<button type="submit">Register user!</button>
+			{errors ? (
+				errors.map((error, i) => <p key={i}>{error.message}</p>)
+			) : (
+				<></>
+			)}
 		</form>
 	);
 };

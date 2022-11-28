@@ -2,11 +2,18 @@ import express from "express";
 import { DI } from "../../app";
 import argon2 from "argon2";
 import User from "../../entities/User";
+import { COOKIE_NAME } from "../../constants";
 const userRouter = express.Router();
 
 userRouter.get("/", (_, res) => {
 	const users = DI.userRepository.findAll();
 	return res.json(users);
+});
+
+userRouter.get("/authed", async (req, res) => {
+	const user = await DI.userRepository.findOne({ id: req.session.userId });
+	console.log(!!user);
+	return res.json(!!user);
 });
 
 userRouter.post("/register", async (req, res) => {
@@ -28,7 +35,7 @@ userRouter.post("/register", async (req, res) => {
 				],
 			});
 		} else {
-			console.log(error);
+			return res.json({ error });
 		}
 	}
 	req.session.userId = user.id;
@@ -69,6 +76,20 @@ userRouter.post("/login", async (req, res) => {
 	// gets the session key, sends to redis
 	// redis sends back the user id
 	return res.json(user);
+});
+
+userRouter.post("/logout", async (req, res) => {
+	const deleteCookie = await new Promise((resolve) =>
+		req.session.destroy((err) => {
+			res.clearCookie(COOKIE_NAME);
+			if (err) {
+				resolve(false);
+				return;
+			}
+			resolve(true);
+		})
+	);
+	return res.json(deleteCookie);
 });
 
 export default userRouter;
