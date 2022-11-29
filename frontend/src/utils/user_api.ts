@@ -22,6 +22,7 @@ export const registerUser = async (userInfo: userInterface) => {
 		throw new Error(`${error}`);
 	}
 };
+
 export const isLoggedIn = async () => {
 	try {
 		let res = await axios.get("/api/users/authed");
