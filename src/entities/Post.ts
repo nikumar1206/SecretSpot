@@ -1,5 +1,6 @@
 import { Entity, Property, Unique } from "@mikro-orm/core";
 import Base from "./Base";
+import User from "./User";
 
 @Entity()
 export default class Post extends Base {
@@ -16,4 +17,7 @@ export default class Post extends Base {
 
 	@Property()
 	caption: string;
+
+	@Property()
+	attendies: User[];
 }
