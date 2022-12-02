@@ -14,6 +14,7 @@ const LoginSignup = (props: {
 		email: "",
 		password: "",
 	});
+
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
 	const navigate = useNavigate();
 	const handleUpdate = (field: fieldInput) => {

@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express, { Application } from "express";
-import Place from "./entities/Place";
+import Place from "./entities/Post";
 import User from "./entities/User";
 import mikroOrmConfig from "./mikro-orm.config";
 import userRouter from "./routes/api/user";

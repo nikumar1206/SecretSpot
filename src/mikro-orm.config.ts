@@ -2,7 +2,7 @@ import path from "path";
 import { MikroORM } from "@mikro-orm/core";
 import User from "./entities/User";
 import Base from "./entities/Base";
-import Place from "./entities/Place";
+import Place from "./entities/Post";
 
 export default {
 	migrations: {

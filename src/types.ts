@@ -1,5 +1,5 @@
 import { EntityManager, EntityRepository, MikroORM } from "@mikro-orm/core";
-import Place from "./entities/Place";
+import Place from "./entities/Post";
 import User from "./entities/User";
 
 export interface DatabaseInterface {

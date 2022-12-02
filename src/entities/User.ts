@@ -1,4 +1,4 @@
-import { Entity, Property, Unique } from "@mikro-orm/core";
+import { Collection, Entity, Property, Unique } from "@mikro-orm/core";
 import Base from "./Base";
 
 @Entity()
@@ -9,4 +9,7 @@ export default class User extends Base {
 
 	@Property()
 	password_digest!: string;
+
+	@Property()
+	friends = new Collection<User>(this);
 }
