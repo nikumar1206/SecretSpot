@@ -1,7 +1,21 @@
-import { Button } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import {
+	Button,
+	Dialog,
+	DialogBody,
+	DialogFooter,
+	DialogHeader,
+} from "@material-tailwind/react";
+import { useState } from "react";
 
 const Splash = () => {
+	const [open, setOpen] = useState(false);
+	const [modal, setModal] = useState("");
+
+	const handleOpen = (formType: string) => {
+		setModal(formType);
+		setOpen(!open);
+	};
+
 	return (
 		<section className="absolute w-full h-full overflow-hidden z-0">
 			<video
@@ -18,16 +32,22 @@ const Splash = () => {
 						Find the best food spots, with friends!
 					</span>
 					<div className="flex gap-2 justify-center mt-5">
-						<Link to="/login">
-							<Button variant="outlined" size="md" color="amber">
-								Login
-							</Button>
-						</Link>
-						<Link to="/register">
-							<Button variant="outlined" size="md" color="amber">
-								Sign Up
-							</Button>
-						</Link>
+						<Button
+							variant="outlined"
+							size="md"
+							color="amber"
+							onClick={() => handleOpen("Register")}
+						>
+							Login
+						</Button>
+						<Button
+							variant="outlined"
+							size="md"
+							color="amber"
+							onClick={() => handleOpen("Login")}
+						>
+							Sign Up
+						</Button>
 					</div>
 				</article>
 			</div>
