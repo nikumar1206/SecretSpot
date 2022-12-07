@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import express, { Application } from "express";
-import Place from "./entities/Post";
 import User from "./entities/User";
 import mikroOrmConfig from "./mikro-orm.config";
 import userRouter from "./routes/api/user";
@@ -12,6 +11,8 @@ import connectRedis from "connect-redis";
 import * as redis from "redis";
 import session, { SessionOptions } from "express-session";
 import { COOKIE_NAME } from "./constants";
+import postRouter from "./routes/api/posts";
+import Post from "./entities/Post";
 export const DI = {} as DatabaseInterface;
 
 const main = async () => {
@@ -45,10 +46,13 @@ const main = async () => {
 	DI.orm = await MikroORM.init(mikroOrmConfig);
 	await DI.orm.getMigrator().up(); // run migrations
 	DI.em = DI.orm.em.fork();
+
 	DI.userRepository = DI.em.getRepository(User);
-	DI.placeRepository = DI.em.getRepository(Place);
+	DI.postRepository = DI.em.getRepository(Post);
 
 	app.use("/api/users", userRouter);
+	app.use("/api/posts", postRouter);
+
 	app.listen(port, () => {
 		console.log(`🚀 Server is running on port ${port}!`);
 	});

@@ -1,12 +1,12 @@
 import { EntityManager, EntityRepository, MikroORM } from "@mikro-orm/core";
-import Place from "./entities/Post";
+import Post from "./entities/Post";
 import User from "./entities/User";
 
 export interface DatabaseInterface {
 	orm: MikroORM;
 	em: EntityManager;
 	userRepository: EntityRepository<User>;
-	placeRepository: EntityRepository<Place>;
+	postRepository: EntityRepository<Post>;
 }
 
 declare module "express-session" {

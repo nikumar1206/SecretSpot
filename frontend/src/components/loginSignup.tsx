@@ -1,3 +1,4 @@
+import { Button, Input } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 interface fieldError {
@@ -31,17 +32,28 @@ const LoginSignup = (props: {
 	};
 
 	return (
-		<form className="LoginSignup-form" onSubmit={handleSubmit}>
-			<label htmlFor="email">Email</label>
-			<input type="text" id="email" onChange={handleUpdate("email")} />
-			<label htmlFor="password">Password</label>
-			<input
+		<form className="flex w-72 flex-col gap-4" onSubmit={handleSubmit}>
+			<Input
+				variant="outlined"
+				label="Email"
+				type="text"
+				size="md"
+				id="email"
+				className="w-3"
+				onChange={handleUpdate("email")}
+			/>
+			<Input
+				variant="outlined"
+				label="Password"
 				type="password"
+				size="md"
 				id="password"
 				onChange={handleUpdate("password")}
 				autoComplete="on"
 			/>
-			<button type="submit">{props.formType} user!</button>
+			<Button variant="outlined" size="md" ripple={false} type="submit">
+				{props.formType} user!
+			</Button>
 			{errors ? (
 				errors.map((error, i) => <p key={i}>{error.message}</p>)
 			) : (
