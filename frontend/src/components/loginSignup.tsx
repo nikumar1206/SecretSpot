@@ -46,7 +46,6 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		}
 		navigate("/home");
 	};
-
 	return (
 		<Dialog
 			open={open}
@@ -55,13 +54,13 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 				mount: { scale: 1, y: 0 },
 				unmount: { scale: 0.9, y: -100 },
 			}}
-			size="sm"
+			size="xs"
 		>
-			<form className="flex w-72 flex-col gap-4" onSubmit={handleSubmit}>
-				<DialogHeader className="flex ml-auto mr-auto">
-					{formType == "register" ? "Log In" : "Sign Up"}
+			<form onSubmit={handleSubmit}>
+				<DialogHeader className="text-4xl font-light font-mono to-black items-end text-right">
+					{formType == "Login" ? "Log In" : "Sign Up"}
 				</DialogHeader>
-				<DialogBody>
+				<DialogBody className="flex flex-col gap-4">
 					<Input
 						variant="outlined"
 						label="Email"
@@ -81,7 +80,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						autoComplete="on"
 					/>
 				</DialogBody>
-				<DialogFooter>
+				<DialogFooter className="flex gap-5">
 					<Button
 						onClick={() => setOpen(false)}
 						color="red"
@@ -90,9 +89,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 					>
 						cancel
 					</Button>
-					<Button onClick={() => setOpen(false)} color="red">
-						cancel
-					</Button>
+
 					<Button variant="outlined" size="md" ripple={false} type="submit">
 						{formType} user!
 					</Button>

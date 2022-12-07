@@ -1,11 +1,7 @@
-import {
-	Button,
-	Dialog,
-	DialogBody,
-	DialogFooter,
-	DialogHeader,
-} from "@material-tailwind/react";
+import { Button } from "@material-tailwind/react";
 import { useState } from "react";
+import { loginUser, registerUser } from "../utils/user_api";
+import LoginSignup from "./loginSignup";
 
 const Splash = () => {
 	const [open, setOpen] = useState(false);
@@ -36,7 +32,7 @@ const Splash = () => {
 							variant="outlined"
 							size="md"
 							color="amber"
-							onClick={() => handleOpen("Register")}
+							onClick={() => handleOpen("Login")}
 						>
 							Login
 						</Button>
@@ -44,10 +40,17 @@ const Splash = () => {
 							variant="outlined"
 							size="md"
 							color="amber"
-							onClick={() => handleOpen("Login")}
+							onClick={() => handleOpen("Register")}
 						>
 							Sign Up
 						</Button>
+						<LoginSignup
+							action={modal == "Login" ? loginUser : registerUser}
+							formType={modal}
+							setModal={setModal}
+							setOpen={setOpen}
+							open={open}
+						></LoginSignup>
 					</div>
 				</article>
 			</div>
