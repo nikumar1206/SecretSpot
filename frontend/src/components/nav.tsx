@@ -9,7 +9,7 @@ import {
 } from "@material-tailwind/react";
 import TabComponent from "./tab";
 
-export const Nav = () => {
+export const Nav = ({ params }: { params: string }) => {
 	const [openNav, setOpenNav] = useState(false);
 
 	useEffect(() => {
@@ -65,11 +65,11 @@ export const Nav = () => {
 	);
 
 	return (
-		<Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-5/6 shadow-none">
+		<Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-5/6">
 			<div className="container mx-auto flex items-center justify-between text-blue-gray-900">
 				<Avatar src="https://i.imgur.com/yRDb2s7.png"></Avatar>
 				<div className="hidden lg:block">
-					<TabComponent />
+					<TabComponent params={params} />
 				</div>
 				<Button
 					variant="outlined"

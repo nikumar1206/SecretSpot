@@ -1,8 +1,12 @@
 import { Tab, Tabs, TabsHeader } from "@material-tailwind/react";
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-const TabComponent = () => {
-	const [view, setView] = useState("My Visits");
+const TabComponent = ({ params }: { params: string }) => {
+	const navigate = useNavigate();
+
+	const handleTabClick = (sublink: string) => {
+		navigate(`/home/${sublink}`);
+	};
 
 	const data = [
 		{
@@ -16,7 +20,7 @@ const TabComponent = () => {
 
 		{
 			label: "Favorites",
-			value: "vue",
+			value: "favorites",
 		},
 
 		{
@@ -27,10 +31,15 @@ const TabComponent = () => {
 
 	return (
 		<>
-			<Tabs value="feed" className="bg-green-100 rounded-lg">
+			<Tabs value={params} className="bg-green-100 rounded-lg">
 				<TabsHeader>
 					{data.map(({ label, value }) => (
-						<Tab key={value} value={value} className="w-36">
+						<Tab
+							key={value}
+							value={value}
+							className="w-36"
+							onClick={() => handleTabClick(value)}
+						>
 							{label}
 						</Tab>
 					))}

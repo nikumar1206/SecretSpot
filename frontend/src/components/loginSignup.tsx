@@ -45,7 +45,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		if (data.errors) {
 			return setErrors(data.errors);
 		}
-		navigate("/home");
+		navigate("/home/feed");
 	};
 	return (
 		<Dialog
