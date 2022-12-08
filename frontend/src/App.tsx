@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Home from "./components/home";
+import Nav from "./components/nav";
 import Splash from "./components/splash";
 import { ThemeProvider } from "@material-tailwind/react";
 
@@ -9,7 +9,7 @@ const App = () => {
 			<BrowserRouter>
 				<Routes>
 					<Route path="/" element={<Splash />} />
-					<Route path="/home" element={<Home />} />
+					<Route path="/home" element={<Nav />} />
 				</Routes>
 			</BrowserRouter>
 		</ThemeProvider>

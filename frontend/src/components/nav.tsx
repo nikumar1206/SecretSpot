@@ -1,23 +1,129 @@
-import { useEffect, useState } from "react";
-import { isLoggedIn, logoutUser } from "../utils/user_api";
+import { useState, useEffect } from "react";
+import {
+	Navbar,
+	MobileNav,
+	Typography,
+	Button,
+	IconButton,
+	Avatar,
+} from "@material-tailwind/react";
+import TabComponent from "./tab";
 
-const Nav = () => {
-	const [loggedIn, setLoggedIn] = useState(false);
+export const Nav = () => {
+	const [openNav, setOpenNav] = useState(false);
+
 	useEffect(() => {
-		isLoggedIn().then((res) => setLoggedIn(res));
+		window.addEventListener(
+			"resize",
+			() => window.innerWidth >= 960 && setOpenNav(false)
+		);
 	}, []);
 
-	const handleLogout = (): void => {
-		logoutUser().then(() => setLoggedIn(false));
-	};
+	const navList = (
+		<ul className="mb-4 mt-2 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
+			<Typography
+				as="li"
+				variant="small"
+				color="blue-gray"
+				className="p-1 font-normal"
+			>
+				<a href="#" className="flex items-center">
+					Pages
+				</a>
+			</Typography>
+			<Typography
+				as="li"
+				variant="small"
+				color="blue-gray"
+				className="p-1 font-normal"
+			>
+				<a href="#" className="flex items-center">
+					Account
+				</a>
+			</Typography>
+			<Typography
+				as="li"
+				variant="small"
+				color="blue-gray"
+				className="p-1 font-normal"
+			>
+				<a href="#" className="flex items-center">
+					Blocks
+				</a>
+			</Typography>
+			<Typography
+				as="li"
+				variant="small"
+				color="blue-gray"
+				className="p-1 font-normal"
+			>
+				<a href="#" className="flex items-center">
+					Docs
+				</a>
+			</Typography>
+		</ul>
+	);
+
 	return (
-		<nav className="nav-component">
-			{loggedIn ? (
-				<button onClick={handleLogout}>logout button</button>
-			) : (
-				<>logged out</>
-			)}
-		</nav>
+		<Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-5/6 shadow-none">
+			<div className="container mx-auto flex items-center justify-between text-blue-gray-900">
+				<Avatar src="https://i.imgur.com/yRDb2s7.png"></Avatar>
+				<div className="hidden lg:block">
+					<TabComponent />
+				</div>
+				<Button
+					variant="outlined"
+					ripple={false}
+					size="sm"
+					className="hidden lg:inline-block lowercase active:lowercase border-green-500 active:outline-0 focus:outline-0 rounded-none"
+				>
+					<span className="text-green-500">+ create post</span>
+				</Button>
+				<IconButton
+					variant="text"
+					className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+					ripple={false}
+					onClick={() => setOpenNav(!openNav)}
+				>
+					{openNav ? (
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							className="h-6 w-6"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M6 18L18 6M6 6l12 12"
+							/>
+						</svg>
+					) : (
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							className="h-6 w-6"
+							fill="none"
+							stroke="currentColor"
+							strokeWidth={2}
+						>
+							<path
+								strokeLinecap="round"
+								strokeLinejoin="round"
+								d="M4 6h16M4 12h16M4 18h16"
+							/>
+						</svg>
+					)}
+				</IconButton>
+			</div>
+			<MobileNav open={openNav}>
+				{navList}
+				<Button variant="gradient" size="sm" fullWidth className="mb-2">
+					<span>Buy Now</span>
+				</Button>
+			</MobileNav>
+		</Navbar>
 	);
 };
 export default Nav;

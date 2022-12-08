@@ -1,17 +1,24 @@
 import { Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { loginUser, registerUser } from "../utils/user_api";
 import LoginSignup from "./loginSignup";
 
 const Splash = () => {
 	const [open, setOpen] = useState(false);
+	const [loaded, setLoaded] = useState(false);
 	const [modal, setModal] = useState("");
+	const backgroundVideoRef = useRef<HTMLVideoElement>(null);
+
+	useEffect(() => {
+		backgroundVideoRef.current?.addEventListener("loadeddata", () =>
+			setLoaded(true)
+		);
+	}, []);
 
 	const handleOpen = (formType: string) => {
 		setModal(formType);
 		setOpen(!open);
 	};
-
 	return (
 		<section className="absolute w-full h-full overflow-hidden z-0">
 			<video
@@ -19,6 +26,9 @@ const Splash = () => {
 				autoPlay={true}
 				muted
 				loop
+				ref={backgroundVideoRef}
+				playsInline
+				preload="true"
 				className="absolute top-0 left-0 width-full overflow-hidden"
 			></video>
 			<div className="absolute m-auto text-center z-1 text-white w-full h-full flex-col justify-center items-center">

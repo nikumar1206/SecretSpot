@@ -12,6 +12,7 @@ interface fieldError {
 	field: string;
 	message: string;
 }
+
 interface LoginSignupProps {
 	action: Function;
 	formType: string;
@@ -86,12 +87,19 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						color="red"
 						variant="outlined"
 						ripple={false}
+						className="normal-case"
 					>
-						cancel
+						Cancel
 					</Button>
 
-					<Button variant="outlined" size="md" ripple={false} type="submit">
-						{formType} user!
+					<Button
+						variant="outlined"
+						size="md"
+						ripple={false}
+						type="submit"
+						className="normal-case"
+					>
+						{formType} User!
 					</Button>
 					{errors ? (
 						errors.map((error, i) => <p key={i}>{error.message}</p>)

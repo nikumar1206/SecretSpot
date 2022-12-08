@@ -5,8 +5,8 @@ import User from "../../entities/User";
 import { COOKIE_NAME } from "../../constants";
 const userRouter = express.Router();
 
-userRouter.get("/", (_, res) => {
-	const users = DI.userRepository.findAll();
+userRouter.get("/", async (_, res) => {
+	const users = await DI.userRepository.find({});
 	return res.json(users);
 });
 
