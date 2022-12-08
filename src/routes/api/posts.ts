@@ -17,10 +17,14 @@ postRouter.post("/create", async (req, res) => {
 	return res.json(post);
 });
 postRouter.patch("/:id/edit", async (req, res) => {
-	const post = DI.postRepository.findOne(req.params.id);
-
-	await DI.em.persistAndFlush(post);
+	const post = await DI.postRepository.findOne(req.params.id);
+	await DI.em.persistAndFlush(post!);
 	return res.json(post);
+});
+postRouter.delete("/:id", async (req, res) => {
+	const post = await DI.postRepository.findOne(req.params.id);
+	await DI.em.removeAndFlush(post!);
+	return post ? res.json(true) : res.json(false);
 });
 
 export default postRouter;
