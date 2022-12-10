@@ -8,9 +8,11 @@ import {
 	Avatar,
 } from "@material-tailwind/react";
 import TabComponent from "./tab";
+import CreatePostForm from "./createPost";
 
 export const Nav = ({ params }: { params: string }) => {
 	const [openNav, setOpenNav] = useState(false);
+	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
 		window.addEventListener(
@@ -76,6 +78,7 @@ export const Nav = ({ params }: { params: string }) => {
 					ripple={false}
 					size="sm"
 					className="hidden lg:inline-block lowercase active:lowercase border-green-500 active:outline-0 focus:outline-0 rounded-none"
+					onClick={() => setOpen(!open)}
 				>
 					<span className="text-green-500">+ create post</span>
 				</Button>
@@ -117,6 +120,7 @@ export const Nav = ({ params }: { params: string }) => {
 					)}
 				</IconButton>
 			</div>
+			<CreatePostForm open={open} handler={} />
 			<MobileNav open={openNav}>
 				{navList}
 				<Button variant="gradient" size="sm" fullWidth className="mb-2">

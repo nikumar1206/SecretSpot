@@ -1,4 +1,4 @@
-import { Entity, Property, Unique } from "@mikro-orm/core";
+import { Entity, ManyToOne, Property, Unique } from "@mikro-orm/core";
 import Base from "./Base";
 import User from "./User";
 
@@ -20,4 +20,7 @@ export default class Post extends Base {
 
 	@Property()
 	attendies: User[];
+
+	@ManyToOne(() => User)
+	creator: User;
 }
