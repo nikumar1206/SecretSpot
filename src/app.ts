@@ -10,7 +10,7 @@ import { DatabaseInterface } from "./types";
 import connectRedis from "connect-redis";
 import * as redis from "redis";
 import session, { SessionOptions } from "express-session";
-import { COOKIE_NAME } from "./constants";
+import { COOKIE_NAME, __prod__ } from "./constants";
 import postRouter from "./routes/api/posts";
 import Post from "./entities/Post";
 export const DI = {} as DatabaseInterface;
@@ -30,7 +30,7 @@ const main = async () => {
 		resave: false, // ensures it doesnt continue to ping redis
 		saveUninitialized: true,
 		cookie: {
-			secure: false, // cookie will only work in prod mode
+			secure: __prod__, // cookie will only work in prod mode
 			maxAge: 1000 * 60 * 60 * 24, // 1 day
 			httpOnly: true, // cannot access cookie in js frontend
 			sameSite: "lax", // deals with csrf do more googling

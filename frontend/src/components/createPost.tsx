@@ -5,6 +5,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	Input,
+	Textarea,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { createPost } from "../utils/post_api";
@@ -17,7 +18,6 @@ interface createPostProps {
 interface postInfo {
 	name: string;
 	location: string;
-	imageUrl: string;
 	caption: string;
 	attendies: string[];
 }
@@ -25,14 +25,17 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 	const [post, setPost] = useState<postInfo>({
 		name: "",
 		location: "",
-		imageUrl: "",
 		caption: "",
 		attendies: [""],
 	});
 	const [errors, setErrors] = useState([{ message: "" }]);
 
 	const handleUpdate = (field: string) => {
-		return (e: React.FormEvent<HTMLInputElement>) => {
+		return (
+			e:
+				| React.FormEvent<HTMLInputElement>
+				| React.FormEvent<HTMLTextAreaElement>
+		) => {
 			setPost({ ...post, [field]: e.currentTarget.value });
 		};
 	};
@@ -58,23 +61,27 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 				<DialogBody className="flex flex-col gap-4">
 					<Input
 						variant="outlined"
-						label="Email"
+						label="name"
 						type="text"
 						size="md"
 						color="green"
-						id="email"
+						id="name"
 						className="w-3"
-						onChange={handleUpdate("email")}
+						onChange={handleUpdate("name")}
 					/>
 					<Input
 						variant="outlined"
-						label="Password"
-						type="password"
+						label="location"
+						type="text"
 						size="md"
 						color="green"
-						id="password"
-						onChange={handleUpdate("password")}
-						autoComplete="on"
+						id="location"
+						onChange={handleUpdate("location")}
+					/>
+					<Textarea
+						variant="outlined"
+						label="Caption"
+						onChange={handleUpdate("caption")}
 					/>
 				</DialogBody>
 				<DialogFooter className="flex gap-5">

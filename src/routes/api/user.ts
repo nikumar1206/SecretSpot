@@ -12,7 +12,6 @@ userRouter.get("/", async (_, res) => {
 
 userRouter.get("/authed", async (req, res) => {
 	const user = await DI.userRepository.findOne({ id: req.session.userId });
-	console.log(!!user);
 	return res.json(!!user);
 });
 
@@ -21,6 +20,7 @@ userRouter.post("/register", async (req, res) => {
 	const user: User = DI.em.create(User, {
 		email: req.body.email,
 		password_digest: hashedPassword,
+		friends: JSON.stringify([]),
 	});
 	try {
 		await DI.em.persistAndFlush(user);
@@ -69,12 +69,13 @@ userRouter.post("/login", async (req, res) => {
 		});
 	}
 
-	req.session!.userId = user.id; // exclamation mark ensures that it is defined
+	req.session.userId = user.id; // exclamation mark ensures that it is defined
 	// gets stored in redis
 	// send cookie into browser
 	// when request is made, goes to server
 	// gets the session key, sends to redis
 	// redis sends back the user id
+
 	return res.json(user);
 });
 

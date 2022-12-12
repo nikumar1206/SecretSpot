@@ -1,5 +1,7 @@
+import axios from "axios";
 import express from "express";
 import { DI } from "../../app";
+import User from "../../entities/User";
 const postRouter = express.Router();
 
 postRouter.get("/", async (_, res) => {
@@ -13,7 +15,28 @@ postRouter.get("/:id", async (req, res) => {
 });
 
 postRouter.post("/create", async (req, res) => {
-	const post = DI.postRepository.create(req.body);
+	let poster = (await DI.userRepository.findOne({
+		id: req.session.userId,
+	})) as User;
+	const imageUrl = async () => {
+		const baseUrl = "https://www.googleapis.com/customsearch/v1";
+		const params = {
+			key: process.env.SEARCH_API_KEY,
+			cx: process.env.SEARCH_ENGINE_ID,
+			q: req.body.name,
+		};
+		const response = await axios.get(baseUrl, { params });
+		return response.data.items[0].link as string;
+	};
+	const post = DI.postRepository.create({
+		name: req.body.name,
+		location: req.body.location,
+		caption: req.body.caption,
+		imageUrl: await imageUrl(),
+		creator: poster,
+		attendies: [poster],
+	});
+
 	await DI.em.persistAndFlush(post);
 	return res.json(post);
 });

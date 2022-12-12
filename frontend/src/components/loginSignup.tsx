@@ -27,7 +27,6 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		email: "",
 		password: "",
 	});
-	console.log(user);
 	const { action, formType, setOpen, setModal, open } = props;
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
 	const navigate = useNavigate();

@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import TabComponent from "./tab";
 import CreatePostForm from "./createPost";
+import { logoutUser } from "../utils/user_api";
 
 export const Nav = ({ params }: { params: string }) => {
 	const [openNav, setOpenNav] = useState(false);
@@ -119,6 +120,7 @@ export const Nav = ({ params }: { params: string }) => {
 						</svg>
 					)}
 				</IconButton>
+				<button onClick={logoutUser}>Log ME OUT</button>
 			</div>
 			<CreatePostForm open={open} setOpen={setOpen} />
 			<MobileNav open={openNav}>

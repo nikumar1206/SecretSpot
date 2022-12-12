@@ -1,9 +1,14 @@
 import { useParams } from "react-router-dom";
+import { isAuthed } from "../utils/user_api";
 import Feed from "./feed";
 import Nav from "./nav";
 import Timeline from "./timeline";
 
 const Home = () => {
+	isAuthed().then((res) => {
+		return console.log(res);
+	});
+
 	const params = useParams()["*"];
 
 	let component = null;

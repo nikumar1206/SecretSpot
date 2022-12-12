@@ -7,8 +7,8 @@ interface userInterface {
 
 export const loginUser = async (userInfo: userInterface) => {
 	try {
-		let data = await axios.post("/api/users/login", userInfo);
-		return data;
+		let res = await axios.post("/api/users/login", userInfo);
+		return res.data;
 	} catch (error) {
 		console.log(error);
 	}
@@ -23,7 +23,7 @@ export const registerUser = async (userInfo: userInterface) => {
 	}
 };
 
-export const isLoggedIn = async () => {
+export const isAuthed = async () => {
 	try {
 		let res = await axios.get("/api/users/authed");
 		return res.data;
