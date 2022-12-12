@@ -120,7 +120,7 @@ export const Nav = ({ params }: { params: string }) => {
 					)}
 				</IconButton>
 			</div>
-			<CreatePostForm open={open} handler={} />
+			<CreatePostForm open={open} setOpen={setOpen} />
 			<MobileNav open={openNav}>
 				{navList}
 				<Button variant="gradient" size="sm" fullWidth className="mb-2">

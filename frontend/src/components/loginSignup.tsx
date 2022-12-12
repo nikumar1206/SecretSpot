@@ -8,6 +8,7 @@ import {
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { loginUser } from "../utils/user_api";
 interface fieldError {
 	field: string;
 	message: string;
@@ -26,10 +27,20 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		email: "",
 		password: "",
 	});
+	console.log(user);
 	const { action, formType, setOpen, setModal, open } = props;
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
 	const navigate = useNavigate();
 
+	const handleDemoUser = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		setUser({
+			email: "test1",
+			password: "password",
+		});
+		await loginUser(user);
+		navigate("/home/feed");
+	};
 	const handleOpen = (formType: string) => {
 		setModal(formType);
 		setOpen(!open);
@@ -47,6 +58,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		}
 		navigate("/home/feed");
 	};
+
 	return (
 		<Dialog
 			open={open}
@@ -68,6 +80,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						type="text"
 						size="md"
 						id="email"
+						color="green"
 						className="w-3"
 						onChange={handleUpdate("email")}
 					/>
@@ -77,6 +90,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						type="password"
 						size="md"
 						id="password"
+						color="green"
 						onChange={handleUpdate("password")}
 						autoComplete="on"
 					/>
@@ -96,7 +110,19 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						variant="outlined"
 						size="md"
 						ripple={false}
+						type="button"
+						onClick={handleDemoUser}
+						color="green"
+						className="normal-case"
+					>
+						Demo User login
+					</Button>
+					<Button
+						variant="outlined"
+						size="md"
+						ripple={false}
 						type="submit"
+						color="green"
 						className="normal-case"
 					>
 						{formType} User!
