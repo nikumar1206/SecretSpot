@@ -1,31 +1,23 @@
-import {
-	Collection,
-	Entity,
-	ManyToOne,
-	Property,
-	Unique,
-} from "@mikro-orm/core";
+import { Collection, Entity, ManyToOne, Property } from "@mikro-orm/core";
 import Base from "./Base";
 import User from "./User";
 
 @Entity()
 export default class Post extends Base {
-	@Unique()
 	@Property()
 	name!: string;
 
-	@Unique()
 	@Property()
 	location!: string;
 
-	@Property()
+	@Property({ default: "" })
 	imageUrl!: string;
 
 	@Property()
 	caption: string;
 
 	@Property()
-	attendies: Collection<User>;
+	attendies = new Collection<User>(this);
 
 	@ManyToOne(() => User)
 	creator: User;

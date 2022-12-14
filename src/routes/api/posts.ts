@@ -23,21 +23,25 @@ postRouter.post("/create", async (req, res) => {
 		const params = {
 			key: process.env.SEARCH_API_KEY,
 			cx: process.env.SEARCH_ENGINE_ID,
-			q: req.body.name,
+			q: req.body.name + req.body.location,
+			searchType: "image",
 		};
 		const response = await axios.get(baseUrl, { params });
+		console.log(response.data);
+
 		return response.data.items[0].link as string;
 	};
+
 	const post = DI.postRepository.create({
 		name: req.body.name,
 		location: req.body.location,
 		caption: req.body.caption,
 		imageUrl: await imageUrl(),
 		creator: poster,
-		attendies: [poster],
 	});
 
 	await DI.em.persistAndFlush(post);
+	post.attendies.add(poster);
 	return res.json(post);
 });
 
