@@ -16,7 +16,7 @@ export default class Post extends Base {
 	@Property()
 	caption: string;
 
-	@Property()
+	@Property({ type: User })
 	attendies = new Collection<User>(this);
 
 	@ManyToOne(() => User)

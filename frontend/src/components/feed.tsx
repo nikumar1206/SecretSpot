@@ -20,7 +20,6 @@ const Feed = () => {
 	}, []);
 	return (
 		<>
-			{console.log(posts)}
 			{posts.map((post) => {
 				return (
 					<div key={post.id}>

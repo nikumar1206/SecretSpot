@@ -5,7 +5,9 @@ import User from "../../entities/User";
 const postRouter = express.Router();
 
 postRouter.get("/", async (_, res) => {
-	const posts = await DI.postRepository.find({});
+	const posts = await DI.postRepository.find({}, { populate: ["attendies"] });
+	console.log(posts);
+
 	return res.json(posts);
 });
 
@@ -26,8 +28,8 @@ postRouter.post("/create", async (req, res) => {
 			q: req.body.name + req.body.location,
 			searchType: "image",
 		};
+
 		const response = await axios.get(baseUrl, { params });
-		console.log(response.data);
 
 		return response.data.items[0].link as string;
 	};
@@ -39,9 +41,10 @@ postRouter.post("/create", async (req, res) => {
 		imageUrl: await imageUrl(),
 		creator: poster,
 	});
-
-	await DI.em.persistAndFlush(post);
 	post.attendies.add(poster);
+	console.log(post.attendies);
+	await DI.em.persistAndFlush(post);
+
 	return res.json(post);
 });
 
