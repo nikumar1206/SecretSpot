@@ -1,6 +1,7 @@
 import {
 	Collection,
 	Entity,
+	ManyToOne,
 	OneToMany,
 	Property,
 	Unique,
@@ -22,4 +23,7 @@ export default class User extends Base {
 
 	@OneToMany(() => Post, (post) => post.creator)
 	posts = new Collection<Post>(this);
+
+	@ManyToOne(() => Post)
+	places_attended = new Collection<Post>(this);
 }

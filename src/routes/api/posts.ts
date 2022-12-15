@@ -1,6 +1,8 @@
+import { wrap } from "@mikro-orm/core";
 import axios from "axios";
 import express from "express";
 import { DI } from "../../app";
+import Post from "../../entities/Post";
 import User from "../../entities/User";
 const postRouter = express.Router();
 
@@ -34,15 +36,19 @@ postRouter.post("/create", async (req, res) => {
 		return response.data.items[0].link as string;
 	};
 
-	const post = DI.postRepository.create({
+	const post = new Post();
+	wrap(post).assign({
 		name: req.body.name,
 		location: req.body.location,
 		caption: req.body.caption,
 		imageUrl: await imageUrl(),
 		creator: poster,
 	});
+
 	post.attendies.add(poster);
+
 	console.log(post.attendies);
+
 	await DI.em.persistAndFlush(post);
 
 	return res.json(post);
