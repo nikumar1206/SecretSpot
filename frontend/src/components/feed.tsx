@@ -26,7 +26,9 @@ const Feed = () => {
 						<h1>{post.name}</h1>
 						<h2>{post.location}</h2>
 						<p>{post.caption}</p>
-						<p>{post.attendies}</p>
+						<pre>
+							<p>{JSON.stringify(post.attendies, null, 2)}</p>
+						</pre>
 						<p>{post.imageUrl}</p>
 					</div>
 				);

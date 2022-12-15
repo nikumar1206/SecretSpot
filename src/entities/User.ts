@@ -1,7 +1,7 @@
 import {
 	Collection,
 	Entity,
-	ManyToOne,
+	ManyToMany,
 	OneToMany,
 	Property,
 	Unique,
@@ -18,12 +18,12 @@ export default class User extends Base {
 	@Property()
 	password_digest!: string;
 
-	@Property()
-	friends = new Collection<User>(this);
+	@ManyToMany(() => User)
+	friends: Collection<User> = new Collection<User>(this);
 
 	@OneToMany(() => Post, (post) => post.creator)
 	posts = new Collection<Post>(this);
 
-	@ManyToOne(() => Post)
+	@ManyToMany(() => Post, (post) => post.attendies)
 	places_attended = new Collection<Post>(this);
 }
