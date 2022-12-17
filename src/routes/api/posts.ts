@@ -23,16 +23,16 @@ postRouter.post("/create", async (req, res) => {
 		id: req.session.userId,
 	})) as User;
 	const imageUrl = async () => {
-		const baseUrl = "https://www.googleapis.com/customsearch/v1";
+		const baseUrl = "https://www.googleapis.com/customsearch/v1/";
 		const params = {
 			key: process.env.SEARCH_API_KEY,
 			cx: process.env.SEARCH_ENGINE_ID,
-			q: req.body.name + req.body.location,
+			q: req.body.name,
 			searchType: "image",
 		};
 
 		const response = await axios.get(baseUrl, { params });
-
+		console.log(response.data.items);
 		return response.data.items[0].link as string;
 	};
 
@@ -46,8 +46,6 @@ postRouter.post("/create", async (req, res) => {
 	});
 
 	post.attendies.add(poster);
-
-	console.log(post.attendies);
 
 	await DI.em.persistAndFlush(post);
 

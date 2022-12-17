@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { fetchAllPosts } from "../utils/post_api";
-
+import PostCard from "./postcard";
 interface Post {
 	id: string;
 	name: string;
@@ -21,17 +21,7 @@ const Feed = () => {
 	return (
 		<>
 			{posts.map((post) => {
-				return (
-					<div key={post.id}>
-						<h1>{post.name}</h1>
-						<h2>{post.location}</h2>
-						<p>{post.caption}</p>
-						<pre>
-							<p>{JSON.stringify(post.attendies, null, 2)}</p>
-						</pre>
-						<p>{post.imageUrl}</p>
-					</div>
-				);
+				return <PostCard post={post} key={post.id} />;
 			})}
 		</>
 	);
