@@ -9,6 +9,7 @@ import {
 } from "@material-tailwind/react";
 import TabComponent from "./tab";
 import CreatePostForm from "./createPost";
+import { IoCreateOutline } from "react-icons/io5";
 import { logoutUser } from "../utils/user_api";
 
 export const Nav = ({ params }: { params: string }) => {
@@ -68,7 +69,7 @@ export const Nav = ({ params }: { params: string }) => {
 	);
 
 	return (
-		<Navbar className="mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-5/6">
+		<Navbar className="relative mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-4/6 z-50">
 			<div className="container mx-auto flex items-center justify-between text-blue-gray-900">
 				<Avatar src="https://i.imgur.com/yRDb2s7.png"></Avatar>
 				<div className="hidden lg:block">
@@ -78,10 +79,11 @@ export const Nav = ({ params }: { params: string }) => {
 					variant="outlined"
 					ripple={false}
 					size="sm"
-					className="hidden lg:inline-block lowercase active:lowercase border-green-500 active:outline-0 focus:outline-0 rounded-none"
+					className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none"
 					onClick={() => setOpen(!open)}
 				>
-					<span className="text-green-500">+ create post</span>
+					{/* <span className="text-green-500">+ create post</span> */}
+					<IoCreateOutline className="text-green-500 text-2xl" />
 				</Button>
 				<IconButton
 					variant="text"
@@ -120,7 +122,6 @@ export const Nav = ({ params }: { params: string }) => {
 						</svg>
 					)}
 				</IconButton>
-				<button onClick={logoutUser}>Log ME OUT</button>
 			</div>
 			<CreatePostForm open={open} setOpen={setOpen} />
 			<MobileNav open={openNav}>

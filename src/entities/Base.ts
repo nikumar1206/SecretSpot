@@ -1,7 +1,15 @@
-import { OptionalProps, PrimaryKey, Property } from "@mikro-orm/core";
+import {
+	BaseEntity,
+	OptionalProps,
+	PrimaryKey,
+	Property,
+} from "@mikro-orm/core";
 import { v4 } from "uuid";
 
-export default class Base {
+export default class Base<T extends { id: string }> extends BaseEntity<
+	T,
+	"id"
+> {
 	[OptionalProps]?: "createdAt" | "updatedAt"; //  fields will not be required while creating user
 
 	@PrimaryKey({ type: "uuid" })
@@ -12,4 +20,9 @@ export default class Base {
 
 	@Property({ onUpdate: () => new Date() })
 	updatedAt?: Date = new Date();
+
+	constructor(body = {}) {
+		super();
+		this.assign(body);
+	}
 }

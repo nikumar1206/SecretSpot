@@ -1,23 +1,7 @@
-import { useEffect, useState } from "react";
-import { fetchAllPosts } from "../utils/post_api";
 import PostCard from "./postcard";
-interface Post {
-	id: string;
-	name: string;
-	location: string;
-	caption: string;
-	attendies: string[];
-	createdAt: string;
-	updatedAt: string;
-	imageUrl: string;
-}
-const Feed = () => {
-	const [posts, setPosts] = useState<Post[]>([]);
-	useEffect(() => {
-		fetchAllPosts().then((res) => {
-			setPosts(res);
-		});
-	}, []);
+import { Post } from "../types";
+
+const Feed = ({ posts }: { posts: Post[] }) => {
 	return (
 		<div className="mt-5 grid grid-cols-3">
 			{posts.map((post) => {

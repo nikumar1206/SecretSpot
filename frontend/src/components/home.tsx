@@ -1,20 +1,25 @@
 import { useParams } from "react-router-dom";
-import { isAuthed } from "../utils/user_api";
 import Feed from "./feed";
 import Nav from "./nav";
 import Timeline from "./timeline";
+import { useEffect, useState } from "react";
+import { fetchAllPosts } from "../utils/post_api";
+import { Post } from "../types";
 
 const Home = () => {
-	isAuthed().then((res) => {
-		return console.log(res);
-	});
+	const [posts, setPosts] = useState<Post[]>([]);
+	useEffect(() => {
+		fetchAllPosts().then((res) => {
+			setPosts(res);
+		});
+	}, []);
 
 	const params = useParams()["*"];
 
 	let component = null;
 	switch (params) {
 		case "feed":
-			component = <Feed />;
+			component = <Feed posts={posts} />;
 			break;
 		case "feed":
 			component = <></>;
@@ -23,7 +28,7 @@ const Home = () => {
 			component = <></>;
 			break;
 		case "timeline":
-			component = <Timeline />;
+			component = <Timeline posts={posts} />;
 			break;
 
 		default:

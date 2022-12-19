@@ -9,7 +9,7 @@ import Base from "./Base";
 import User from "./User";
 
 @Entity()
-export default class Post extends Base {
+export default class Post extends Base<Post> {
 	@Property()
 	name!: string;
 
@@ -21,6 +21,12 @@ export default class Post extends Base {
 
 	@Property()
 	caption: string;
+
+	@Property({ default: 0 })
+	lat: number;
+
+	@Property({ default: 0 })
+	lng: number;
 
 	@ManyToMany(() => User, (user) => user.places_attended, { owner: true })
 	attendies = new Collection<User>(this);

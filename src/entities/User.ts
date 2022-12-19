@@ -8,9 +8,10 @@ import {
 } from "@mikro-orm/core";
 import Base from "./Base";
 import Post from "./Post";
+import UserValidator from "../validations/userValidator";
 
 @Entity()
-export default class User extends Base {
+export default class User extends Base<User> {
 	@Unique()
 	@Property()
 	email!: string;
@@ -26,4 +27,8 @@ export default class User extends Base {
 
 	@ManyToMany(() => Post, (post) => post.attendies)
 	places_attended = new Collection<Post>(this);
+
+	constructor(body: UserValidator) {
+		super(body);
+	}
 }
