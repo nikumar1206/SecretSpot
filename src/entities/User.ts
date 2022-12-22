@@ -16,7 +16,7 @@ export default class User extends Base<User> {
 	@Property()
 	email!: string;
 
-	@Property()
+	@Property({ hidden: true })
 	password_digest!: string;
 
 	@ManyToMany(() => User)

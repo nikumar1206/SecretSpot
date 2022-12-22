@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+div.pac-container {
+	z-index: 9999999 !important;
+}
+
+dialog::backdrop {
+	pointer-events: none;
+}

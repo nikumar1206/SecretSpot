@@ -22,10 +22,10 @@ export default class Post extends Base<Post> {
 	@Property()
 	caption: string;
 
-	@Property({ default: 0 })
+	@Property({ default: 0.0, type: "float" })
 	lat: number;
 
-	@Property({ default: 0 })
+	@Property({ default: 0.0, type: "float" })
 	lng: number;
 
 	@ManyToMany(() => User, (user) => user.places_attended, { owner: true })

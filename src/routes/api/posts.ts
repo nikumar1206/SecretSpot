@@ -1,9 +1,9 @@
 import { wrap } from "@mikro-orm/core";
-import axios from "axios";
 import express from "express";
 import { DI } from "../../app";
 import Post from "../../entities/Post";
 import User from "../../entities/User";
+import { findImageUrl, findLatLng, separateNameLocation } from "../../utils";
 const postRouter = express.Router();
 
 postRouter.get("/", async (_, res) => {
@@ -20,47 +20,18 @@ postRouter.post("/create", async (req, res) => {
 	let poster = (await DI.userRepository.findOne({
 		id: req.session.userId,
 	})) as User;
-	const findImageUrl = async () => {
-		const baseUrl = "https://www.googleapis.com/customsearch/v1/";
-		const params = {
-			key: process.env.SEARCH_API_KEY,
-			cx: process.env.SEARCH_ENGINE_ID,
-			q: req.body.name + " " + req.body.location,
-			searchType: "image",
-		};
+	console.log(req.body);
 
-		const response = await axios.get(baseUrl, { params });
-		console.log(response);
-
-		if (response.data.items[0].link.includes("fbsbx")) {
-			console.log("found fb image");
-
-			return response.data.items[1].link as string;
-		} else {
-			console.log("found google image");
-			return response.data.items[0].link as string;
-		}
-	};
-
-	const findLatLng = async () => {
-		const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
-		const params = {
-			key: process.env.GOOGLE_API_KEY,
-			address: req.body.name + " " + req.body.location,
-		};
-
-		const response = await axios.get(baseUrl, { params });
-		return response.data.results[0].geometry.location;
-	};
-
-	const { lat, lng } = await findLatLng();
+	const { name, location } = separateNameLocation(req.body.nameLocation);
+	const { lat, lng } = await findLatLng(req);
 
 	const post = new Post();
+
 	wrap(post).assign({
-		name: req.body.name,
-		location: req.body.location,
+		name: name,
+		location: location,
 		caption: req.body.caption,
-		imageUrl: await findImageUrl(),
+		imageUrl: await findImageUrl(req),
 		creator: poster,
 		lat: lat,
 		lng: lng,

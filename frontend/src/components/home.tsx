@@ -5,30 +5,44 @@ import Timeline from "./timeline";
 import { useEffect, useState } from "react";
 import { fetchAllPosts } from "../utils/post_api";
 import { Post } from "../types";
+import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
 
+type Libraries = (
+	| "drawing"
+	| "geometry"
+	| "localContext"
+	| "places"
+	| "visualization"
+)[];
+const libraries: Libraries = ["places"];
 const Home = () => {
 	const [posts, setPosts] = useState<Post[]>([]);
+	const params = useParams()["*"];
+
+	const { isLoaded } = useJsApiLoader({
+		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
+		libraries: libraries, // ,
+	});
+
 	useEffect(() => {
 		fetchAllPosts().then((res) => {
 			setPosts(res);
 		});
 	}, []);
 
-	const params = useParams()["*"];
-
 	let component = null;
 	switch (params) {
 		case "feed":
-			component = <Feed posts={posts} />;
+			component = <Feed posts={posts} isLoaded={isLoaded} />;
 			break;
-		case "feed":
+		case "yerr":
 			component = <></>;
 			break;
-		case "feed":
+		case "berr":
 			component = <></>;
 			break;
 		case "timeline":
-			component = <Timeline posts={posts} />;
+			component = <Timeline posts={posts} isLoaded={isLoaded} />;
 			break;
 
 		default:
@@ -39,7 +53,8 @@ const Home = () => {
 	return (
 		<>
 			<Nav params={params!} />
-			{component}
+
+			{isLoaded ? component : <></>}
 		</>
 	);
 };

@@ -1,11 +1,5 @@
 import axios from "axios";
-
-interface postInfo {
-	name: string;
-	location: string;
-	caption: string;
-	attendies: string[];
-}
+import { postForm } from "../types";
 
 export const fetchAllPosts = async () => {
 	try {
@@ -15,7 +9,7 @@ export const fetchAllPosts = async () => {
 		console.log(error);
 	}
 };
-export const createPost = async (post: postInfo) => {
+export const createPost = async (post: postForm) => {
 	try {
 		let res = await axios.post("/api/posts/create", post);
 		return res.data;

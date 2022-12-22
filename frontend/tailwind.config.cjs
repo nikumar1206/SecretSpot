@@ -6,9 +6,20 @@ module.exports = withMT({
 	theme: {
 		fontFamily: {
 			sans: ["Inter", "Avenir", "Helvetica", "Arial", "sans-serif"],
+			h1: ["Dosis", "Avenir", "Helvetica", "Arial", "sans-serif"],
+			button: ["Dosis", "Avenir", "Helvetica", "Arial", "sans-serif"],
 		},
-
-		extend: {},
+		extend: {
+			zIndex: {
+				100: "100",
+				200: "200",
+				300: "300",
+				400: "400",
+				500: "500",
+				600: "600",
+				700: "700",
+			},
+		},
 	},
 	plugins: [],
 });

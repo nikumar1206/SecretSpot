@@ -6,9 +6,10 @@ import {
 	DialogBody,
 	Input,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../utils/user_api";
+
 interface fieldError {
 	field: string;
 	message: string;
@@ -21,6 +22,7 @@ interface LoginSignupProps {
 	setModal: React.Dispatch<React.SetStateAction<string>>;
 	open: boolean;
 }
+
 type fieldInput = "email" | "password";
 const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	const [user, setUser] = useState({
@@ -30,6 +32,12 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	const { action, formType, setOpen, setModal, open } = props;
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
 	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!open) {
+			setErrors(null);
+		}
+	}, [open]);
 
 	const handleDemoUser = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
@@ -44,6 +52,12 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		setModal(formType);
 		setOpen(!open);
 	};
+	const handleCancel = (): void => {
+		setOpen(false);
+		setErrors(null);
+		return;
+	};
+
 	const handleUpdate = (field: fieldInput) => {
 		return (e: React.FormEvent<HTMLInputElement>): void =>
 			setUser({ ...user, [field]: e.currentTarget.value });
@@ -63,16 +77,31 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 			open={open}
 			handler={handleOpen}
 			animate={{
-				mount: { scale: 1, y: 0 },
-				unmount: { scale: 0.9, y: -100 },
+				mount: {
+					animation: "transition.slideUpBigIn",
+					duration: 300,
+				},
+				unmount: {
+					animation: "transition.slideDownBigOut",
+					duration: 300,
+				},
 			}}
 			size="xs"
 		>
 			<form onSubmit={handleSubmit}>
-				<DialogHeader className="text-4xl font-light font-mono to-black items-end text-right">
+				<DialogHeader className="flex justify-center text-4xl font-light to-black items-end ">
 					{formType == "Login" ? "Log In" : "Sign Up"}
 				</DialogHeader>
-				<DialogBody className="flex flex-col gap-4">
+				{errors ? (
+					errors.map((error) => (
+						<div className="flex flex-col items-center my-2">
+							<div className="text-red-500 text-sm">{error.message}</div>
+						</div>
+					))
+				) : (
+					<div className="text-red-500 text-sm"></div>
+				)}
+				<DialogBody divider className="flex flex-col gap-4">
 					<Input
 						variant="outlined"
 						label="Email"
@@ -94,43 +123,39 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						autoComplete="on"
 					/>
 				</DialogBody>
-				<DialogFooter className="flex gap-5">
-					<Button
-						onClick={() => setOpen(false)}
-						color="red"
-						variant="outlined"
-						ripple={false}
-						className="normal-case"
-					>
-						Cancel
-					</Button>
+				<DialogFooter className="flex flex-col items-end gap-2">
+					<div className="flex flex-row justify-end gap-2">
+						<Button
+							onClick={handleCancel}
+							color="red"
+							variant="outlined"
+							ripple={false}
+							className="normal-case"
+						>
+							Cancel
+						</Button>
 
+						<Button
+							size="md"
+							ripple={false}
+							type="submit"
+							color="green"
+							className="normal-case"
+						>
+							{formType} User!
+						</Button>
+					</div>
 					<Button
-						variant="outlined"
 						size="md"
+						variant="outlined"
 						ripple={false}
 						type="button"
 						onClick={handleDemoUser}
 						color="green"
-						className="normal-case"
+						className="normal-case hover:shadow-none"
 					>
 						Demo User login
 					</Button>
-					<Button
-						variant="outlined"
-						size="md"
-						ripple={false}
-						type="submit"
-						color="green"
-						className="normal-case"
-					>
-						{formType} User!
-					</Button>
-					{errors ? (
-						errors.map((error, i) => <p key={i}>{error.message}</p>)
-					) : (
-						<></>
-					)}
 				</DialogFooter>
 			</form>
 		</Dialog>

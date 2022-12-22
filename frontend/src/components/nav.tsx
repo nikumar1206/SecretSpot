@@ -5,12 +5,11 @@ import {
 	Typography,
 	Button,
 	IconButton,
-	Avatar,
 } from "@material-tailwind/react";
 import TabComponent from "./tab";
 import CreatePostForm from "./createPost";
 import { IoCreateOutline } from "react-icons/io5";
-import { logoutUser } from "../utils/user_api";
+import { UserProfile } from "./userProfile";
 
 export const Nav = ({ params }: { params: string }) => {
 	const [openNav, setOpenNav] = useState(false);
@@ -71,7 +70,8 @@ export const Nav = ({ params }: { params: string }) => {
 	return (
 		<Navbar className="relative mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-4/6 z-50">
 			<div className="container mx-auto flex items-center justify-between text-blue-gray-900">
-				<Avatar src="https://i.imgur.com/yRDb2s7.png"></Avatar>
+				<UserProfile />
+
 				<div className="hidden lg:block">
 					<TabComponent params={params} />
 				</div>

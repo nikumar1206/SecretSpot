@@ -15,10 +15,10 @@ export default class Base<T extends { id: string }> extends BaseEntity<
 	@PrimaryKey({ type: "uuid" })
 	id: string = v4();
 
-	@Property()
+	@Property({ hidden: true })
 	createdAt?: Date = new Date();
 
-	@Property({ onUpdate: () => new Date() })
+	@Property({ onUpdate: () => new Date(), hidden: true })
 	updatedAt?: Date = new Date();
 
 	constructor(body = {}) {

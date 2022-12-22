@@ -15,3 +15,12 @@ declare module "express-session" {
 		userId: string;
 	}
 }
+
+export interface unCleanUser {
+	id: string;
+	email: string;
+	password_digest?: string;
+	friends: string;
+	createdAt?: string;
+	updatedAt?: string;
+}
