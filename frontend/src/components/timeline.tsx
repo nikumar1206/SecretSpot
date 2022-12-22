@@ -41,14 +41,10 @@ const Timeline = ({
 							key={post.id}
 							position={{ lat: post.lat, lng: post.lng }}
 							icon={{
-								url: post.imageUrl,
-								scaledSize: new window.google.maps.Size(25, 25),
+								url: post.imageUrl + "#custom_marker",
+								scaledSize: new window.google.maps.Size(32, 32),
 								origin: new window.google.maps.Point(0, 0),
-								anchor: new window.google.maps.Point(25, 25),
-							}}
-							shape={{
-								coords: [25, 25, 25],
-								type: "circle",
+								anchor: new window.google.maps.Point(32, 32),
 							}}
 							onClick={() => console.log("clicked")}
 						/>

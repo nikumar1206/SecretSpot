@@ -4,8 +4,37 @@
 
 div.pac-container {
 	z-index: 9999999 !important;
+	color: rgb(69 90 100);
+	font-weight: 400;
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-family: Inter, Avenir, Helvetica, Arial, sans-serif, Inter, Avenir,
+		Helvetica, Arial, sans-serif;
 }
 
-dialog::backdrop {
-	pointer-events: none;
+div.pac-item {
+	padding: 0.25rem 0.5rem;
+	font-family: "Inter", sans-serif;
+}
+
+div.pac-item:hover {
+	background-color: #e0ece4;
+}
+.pac-icon.pac-icon-marker {
+	background: url("https://streetsmart-safeassets.s3.amazonaws.com/output-onlinepngtools-removebg-preview.png")
+		no-repeat center transparent;
+	background-size: cover;
+	margin: 5px 6px 6px 0;
+	vertical-align: middle;
+}
+
+.pac-container:after {
+	/* Disclaimer: not needed to show 'powered by Google' if also a Google Map is shown */
+	background-image: none !important;
+	height: 0px;
+}
+
+img[src$="#custom_marker"] {
+	border: 3px solid #154734 !important;
+	border-radius: 50%;
 }

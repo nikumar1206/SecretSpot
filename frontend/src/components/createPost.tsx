@@ -11,7 +11,6 @@ import React, { useRef, useState } from "react";
 import { createPost } from "../utils/post_api";
 import { postForm } from "../types";
 import { Autocomplete } from "@react-google-maps/api";
-
 interface createPostProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
@@ -22,19 +21,19 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 		nameLocation: "",
 		caption: "",
 	});
-	const autocompleteRef = useRef<Autocomplete>(null);
-	const nameLocationRef = useRef<HTMLInputElement>(null);
+	const captionRef = useRef<HTMLDivElement>(null);
 	const [errors, setErrors] = useState([{ message: "" }]);
 
 	const handlePlaceChanged = () => {
-		return (e: any) => {
-			return setPost({
-				...post,
-				nameLocation: e.target.value,
-			});
-		};
+		const nameLocationPlace = document.getElementById(
+			"name"
+		) as HTMLInputElement;
+		setPost({
+			...post,
+			nameLocation: nameLocationPlace.value,
+		});
+		return captionRef.current!.focus();
 	};
-	console.log(post.nameLocation);
 
 	const handleUpdate = (field: string) => {
 		return (e: any) => {
@@ -73,7 +72,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 				},
 			}}
 			size="sm"
-			className="z-10"
+			className="z-10 rounded-none"
 		>
 			<form onSubmit={handleSubmit}>
 				<DialogHeader className="text-4xl font-light items-end flex justify-center">
@@ -83,7 +82,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 					<Autocomplete
 						types={["restaurant"]}
 						onPlaceChanged={handlePlaceChanged}
-						ref={autocompleteRef}
 					>
 						<Input
 							variant="outlined"
@@ -94,7 +92,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 							id="name"
 							className="w-3"
 							autoComplete="off"
-							ref={nameLocationRef}
 							onChange={handleUpdate("nameLocation")}
 						/>
 					</Autocomplete>
@@ -104,7 +101,8 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						label="Caption"
 						color="green"
 						onChange={handleUpdate("caption")}
-					/>
+						ref={captionRef}
+					></Textarea>
 				</DialogBody>
 				<DialogFooter className="flex gap-5">
 					<Button
@@ -112,7 +110,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						color="red"
 						variant="outlined"
 						ripple={false}
-						className="normal-case transition ease-in-out delay-75 hover:bg-red-500 hover:text-white duration-300"
+						className="normal-case transition ease-in-out delay-75 hover:bg-red-500 hover:text-white duration-300 rounded-sm"
 					>
 						Cancel
 					</Button>
@@ -122,7 +120,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						ripple={false}
 						type="submit"
 						color="green"
-						className="normal-case transition ease-in-out delay-75 hover:scale-110 hover:bg-green-700 duration-300"
+						className="normal-case transition ease-in-out delay-75 hover:scale-110 hover:bg-green-700 duration-300 rounded-sm"
 					>
 						Create Post!
 					</Button>

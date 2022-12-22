@@ -23,7 +23,7 @@ export default class User extends Base<User> {
 	friends: Collection<User> = new Collection<User>(this);
 
 	@OneToMany(() => Post, (post) => post.creator)
-	posts = new Collection<Post>(this);
+	posts: Collection<Post> = new Collection<Post>(this);
 
 	@ManyToMany(() => Post, (post) => post.attendies)
 	places_attended = new Collection<Post>(this);

@@ -20,7 +20,6 @@ postRouter.post("/create", async (req, res) => {
 	let poster = (await DI.userRepository.findOne({
 		id: req.session.userId,
 	})) as User;
-	console.log(req.body);
 
 	const { name, location } = separateNameLocation(req.body.nameLocation);
 	const { lat, lng } = await findLatLng(req);

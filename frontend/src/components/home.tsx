@@ -5,7 +5,7 @@ import Timeline from "./timeline";
 import { useEffect, useState } from "react";
 import { fetchAllPosts } from "../utils/post_api";
 import { Post } from "../types";
-import { Autocomplete, useJsApiLoader } from "@react-google-maps/api";
+import { useJsApiLoader } from "@react-google-maps/api";
 
 type Libraries = (
 	| "drawing"
@@ -14,6 +14,7 @@ type Libraries = (
 	| "places"
 	| "visualization"
 )[];
+
 const libraries: Libraries = ["places"];
 const Home = () => {
 	const [posts, setPosts] = useState<Post[]>([]);
@@ -53,7 +54,6 @@ const Home = () => {
 	return (
 		<>
 			<Nav params={params!} />
-
 			{isLoaded ? component : <></>}
 		</>
 	);

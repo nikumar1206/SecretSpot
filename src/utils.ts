@@ -30,6 +30,6 @@ export const findLatLng = async (req: any) => {
 export const separateNameLocation = (nameLocation: string) => {
 	const arr = nameLocation.split(",");
 	const name = arr[0];
-	const location = arr.slice(1).join(",");
+	const location = arr.slice(1).join(",").substring(1);
 	return { name, location };
 };
