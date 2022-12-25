@@ -18,7 +18,7 @@ declare module "express-session" {
 
 export interface unCleanUser {
 	id: string;
-	email: string;
+	username: string;
 	password_digest?: string;
 	friends: string;
 	createdAt?: string;

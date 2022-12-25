@@ -1,7 +1,7 @@
 import axios from "axios";
 
 interface userInterface {
-	email: string;
+	username: string;
 	password: string;
 }
 

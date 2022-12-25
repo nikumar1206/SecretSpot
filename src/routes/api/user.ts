@@ -6,19 +6,19 @@ import { COOKIE_NAME } from "../../constants";
 const userRouter = express.Router();
 
 userRouter.get("/", async (_, res) => {
-	const users = await DI.userRepository.find({});
+	const users = await DI.userRepository.find({}, { populate: ["friends"] });
 	return res.json(users);
 });
 
 userRouter.get("/authed", async (req, res) => {
 	const user = await DI.userRepository.findOne({ id: req.session.userId });
-	return res.json(!!user);
+	return res.json(user);
 });
 
 userRouter.post("/register", async (req, res) => {
 	const hashedPassword = await argon2.hash(req.body.password);
 	const user: User = DI.em.create(User, {
-		email: req.body.email,
+		username: req.body.username,
 		password_digest: hashedPassword,
 		friends: JSON.stringify([]),
 	});
@@ -29,8 +29,8 @@ userRouter.post("/register", async (req, res) => {
 			return res.json({
 				errors: [
 					{
-						field: "email",
-						message: "This email has already been taken.",
+						field: "username",
+						message: "This username has already been taken.",
 					},
 				],
 			});
@@ -43,13 +43,13 @@ userRouter.post("/register", async (req, res) => {
 });
 
 userRouter.post("/login", async (req, res) => {
-	const user = await DI.em.findOne(User, { email: req.body.email });
+	const user = await DI.em.findOne(User, { username: req.body.username });
 	if (!user) {
 		return res.json({
 			errors: [
 				{
-					field: "email",
-					message: "Email does not exist!",
+					field: "username",
+					message: "Username does not exist!",
 				},
 			],
 		});

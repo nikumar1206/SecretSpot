@@ -38,3 +38,7 @@ img[src$="#custom_marker"] {
 	border: 3px solid #154734 !important;
 	border-radius: 50%;
 }
+
+textarea {
+	padding: 5px;
+}

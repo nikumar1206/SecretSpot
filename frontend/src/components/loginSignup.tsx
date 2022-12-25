@@ -6,9 +6,10 @@ import {
 	DialogBody,
 	Input,
 } from "@material-tailwind/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../utils/user_api";
+import userContext from "../utils/userContext";
 
 interface fieldError {
 	field: string;
@@ -23,12 +24,15 @@ interface LoginSignupProps {
 	open: boolean;
 }
 
-type fieldInput = "email" | "password";
+type fieldInput = "username" | "password";
 const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	const [user, setUser] = useState({
-		email: "",
+		username: "",
 		password: "",
 	});
+
+	const { setCurrentUser } = useContext(userContext);
+
 	const { action, formType, setOpen, setModal, open } = props;
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
 	const navigate = useNavigate();
@@ -42,7 +46,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	const handleDemoUser = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		setUser({
-			email: "test1",
+			username: "test1",
 			password: "password",
 		});
 		await loginUser(user);
@@ -69,6 +73,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		if (data.errors) {
 			return setErrors(data.errors);
 		}
+		setCurrentUser(data);
 		navigate("/home/feed");
 	};
 
@@ -104,13 +109,13 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 				<DialogBody divider className="flex flex-col gap-4">
 					<Input
 						variant="outlined"
-						label="Email"
+						label="Username"
 						type="text"
 						size="md"
-						id="email"
+						id="username"
 						color="green"
 						className="w-3"
-						onChange={handleUpdate("email")}
+						onChange={handleUpdate("username")}
 					/>
 					<Input
 						variant="outlined"

@@ -14,7 +14,7 @@ import UserValidator from "../validations/userValidator";
 export default class User extends Base<User> {
 	@Unique()
 	@Property()
-	email!: string;
+	username!: string;
 
 	@Property({ hidden: true })
 	password_digest!: string;

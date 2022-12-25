@@ -7,10 +7,11 @@ import {
 	Input,
 	Textarea,
 } from "@material-tailwind/react";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { createPost } from "../utils/post_api";
 import { postForm } from "../types";
 import { Autocomplete } from "@react-google-maps/api";
+import { Mention, MentionsInput } from "react-mentions";
 interface createPostProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
@@ -21,7 +22,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 		nameLocation: "",
 		caption: "",
 	});
-	const captionRef = useRef<HTMLDivElement>(null);
 	const [errors, setErrors] = useState([{ message: "" }]);
 
 	const handlePlaceChanged = () => {
@@ -32,12 +32,11 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 			...post,
 			nameLocation: nameLocationPlace.value,
 		});
-		return captionRef.current!.focus();
 	};
 
 	const handleUpdate = (field: string) => {
 		return (e: any) => {
-			setPost({ ...post, [field]: e.currentTarget.value });
+			setPost({ ...post, [field]: e.target.value });
 		};
 	};
 
@@ -95,14 +94,35 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 							onChange={handleUpdate("nameLocation")}
 						/>
 					</Autocomplete>
-
-					<Textarea
-						variant="outlined"
-						label="Caption"
-						color="green"
+					<MentionsInput
+						value={post.caption}
+						id="caption"
 						onChange={handleUpdate("caption")}
-						ref={captionRef}
-					></Textarea>
+						placeholder="Caption, @mentions"
+						className="placeholder:px-5 placeholder:py-2 box-border p-10 peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-green-500 !resize-none"
+					>
+						<Mention
+							trigger="@"
+							data={[
+								{ id: "1", display: "John" },
+								{ id: "2", display: "Paul" },
+							]}
+							renderSuggestion={(
+								suggestion,
+								search,
+								highlightedDisplay,
+								index,
+								focused
+							) => (
+								<div
+									className={`suggestion-item ${focused ? "focused" : ""}`}
+									key={index}
+								>
+									{highlightedDisplay}
+								</div>
+							)}
+						/>
+					</MentionsInput>
 				</DialogBody>
 				<DialogFooter className="flex gap-5">
 					<Button
