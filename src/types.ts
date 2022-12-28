@@ -24,3 +24,8 @@ export interface unCleanUser {
 	createdAt?: string;
 	updatedAt?: string;
 }
+
+export interface UserInput {
+	username: string;
+	password: string;
+}

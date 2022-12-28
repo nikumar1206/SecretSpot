@@ -5,7 +5,6 @@ import {
 	DialogFooter,
 	DialogHeader,
 	Input,
-	Textarea,
 } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { createPost } from "../utils/post_api";
@@ -19,7 +18,7 @@ interface createPostProps {
 
 const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 	const [post, setPost] = useState<postForm>({
-		nameLocation: "",
+		placeName: "",
 		caption: "",
 	});
 	const [errors, setErrors] = useState([{ message: "" }]);
@@ -91,7 +90,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 							id="name"
 							className="w-3"
 							autoComplete="off"
-							onChange={handleUpdate("nameLocation")}
+							onChange={handleUpdate("placeName")}
 						/>
 					</Autocomplete>
 					<MentionsInput
@@ -102,25 +101,14 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						className="placeholder:px-5 placeholder:py-2 box-border p-10 peer w-full h-full min-h-[100px] bg-transparent text-blue-gray-700 font-sans font-normal outline outline-0 focus:outline-0 disabled:bg-blue-gray-50 disabled:border-0 disabled:resize-none transition-all placeholder-shown:border placeholder-shown:border-blue-gray-200 placeholder-shown:border-t-blue-gray-200 border focus:border-2 focus:border-t-transparent text-sm px-3 py-2.5 rounded-[7px] border-blue-gray-200 focus:border-green-500 !resize-none"
 					>
 						<Mention
+							markup="@[__display__]"
+							displayTransform={(id, display) => `@${display}`}
 							trigger="@"
 							data={[
 								{ id: "1", display: "John" },
 								{ id: "2", display: "Paul" },
 							]}
-							renderSuggestion={(
-								suggestion,
-								search,
-								highlightedDisplay,
-								index,
-								focused
-							) => (
-								<div
-									className={`suggestion-item ${focused ? "focused" : ""}`}
-									key={index}
-								>
-									{highlightedDisplay}
-								</div>
-							)}
+							appendSpaceOnAdd
 						/>
 					</MentionsInput>
 				</DialogBody>

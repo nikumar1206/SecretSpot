@@ -1,16 +1,24 @@
-import { IsString, Length } from "class-validator";
+import { z } from "zod";
 
-class postValidator {
-	@IsString()
-	@Length(5, 100)
-	name: string;
+const postInput = z.object({
+	title: z
+		.string()
+		.min(3, { message: "Title must be at least 3 characters long" })
+		.max(255, { message: "Title must be less than 255 characters long" }),
+	caption: z
+		.string()
+		.min(3, { message: "Body must be at least 3 characters long" }),
+});
 
-	@IsString()
-	@Length(5, 100)
-	location: string;
-
-	@IsString()
-	@Length(5, 100)
-	caption: string;
-}
-export default postValidator;
+export const postInputValidator = (rawData: any) => {
+	try {
+		postInput.parse(rawData);
+		return { success: true, errors: null };
+	} catch (error) {
+		if (error instanceof z.ZodError) {
+			return { success: false, errors: error.errors };
+		} else {
+			return { success: false, errors: error };
+		}
+	}
+};

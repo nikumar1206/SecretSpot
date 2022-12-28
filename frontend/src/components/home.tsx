@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { fetchAllPosts } from "../utils/post_api";
 import { Post } from "../types";
 import { useJsApiLoader } from "@react-google-maps/api";
+import Lists from "./lists";
 
 type Libraries = (
 	| "drawing"
@@ -18,10 +19,10 @@ type Libraries = (
 const libraries: Libraries = ["places"];
 const Home = () => {
 	const [posts, setPosts] = useState<Post[]>([]);
-	const params = useParams()["*"];
+	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
+		googleMapsApiKey: "",
 		libraries: libraries, // ,
 	});
 
@@ -36,8 +37,8 @@ const Home = () => {
 		case "feed":
 			component = <Feed posts={posts} isLoaded={isLoaded} />;
 			break;
-		case "yerr":
-			component = <></>;
+		case "lists":
+			component = <Lists />;
 			break;
 		case "berr":
 			component = <></>;
@@ -53,7 +54,7 @@ const Home = () => {
 
 	return (
 		<>
-			<Nav params={params!} />
+			<Nav params={params} />
 			{isLoaded ? component : <></>}
 		</>
 	);

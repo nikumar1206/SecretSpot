@@ -1,48 +1,50 @@
+import argon2 from "argon2";
 import express from "express";
 import { DI } from "../../app";
-import argon2 from "argon2";
-import User from "../../entities/User";
 import { COOKIE_NAME } from "../../constants";
+import User from "../../entities/User";
+import {
+	newUserInsert,
+	userInputValidator,
+} from "../../validations/userValidator";
+
 const userRouter = express.Router();
 
 userRouter.get("/", async (_, res) => {
 	const users = await DI.userRepository.find({}, { populate: ["friends"] });
-	return res.json(users);
+	return res.json({ data: users, errors: null, success: true });
 });
 
 userRouter.get("/authed", async (req, res) => {
 	const user = await DI.userRepository.findOne({ id: req.session.userId });
-	return res.json(user);
+	return res.json({ data: user, errors: null, success: true });
 });
 
 userRouter.post("/register", async (req, res) => {
+	const saveDataResult = userInputValidator(req.body);
+	if (!saveDataResult.success) {
+		return res.json({ errors: saveDataResult.errors });
+	}
 	const hashedPassword = await argon2.hash(req.body.password);
 	const user: User = DI.em.create(User, {
 		username: req.body.username,
 		password_digest: hashedPassword,
-		friends: JSON.stringify([]),
 	});
-	try {
-		await DI.em.persistAndFlush(user);
-	} catch (error) {
-		if (error.code === "23505") {
-			return res.json({
-				errors: [
-					{
-						field: "username",
-						message: "This username has already been taken.",
-					},
-				],
-			});
-		} else {
-			return res.json({ error });
-		}
+	const DBInsert = await newUserInsert(user);
+	if (!DBInsert.success) {
+		return res.json(DBInsert);
 	}
+
 	req.session.userId = user.id;
 	return res.json(user);
 });
 
 userRouter.post("/login", async (req, res) => {
+	const saveDataResult = userInputValidator(req.body);
+	if (!saveDataResult.success) {
+		return res.json({ errors: saveDataResult.errors });
+	}
+
 	const user = await DI.em.findOne(User, { username: req.body.username });
 	if (!user) {
 		return res.json({

@@ -10,13 +10,19 @@ export const findImageUrl = async (req: any) => {
 	};
 
 	const response = await axios.get(baseUrl, { params });
-	if (response.data.items[0].link.includes("fbsbx")) {
+	if (
+		response.data.items[0].link.includes("fbsbx") ||
+		checkURL(response.data.items[0].link)
+	) {
 		return response.data.items[1].link as string;
 	} else {
 		return response.data.items[0].link as string;
 	}
 };
 
+export const checkURL = (url: string) => {
+	return url.match(/\.(jpeg|jpg|gif|png)$/) == null;
+};
 export const findLatLng = async (req: any) => {
 	const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 	const params = {

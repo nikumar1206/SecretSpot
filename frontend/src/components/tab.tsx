@@ -14,8 +14,8 @@ const TabComponent = ({ params }: { params: string }) => {
 			value: "feed",
 		},
 		{
-			label: "My Visits",
-			value: "visits",
+			label: "My Lists",
+			value: "lists",
 		},
 
 		{

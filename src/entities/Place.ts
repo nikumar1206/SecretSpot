@@ -1,23 +1,17 @@
-import {
-	Collection,
-	Entity,
-	ManyToMany,
-	OneToMany,
-	OptionalProps,
-	Property,
-	Unique,
-} from "@mikro-orm/core";
+import { Entity, Property, Unique } from "@mikro-orm/core";
 import Base from "./Base";
-import Post from "./Post";
 
 @Entity()
-export default class User extends Base {
+export default class Place extends Base {
 	@Unique()
 	@Property()
-	username!: string;
+	name!: string;
 
 	@Property({ hidden: true })
-	password_digest!: string;
+	location!: string;
+
+	@Property({ default: "" })
+	imageUrl!: string;
 
 	@Property({ default: "https://i.imgur.com/yRDb2s7.png" })
 	pfpURL!: string;

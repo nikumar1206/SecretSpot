@@ -98,8 +98,8 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 					{formType == "Login" ? "Log In" : "Sign Up"}
 				</DialogHeader>
 				{errors ? (
-					errors.map((error) => (
-						<div className="flex flex-col items-center my-2">
+					errors.map((error, i) => (
+						<div className="flex flex-col items-center my-2" key={i}>
 							<div className="text-red-500 text-sm">{error.message}</div>
 						</div>
 					))
