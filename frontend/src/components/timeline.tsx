@@ -39,9 +39,9 @@ const Timeline = ({
 					return (
 						<Marker
 							key={post.id}
-							position={{ lat: post.lat, lng: post.lng }}
+							position={{ lat: post.place.lat, lng: post.place.lng }}
 							icon={{
-								url: post.imageUrl + "#custom_marker",
+								url: post.place.imageUrl + "#custom_marker",
 								scaledSize: new window.google.maps.Size(32, 32),
 								origin: new window.google.maps.Point(0, 0),
 								anchor: new window.google.maps.Point(32, 32),

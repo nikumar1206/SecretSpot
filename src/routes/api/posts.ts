@@ -5,10 +5,14 @@ import Post from "../../entities/Post";
 import User from "../../entities/User";
 import Place from "../../entities/Place";
 import { findImageUrl, findLatLng, separateNameLocation } from "../../utils";
+import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
 
 postRouter.get("/", async (_, res) => {
-	const posts = await DI.postRepository.find({});
+	const posts = await DI.postRepository.find(
+		{},
+		{ populate: ["place", "creator"] }
+	);
 	return res.json(posts);
 });
 
@@ -18,6 +22,12 @@ postRouter.get("/:id", async (req, res) => {
 });
 
 postRouter.post("/create", async (req, res) => {
+	req.body.rating = parseFloat(req.body.rating);
+	const saveDataResult = postInputValidator(req.body);
+	if (!saveDataResult.success) {
+		return res.json({ errors: saveDataResult.errors });
+	}
+
 	let poster = (await DI.userRepository.findOne({
 		id: req.session.userId,
 	})) as User;

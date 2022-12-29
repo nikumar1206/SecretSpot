@@ -5,6 +5,7 @@ import User from "../entities/User";
 export const userInput = z.object({
 	username: z
 		.string()
+		.trim()
 		.min(3, {
 			message: "Username must be at least 3 characters long",
 		})

@@ -17,7 +17,7 @@ export default class Place extends Base {
 	@Property()
 	name!: string;
 
-	@Property({ hidden: true })
+	@Property()
 	location!: string;
 
 	@Property({ default: "" })

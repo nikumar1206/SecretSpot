@@ -19,7 +19,7 @@ interface createPostProps {
 const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 	const [post, setPost] = useState<postForm>({
 		place: "",
-		rating: 0,
+		rating: "",
 		caption: "",
 	});
 	const [errors, setErrors] = useState([{ message: "" }]);
@@ -40,6 +40,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
+
 		createPost(post).then((res) => {
 			if (!res.errors) {
 				return setOpen(false);
@@ -75,6 +76,15 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 				<DialogHeader className="text-4xl font-light items-end flex justify-center">
 					Create Post
 				</DialogHeader>
+				{errors ? (
+					errors.map((error, i) => (
+						<p key={i} className="text-red-500 text-center">
+							{error.message}
+						</p>
+					))
+				) : (
+					<></>
+				)}
 				<DialogBody className="flex flex-col gap-4">
 					<Autocomplete
 						types={["restaurant"]}
@@ -92,14 +102,15 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 							onChange={handleUpdate("placeName")}
 						/>
 					</Autocomplete>
+
 					<Input
 						type={"number"}
-						min={0}
-						max={10}
+						color="teal"
 						maxLength={2}
 						label="Rating"
 						onChange={handleUpdate("rating")}
 					/>
+
 					<Textarea
 						variant="outlined"
 						color="teal"
@@ -128,11 +139,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 					>
 						Create Post!
 					</Button>
-					{errors ? (
-						errors.map((error, i) => <p key={i}>{error.message}</p>)
-					) : (
-						<></>
-					)}
 				</DialogFooter>
 			</form>
 		</Dialog>

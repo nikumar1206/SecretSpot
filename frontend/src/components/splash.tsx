@@ -32,7 +32,11 @@ const Splash = () => {
 					</div>
 				</div>
 			)}
-			<section className="absolute w-full h-full overflow-hidden z-0">
+			<section
+				className={`absolute w-full h-full overflow-hidden z-0  ${
+					loaded ? "" : "hidden"
+				}`}
+			>
 				<video
 					src="https://streetsmart-safeassets.s3.amazonaws.com/diningout_broll.mp4"
 					autoPlay={true}
