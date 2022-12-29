@@ -4,7 +4,7 @@ const googleMapsStyle = [
 		elementType: "geometry",
 		stylers: [
 			{
-				color: "#b8d4b4",
+				color: "#A3D5D6",
 			},
 			{
 				lightness: 17,
@@ -28,7 +28,7 @@ const googleMapsStyle = [
 		elementType: "geometry.fill",
 		stylers: [
 			{
-				color: "#dedede",
+				color: "#C0C3C8",
 			},
 			{
 				lightness: 17,
@@ -40,7 +40,7 @@ const googleMapsStyle = [
 		elementType: "geometry.stroke",
 		stylers: [
 			{
-				color: "#dedede",
+				color: "#C0C3C8",
 			},
 			{
 				lightness: 29,
@@ -55,7 +55,7 @@ const googleMapsStyle = [
 		elementType: "geometry",
 		stylers: [
 			{
-				color: "#dedede",
+				color: "#C0C3C8",
 			},
 			{
 				lightness: 18,

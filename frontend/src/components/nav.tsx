@@ -82,8 +82,7 @@ export const Nav = ({ params }: { params: string }) => {
 					className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none"
 					onClick={() => setOpen(!open)}
 				>
-					{/* <span className="text-green-500">+ create post</span> */}
-					<IoCreateOutline className="text-green-500 text-2xl" />
+					<IoCreateOutline className="text-teal-500 text-2xl" />
 				</Button>
 				<IconButton
 					variant="text"

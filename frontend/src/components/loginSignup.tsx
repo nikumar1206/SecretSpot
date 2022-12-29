@@ -113,7 +113,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						type="text"
 						size="md"
 						id="username"
-						color="green"
+						color="teal"
 						className="w-3"
 						onChange={handleUpdate("username")}
 					/>
@@ -123,7 +123,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						type="password"
 						size="md"
 						id="password"
-						color="green"
+						color="teal"
 						onChange={handleUpdate("password")}
 						autoComplete="on"
 					/>
@@ -144,7 +144,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 							size="md"
 							ripple={false}
 							type="submit"
-							color="green"
+							color="teal"
 							className="normal-case"
 						>
 							{formType} User!
@@ -156,7 +156,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						ripple={false}
 						type="button"
 						onClick={handleDemoUser}
-						color="green"
+						color="teal"
 						className="normal-case hover:shadow-none"
 					>
 						Demo User login

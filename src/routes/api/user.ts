@@ -29,6 +29,7 @@ userRouter.post("/register", async (req, res) => {
 	const user: User = DI.em.create(User, {
 		username: req.body.username,
 		password_digest: hashedPassword,
+		favorite_cuisine: "Italian",
 	});
 	const DBInsert = await newUserInsert(user);
 	if (!DBInsert.success) {

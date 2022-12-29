@@ -1,9 +1,19 @@
-import { Entity, Property, Unique } from "@mikro-orm/core";
+import {
+	Collection,
+	Entity,
+	OneToMany,
+	Property,
+	Unique,
+} from "@mikro-orm/core";
 import Base from "./Base";
+import Post from "./Post";
 
 @Entity()
 export default class Place extends Base {
 	@Unique()
+	@Property()
+	nameLocation!: string;
+
 	@Property()
 	name!: string;
 
@@ -13,15 +23,12 @@ export default class Place extends Base {
 	@Property({ default: "" })
 	imageUrl!: string;
 
-	@Property({ default: "https://i.imgur.com/yRDb2s7.png" })
-	pfpURL!: string;
+	@Property({ default: 0.0, type: "float" })
+	lat: number;
 
-	@ManyToMany(() => User)
-	friends: Collection<User> = new Collection<User>(this);
+	@Property({ default: 0.0, type: "float" })
+	lng: number;
 
-	@OneToMany(() => Post, (post) => post.creator)
+	@OneToMany(() => Post, (post) => post.place)
 	posts: Collection<Post> = new Collection<Post>(this);
-
-	@ManyToMany(() => Post, (post) => post.attendies)
-	places_attended = new Collection<Post>(this);
 }

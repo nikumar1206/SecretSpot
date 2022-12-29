@@ -16,7 +16,7 @@ export interface Post {
 	creator: User;
 }
 export interface postForm {
-	postName: string;
-	placeName: string;
+	place: string;
+	rating: number;
 	caption: string;
 }

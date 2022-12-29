@@ -30,4 +30,5 @@ const PostCard = ({ post }: { post: Post }) => {
 		</Card>
 	);
 };
+
 export default PostCard;

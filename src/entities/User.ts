@@ -3,7 +3,6 @@ import {
 	Entity,
 	ManyToMany,
 	OneToMany,
-	OptionalProps,
 	Property,
 	Unique,
 } from "@mikro-orm/core";
@@ -22,12 +21,12 @@ export default class User extends Base {
 	@Property({ default: "https://i.imgur.com/yRDb2s7.png" })
 	pfpURL!: string;
 
+	@Property({ default: "", nullable: true })
+	favorite_cuisine!: string;
+
 	@ManyToMany(() => User)
 	friends: Collection<User> = new Collection<User>(this);
 
 	@OneToMany(() => Post, (post) => post.creator)
 	posts: Collection<Post> = new Collection<Post>(this);
-
-	@ManyToMany(() => Post, (post) => post.attendies)
-	places_attended = new Collection<Post>(this);
 }

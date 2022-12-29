@@ -1,11 +1,11 @@
 import axios from "axios";
 
-export const findImageUrl = async (req: any) => {
+export const findImageUrl = async (nameLocation: string) => {
 	const baseUrl = "https://www.googleapis.com/customsearch/v1/";
 	const params = {
 		key: process.env.SEARCH_API_KEY,
 		cx: process.env.SEARCH_ENGINE_ID,
-		q: `${req.body.nameLocation}`,
+		q: `${nameLocation}`,
 		searchType: "image",
 	};
 
@@ -27,7 +27,7 @@ export const findLatLng = async (req: any) => {
 	const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 	const params = {
 		key: process.env.GOOGLE_API_KEY,
-		address: req.body.nameLocation,
+		address: req.body.place,
 	};
 
 	const response = await axios.get(baseUrl, { params });

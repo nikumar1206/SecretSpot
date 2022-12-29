@@ -3,11 +3,12 @@ import express from "express";
 import { DI } from "../../app";
 import Post from "../../entities/Post";
 import User from "../../entities/User";
+import Place from "../../entities/Place";
 import { findImageUrl, findLatLng, separateNameLocation } from "../../utils";
 const postRouter = express.Router();
 
 postRouter.get("/", async (_, res) => {
-	const posts = await DI.postRepository.find({}, { populate: ["attendies"] });
+	const posts = await DI.postRepository.find({});
 	return res.json(posts);
 });
 
@@ -21,22 +22,35 @@ postRouter.post("/create", async (req, res) => {
 		id: req.session.userId,
 	})) as User;
 
-	const { name, location } = separateNameLocation(req.body.nameLocation);
-	const { lat, lng } = await findLatLng(req);
+	let place = await DI.placeRepository.findOne({
+		nameLocation: req.body.place,
+	});
+	if (!place) {
+		const { name, location } = separateNameLocation(req.body.place);
+		const { lat, lng } = await findLatLng(req);
 
-	const post = new Post();
+		let newPlace = DI.em.create(Place, {
+			nameLocation: req.body.place,
+			name: name,
+			location: location,
+			lat: lat,
+			lng: lng,
+			imageUrl: await findImageUrl(req.body.place),
+		});
+		await DI.em.persistAndFlush(newPlace);
+	}
 
-	wrap(post).assign({
-		name: name,
-		location: location,
-		caption: req.body.caption,
-		imageUrl: await findImageUrl(req),
-		creator: poster,
-		lat: lat,
-		lng: lng,
+	place = await DI.placeRepository.findOne({
+		nameLocation: req.body.place,
 	});
 
-	post.attendies.add(poster);
+	const post = new Post();
+	wrap(post).assign({
+		caption: req.body.caption,
+		creator: poster,
+		place: place,
+	});
+
 	await DI.em.persistAndFlush(post);
 	return res.json(post);
 });

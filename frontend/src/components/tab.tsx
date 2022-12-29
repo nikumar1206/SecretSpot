@@ -31,7 +31,7 @@ const TabComponent = ({ params }: { params: string }) => {
 
 	return (
 		<>
-			<Tabs value={params} className="bg-green-100 rounded-lg">
+			<Tabs value={params} className="bg-teal-100 rounded-lg">
 				<TabsHeader>
 					{data.map(({ label, value }) => (
 						<Tab

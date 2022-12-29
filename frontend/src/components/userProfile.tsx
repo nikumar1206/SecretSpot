@@ -20,7 +20,11 @@ export const UserProfile = () => {
 	return (
 		<Menu>
 			<MenuHandler>
-				<Avatar src="https://i.imgur.com/yRDb2s7.png"></Avatar>
+				<Avatar
+					src="https://i.imgur.com/yRDb2s7.png"
+					variant="circular"
+					className="w-10 h-10 shadow-gray-700 shadow-md cursor-pointer"
+				></Avatar>
 			</MenuHandler>
 			<MenuList>
 				<MenuItem onClick={handleLogout}>Logout User</MenuItem>
