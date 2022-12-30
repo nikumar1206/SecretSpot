@@ -62,6 +62,7 @@ postRouter.post("/create", async (req, res) => {
 	});
 
 	await DI.em.persistAndFlush(post);
+	poster.places_been.add(place!);
 	return res.json(post);
 });
 

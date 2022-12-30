@@ -23,7 +23,7 @@ export const UserProfile = () => {
 				<Avatar
 					src="https://i.imgur.com/yRDb2s7.png"
 					variant="circular"
-					className="w-10 h-10 shadow-gray-700 shadow-md cursor-pointer"
+					className="w-10 h-10 shadow-teal-700 shadow-sm cursor-pointer"
 				></Avatar>
 			</MenuHandler>
 			<MenuList>

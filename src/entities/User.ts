@@ -8,6 +8,7 @@ import {
 } from "@mikro-orm/core";
 import Base from "./Base";
 import Post from "./Post";
+import Place from "./Place";
 
 @Entity()
 export default class User extends Base {
@@ -29,4 +30,13 @@ export default class User extends Base {
 
 	@OneToMany(() => Post, (post) => post.creator)
 	posts: Collection<Post> = new Collection<Post>(this);
+
+	@ManyToMany(() => Place)
+	places_been: Collection<Place> = new Collection<Place>(this);
+
+	@ManyToMany(() => Place)
+	places_to_go: Collection<Place> = new Collection<Place>(this);
+
+	@ManyToMany(() => Place)
+	recs: Collection<Place> = new Collection<Place>(this);
 }
