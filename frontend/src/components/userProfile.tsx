@@ -5,14 +5,14 @@ import {
 	MenuItem,
 	Avatar,
 } from "@material-tailwind/react";
-import { isAuthed, logoutUser } from "../utils/user_api";
+import { logoutUser } from "../utils/user_api";
 import { useNavigate } from "react-router-dom";
 
 export const UserProfile = () => {
 	const navigate = useNavigate();
 	const handleLogout = async () => {
 		await logoutUser();
-		isAuthed().then((res) => console.log(res));
+
 		navigate("/");
 		return;
 	};

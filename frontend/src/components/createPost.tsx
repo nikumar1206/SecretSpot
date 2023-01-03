@@ -11,18 +11,26 @@ import React, { useState } from "react";
 import { createPost } from "../utils/post_api";
 import { postForm } from "../types";
 import { Autocomplete } from "@react-google-maps/api";
+import { useMutation, useQueryClient } from "react-query";
 interface createPostProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
 }
 
 const CreatePostForm = ({ open, setOpen }: createPostProps) => {
+	const queryClient = useQueryClient();
 	const [post, setPost] = useState<postForm>({
 		place: "",
 		rating: "",
 		caption: "",
 	});
 	const [errors, setErrors] = useState([{ message: "" }]);
+
+	const postMutation = useMutation(createPost, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("posts");
+		},
+	});
 
 	const handlePlaceChanged = () => {
 		const placeName = document.getElementById("name") as HTMLInputElement;
@@ -31,7 +39,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 			place: placeName.value,
 		});
 	};
-
 	const handleUpdate = (field: string) => {
 		return (e: any) => {
 			setPost({ ...post, [field]: e.target.value });
@@ -40,8 +47,9 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
+		postMutation.mutateAsync(post).then((res) => {
+			console.log(res);
 
-		createPost(post).then((res) => {
 			if (!res.errors) {
 				return setOpen(false);
 			} else {
@@ -135,6 +143,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						ripple={false}
 						type="submit"
 						color="teal"
+						disabled={post.place === "" || post.rating === ""}
 						className="normal-case transition ease-in-out delay-75 hover:scale-110 hover:bg-teal-700 duration-300 rounded-sm"
 					>
 						Create Post!

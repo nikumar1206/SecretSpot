@@ -1,7 +1,7 @@
 import PostCard from "./postcard";
 import { Post } from "../types";
 
-const Feed = ({ posts, isLoaded }: { posts: Post[]; isLoaded: boolean }) => {
+const Feed = ({ posts }: { posts: Post[] }) => {
 	return (
 		<div className="mt-5 grid grid-cols-3 gap-5">
 			{posts.map((post) => {

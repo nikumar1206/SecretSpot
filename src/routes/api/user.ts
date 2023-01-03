@@ -15,11 +15,10 @@ userRouter.get("/", async (_, res) => {
 	return res.json({ data: users, errors: null, success: true });
 });
 
-userRouter.get("/authed", async (req, res) => {
+userRouter.get("/currentUser", async (req, res) => {
 	const user = await DI.userRepository.findOne({ id: req.session.userId });
 	return res.json({ data: user, errors: null, success: true });
 });
-
 userRouter.post("/register", async (req, res) => {
 	const saveDataResult = userInputValidator(req.body);
 	if (!saveDataResult.success) {

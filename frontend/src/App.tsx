@@ -1,31 +1,32 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+	Route,
+	RouterProvider,
+	createBrowserRouter,
+	createRoutesFromElements,
+} from "react-router-dom";
 import Splash from "./components/splash";
 import { ThemeProvider } from "@material-tailwind/react";
 import Home from "./components/home";
-import { useEffect, useState } from "react";
-import { isAuthed } from "./utils/user_api";
-import userContext from "./utils/userContext";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const App = () => {
-	const [currentUser, setCurrentUser] = useState(null);
+	const queryClient = new QueryClient();
 
-	useEffect(() => {
-		isAuthed().then((res) => {
-			setCurrentUser(res);
-		});
-	}, []);
+	const router = createBrowserRouter(
+		createRoutesFromElements(
+			<>
+				<Route path="/" element={<Splash />} />
+				<Route path="/home/*" element={<Home />} />
+			</>
+		)
+	);
 
 	return (
-		<ThemeProvider>
-			<BrowserRouter>
-				<userContext.Provider value={{ currentUser, setCurrentUser }}>
-					<Routes>
-						<Route path="/" element={<Splash />} />
-						<Route path="/home/*" element={<Home />} />
-					</Routes>
-				</userContext.Provider>
-			</BrowserRouter>
-		</ThemeProvider>
+		<QueryClientProvider client={queryClient} contextSharing={true}>
+			<ThemeProvider>
+				<RouterProvider router={router} />
+			</ThemeProvider>
+		</QueryClientProvider>
 	);
 };
 export default App;

@@ -23,10 +23,11 @@ export const registerUser = async (userInfo: userInterface) => {
 	}
 };
 
-export const isAuthed = async () => {
+export const fetchCurrentUser = async () => {
 	try {
-		let res = await axios.get("/api/users/authed");
-		return res.data;
+		const { data } = await axios.get("/api/users/currentUser");
+		console.log("yerr", data);
+		return data;
 	} catch (error) {
 		throw new Error(`${error}`);
 	}
