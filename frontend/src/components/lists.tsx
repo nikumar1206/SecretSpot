@@ -1,9 +1,10 @@
 import { useQuery } from "react-query";
-import BeenList from "./beenList";
 import { fetchCurrentUser } from "../utils/user_api";
+import BeenList from "./beenList";
 
 const Lists = () => {
-	const { data, error, isLoading } = useQuery("beenList", fetchCurrentUser);
+	const { data } = useQuery("user", fetchCurrentUser);
+	console.log(data);
 
 	return (
 		<div>

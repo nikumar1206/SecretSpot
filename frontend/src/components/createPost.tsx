@@ -48,8 +48,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		postMutation.mutateAsync(post).then((res) => {
-			console.log(res);
-
 			if (!res.errors) {
 				return setOpen(false);
 			} else {

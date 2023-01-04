@@ -25,7 +25,7 @@ const PostCard = ({ post }: { post: Post }) => {
 				<Typography variant="small" color="gray" className="flex gap-1">
 					<i className="fas fa-map-marker-alt fa-sm mt-[3px]" />
 					{post.creator.username}
-					{console.log(post)}
+					{post.creator.id}
 				</Typography>
 			</CardFooter>
 		</Card>
