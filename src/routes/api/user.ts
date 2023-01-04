@@ -19,10 +19,9 @@ userRouter.get("/user", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
 		{
-			populate: ["places_been", "places_been."],
+			populate: ["places_been"],
 		}
 	);
-	console.log();
 	return res.json(user);
 });
 userRouter.post("/register", async (req, res) => {

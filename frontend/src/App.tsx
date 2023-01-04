@@ -8,6 +8,7 @@ import Splash from "./components/splash";
 import { ThemeProvider } from "@material-tailwind/react";
 import Home from "./components/home";
 import { QueryClient, QueryClientProvider } from "react-query";
+import UserProfilePage from "./components/userShowPage";
 
 const App = () => {
 	const queryClient = new QueryClient();
@@ -17,6 +18,7 @@ const App = () => {
 			<>
 				<Route path="/" element={<Splash />} />
 				<Route path="/home/*" element={<Home />} />
+				<Route path="/user/" element={<UserProfilePage />} />
 			</>
 		)
 	);

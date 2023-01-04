@@ -12,8 +12,12 @@ export const UserProfile = () => {
 	const navigate = useNavigate();
 	const handleLogout = async () => {
 		await logoutUser();
-
 		navigate("/");
+		return;
+	};
+
+	const handleuserPreferences = () => {
+		navigate("/user");
 		return;
 	};
 
@@ -28,7 +32,7 @@ export const UserProfile = () => {
 			</MenuHandler>
 			<MenuList>
 				<MenuItem onClick={handleLogout}>Logout User</MenuItem>
-				<MenuItem>User Preferences</MenuItem>
+				<MenuItem onClick={handleuserPreferences}>User Preferences</MenuItem>
 				<MenuItem>Settings</MenuItem>
 			</MenuList>
 		</Menu>

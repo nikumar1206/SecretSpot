@@ -1,3 +1,4 @@
+import MiniPostCard from "./miniPostcard";
 import PostCard from "./postcard";
 
 const BeenList = ({ list }) => {
@@ -5,9 +6,9 @@ const BeenList = ({ list }) => {
 		<div>
 			<h1>Been List</h1>
 			<div className="mt-5 grid grid-cols-3 gap-5">
-				{/* {list.map((item) => {
-					return <PostCard post={item} key={item.id} />;
-				})} */}
+				{list.map((item) => {
+					return <MiniPostCard place={item} key={item.id} />;
+				})}
 			</div>
 		</div>
 	);

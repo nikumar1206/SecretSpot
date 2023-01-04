@@ -25,7 +25,6 @@ export const registerUser = async (userInfo: userInterface) => {
 
 export const fetchCurrentUser = async () => {
 	try {
-		console.log("yerr");
 		let res = await axios.get("/api/users/user");
 		return res.data;
 	} catch (error) {
