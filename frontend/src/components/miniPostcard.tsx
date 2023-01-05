@@ -3,31 +3,25 @@ import {
 	CardBody,
 	Typography,
 	CardFooter,
+	Avatar,
 } from "@material-tailwind/react";
 
-const MiniPostCard = ({ place }) => {
+const MiniPlaceCard = ({ place }) => {
 	return (
-		<Card className="w-96 m-0 mr-0">
-			<img
-				src={place.imageUrl}
-				alt="img-blur-shadow"
-				className="float-left object-cover overflow-hidden rounded-t-lg w-96 max-h-56"
-			/>
+		<Card className="w-80 h-24 m-0 mr-0 flex flex-row justify-center items-center shadow-lg">
+			<Avatar src={place.imageUrl} alt="img-blur-shadow" size="lg" />
 			<CardBody className="text-center">
-				<Typography variant="h5" className="mb-2">
+				<Typography variant="h6" className="mb-2">
 					{place.name}
 				</Typography>
-				<Typography>{place.caption}</Typography>
 			</CardBody>
-			<CardFooter divider className="flex items-center justify-between py-3">
+			<CardFooter className="flex items-center justify-between py-3">
 				<Typography variant="small">{place.location}</Typography>
 				<Typography variant="small" color="gray" className="flex gap-1">
 					<i className="fas fa-map-marker-alt fa-sm mt-[3px]" />
-					{/* {creator.username}
-					{creator.id} */}
 				</Typography>
 			</CardFooter>
 		</Card>
 	);
 };
-export default MiniPostCard;
+export default MiniPlaceCard;

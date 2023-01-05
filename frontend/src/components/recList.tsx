@@ -1,10 +1,10 @@
 import { Typography } from "@material-tailwind/react";
 import MiniPlaceCard from "./miniPostcard";
-const BeenList = ({ list }) => {
+const RecList = ({ list }) => {
 	return (
 		<div>
 			<Typography variant="h4" className="text-center">
-				Been
+				Recommendations
 			</Typography>
 			<div className="mt-5 flex flex-col gap-5">
 				{list.map((item) => {
@@ -14,4 +14,4 @@ const BeenList = ({ list }) => {
 		</div>
 	);
 };
-export default BeenList;
+export default RecList;

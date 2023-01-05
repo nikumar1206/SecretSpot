@@ -31,8 +31,8 @@ export const UserProfile = () => {
 				></Avatar>
 			</MenuHandler>
 			<MenuList>
-				<MenuItem onClick={handleLogout}>Logout User</MenuItem>
 				<MenuItem onClick={handleuserPreferences}>User Preferences</MenuItem>
+				<MenuItem onClick={handleLogout}>Logout User</MenuItem>
 				<MenuItem>Settings</MenuItem>
 			</MenuList>
 		</Menu>

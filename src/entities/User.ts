@@ -26,7 +26,10 @@ export default class User extends Base {
 	favorite_cuisine!: string;
 
 	@ManyToMany(() => User)
-	friends: Collection<User> = new Collection<User>(this);
+	followers: Collection<User> = new Collection<User>(this);
+
+	@ManyToMany(() => User)
+	following: Collection<User> = new Collection<User>(this);
 
 	@OneToMany(() => Post, (post) => post.creator)
 	posts: Collection<Post> = new Collection<Post>(this);

@@ -21,7 +21,7 @@ export default class Place extends Base {
 	location!: string;
 
 	@Property({ default: "" })
-	imageUrl!: string;
+	imageURL!: string;
 
 	@Property({ default: 0.0, type: "float" })
 	lat: number;

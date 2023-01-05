@@ -15,6 +15,7 @@ export interface Place {
 export interface Post {
 	id: string;
 	caption: string;
+	rating: number;
 	creator: User;
 	place: Place;
 }

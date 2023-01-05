@@ -35,6 +35,7 @@ postRouter.post("/create", async (req, res) => {
 	let place = await DI.placeRepository.findOne({
 		nameLocation: req.body.place,
 	});
+
 	if (!place) {
 		const { name, location } = separateNameLocation(req.body.place);
 		const { lat, lng } = await findLatLng(req);
@@ -45,7 +46,7 @@ postRouter.post("/create", async (req, res) => {
 			location: location,
 			lat: lat,
 			lng: lng,
-			imageUrl: await findImageUrl(req.body.place),
+			imageURL: await findImageUrl(req.body.place),
 		});
 		await DI.em.persistAndFlush(newPlace);
 	}
@@ -57,6 +58,7 @@ postRouter.post("/create", async (req, res) => {
 	const post = new Post();
 	wrap(post).assign({
 		caption: req.body.caption,
+		rating: req.body.rating,
 		creator: poster,
 		place: place,
 	});

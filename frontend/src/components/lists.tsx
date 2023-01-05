@@ -1,18 +1,18 @@
 import { useQuery } from "react-query";
 import { fetchCurrentUser } from "../utils/user_api";
 import BeenList from "./beenList";
+import BookmarkList from "./bookmarkList";
+import RecList from "./recList";
 
 const Lists = () => {
-	const { data, isFetched } = useQuery("user", fetchCurrentUser);
+	const { data } = useQuery("user", fetchCurrentUser);
 
 	if (data) {
-		console.log(data.places_been);
-
 		return (
-			<div>
+			<div className="flex flex-row gap-x-10 justify-center mt-10">
 				<BeenList list={data.places_been} />
-				<h1>Want to Try</h1>
-				<h1>Recommendations from friends</h1>
+				<BookmarkList list={data.places_been} />
+				<RecList list={data.places_been} />
 			</div>
 		);
 	}

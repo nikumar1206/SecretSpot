@@ -141,7 +141,12 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						ripple={false}
 						type="submit"
 						color="teal"
-						disabled={post.place === "" || post.rating === ""}
+						disabled={
+							post.place === "" ||
+							post.rating === "" ||
+							post.caption === "" ||
+							postMutation.isLoading
+						}
 						className="normal-case transition ease-in-out delay-75 hover:scale-110 hover:bg-teal-700 duration-300 rounded-sm"
 					>
 						Create Post!

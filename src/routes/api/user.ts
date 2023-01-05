@@ -11,7 +11,10 @@ import {
 const userRouter = express.Router();
 
 userRouter.get("/", async (_, res) => {
-	const users = await DI.userRepository.find({}, { populate: ["friends"] });
+	const users = await DI.userRepository.find(
+		{},
+		{ populate: ["following", "followers"] }
+	);
 	return res.json({ data: users, errors: null, success: true });
 });
 
