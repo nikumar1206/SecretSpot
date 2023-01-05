@@ -15,6 +15,8 @@ const Lists = () => {
 				<RecList list={data.places_been} />
 			</div>
 		);
+	} else {
+		return <></>;
 	}
 };
 export default Lists;

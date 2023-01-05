@@ -1,5 +1,5 @@
-import { memo } from "react";
 import { GoogleMap, Marker } from "@react-google-maps/api";
+import { memo } from "react";
 import { Post } from "../types";
 import googleMapsStyle from "../utils/googleMaps";
 

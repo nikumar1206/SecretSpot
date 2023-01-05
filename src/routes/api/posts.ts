@@ -1,9 +1,9 @@
 import { wrap } from "@mikro-orm/core";
 import express from "express";
 import { DI } from "../../app";
+import Place from "../../entities/Place";
 import Post from "../../entities/Post";
 import User from "../../entities/User";
-import Place from "../../entities/Place";
 import { findImageUrl, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();

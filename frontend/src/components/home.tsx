@@ -1,11 +1,11 @@
+import { useJsApiLoader } from "@react-google-maps/api";
+import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
+import { fetchAllPosts } from "../utils/post_api";
 import Feed from "./feed";
+import Lists from "./lists";
 import Nav from "./nav";
 import Timeline from "./timeline";
-import { fetchAllPosts } from "../utils/post_api";
-import { useJsApiLoader } from "@react-google-maps/api";
-import Lists from "./lists";
-import { useQuery } from "react-query";
 
 type Libraries = (
 	| "drawing"

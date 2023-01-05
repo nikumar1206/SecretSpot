@@ -7,11 +7,11 @@ import {
 	Input,
 	Textarea,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
-import { createPost } from "../utils/post_api";
-import { postForm } from "../types";
 import { Autocomplete } from "@react-google-maps/api";
+import React, { useState } from "react";
 import { useMutation, useQueryClient } from "react-query";
+import { postForm } from "../types";
+import { createPost } from "../utils/post_api";
 interface createPostProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;

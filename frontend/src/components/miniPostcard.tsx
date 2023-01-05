@@ -1,9 +1,9 @@
 import {
+	Avatar,
 	Card,
 	CardBody,
-	Typography,
 	CardFooter,
-	Avatar,
+	Typography,
 } from "@material-tailwind/react";
 
 const MiniPlaceCard = ({ place }) => {

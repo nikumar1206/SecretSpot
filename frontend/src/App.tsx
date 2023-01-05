@@ -1,13 +1,13 @@
+import { ThemeProvider } from "@material-tailwind/react";
+import { QueryClient, QueryClientProvider } from "react-query";
 import {
 	Route,
 	RouterProvider,
 	createBrowserRouter,
 	createRoutesFromElements,
 } from "react-router-dom";
-import Splash from "./components/splash";
-import { ThemeProvider } from "@material-tailwind/react";
 import Home from "./components/home";
-import { QueryClient, QueryClientProvider } from "react-query";
+import Splash from "./components/splash";
 import UserProfilePage from "./components/userShowPage";
 
 const App = () => {

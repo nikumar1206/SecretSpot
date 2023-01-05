@@ -7,8 +7,8 @@ import {
 	Unique,
 } from "@mikro-orm/core";
 import Base from "./Base";
-import Post from "./Post";
 import Place from "./Place";
+import Post from "./Post";
 
 @Entity()
 export default class User extends Base {

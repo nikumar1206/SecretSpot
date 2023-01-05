@@ -1,5 +1,5 @@
-import PostCard from "./postcard";
 import { Post } from "../types";
+import PostCard from "./postcard";
 
 const Feed = ({ posts }: { posts: Post[] }) => {
 	return (

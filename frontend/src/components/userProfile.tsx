@@ -1,12 +1,12 @@
 import {
+	Avatar,
 	Menu,
 	MenuHandler,
-	MenuList,
 	MenuItem,
-	Avatar,
+	MenuList,
 } from "@material-tailwind/react";
-import { logoutUser } from "../utils/user_api";
 import { useNavigate } from "react-router-dom";
+import { logoutUser } from "../utils/user_api";
 
 export const UserProfile = () => {
 	const navigate = useNavigate();

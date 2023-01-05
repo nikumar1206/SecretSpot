@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
 import {
-	Navbar,
-	MobileNav,
-	Typography,
 	Button,
 	IconButton,
+	MobileNav,
+	Navbar,
+	Typography,
 } from "@material-tailwind/react";
-import TabComponent from "./tab";
-import CreatePostForm from "./createPost";
+import { useEffect, useState } from "react";
 import { IoCreateOutline } from "react-icons/io5";
+import CreatePostForm from "./createPost";
+import TabComponent from "./tab";
 import { UserProfile } from "./userProfile";
 
 export const Nav = ({ params }: { params: string }) => {

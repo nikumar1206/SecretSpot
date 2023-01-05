@@ -1,7 +1,7 @@
 import { Entity, ManyToOne, Property } from "@mikro-orm/core";
 import Base from "./Base";
-import User from "./User";
 import Place from "./Place";
+import User from "./User";
 
 @Entity()
 export default class Post extends Base {

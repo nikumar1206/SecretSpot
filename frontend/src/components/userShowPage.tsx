@@ -1,6 +1,6 @@
+import { Avatar } from "@material-tailwind/react";
 import { useQuery } from "react-query";
 import { fetchCurrentUser } from "../utils/user_api";
-import { Avatar } from "@material-tailwind/react";
 
 const UserProfilePage = () => {
 	const { data, isFetched } = useQuery("user", fetchCurrentUser);
