@@ -9,7 +9,7 @@ import {
 const MiniPlaceCard = ({ place }) => {
 	return (
 		<Card className="w-80 h-24 m-0 mr-0 flex flex-row justify-center items-center shadow-lg">
-			<Avatar src={place.imageUrl} alt="img-blur-shadow" size="lg" />
+			<Avatar src={place.imageURL} alt="img-blur-shadow" size="lg" />
 			<CardBody className="text-center">
 				<Typography variant="h6" className="mb-2">
 					{place.name}

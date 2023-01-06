@@ -8,10 +8,10 @@ import { Post } from "../types";
 
 const PostCard = ({ post }: { post: Post }) => {
 	const changeColorRating = (rating: number) => {
-		if (rating >= 4) {
+		if (rating >= 5.5) {
 			return "-green-500";
 		} else if (rating >= 3) {
-			return "-yellow-500";
+			return "-yellow-700";
 		} else {
 			return "-red-500";
 		}
@@ -20,7 +20,7 @@ const PostCard = ({ post }: { post: Post }) => {
 	return (
 		<Card className="w-96 h-80 m-0 mr-0">
 			<img
-				src={post.place.imageUrl}
+				src={post.place.imageURL}
 				alt="img-blur-shadow"
 				className="float-left object-cover overflow-hidden rounded-t-lg w-96 max-h-56"
 			/>
@@ -29,7 +29,7 @@ const PostCard = ({ post }: { post: Post }) => {
 					{post.place.name}
 				</Typography>
 				<div
-					className={`rounded-full w-8 h-8 p-1 text${changeColorRating(
+					className={`rounded-2xl w-10 h-10 p-1.5 text${changeColorRating(
 						post.rating
 					)} border-2 border${changeColorRating(post.rating)}	text-center`}
 				>

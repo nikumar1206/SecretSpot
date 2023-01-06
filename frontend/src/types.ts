@@ -10,7 +10,7 @@ export interface Place {
 	nameLocation: string;
 	lat: number;
 	lng: number;
-	imageUrl: string;
+	imageURL: string;
 }
 export interface Post {
 	id: string;

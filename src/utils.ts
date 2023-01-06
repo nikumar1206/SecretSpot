@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const findImageUrl = async (nameLocation: string) => {
+export const findImageURL = async (nameLocation: string) => {
 	const baseUrl = "https://www.googleapis.com/customsearch/v1/";
 	const params = {
 		key: process.env.SEARCH_API_KEY,
@@ -12,6 +12,7 @@ export const findImageUrl = async (nameLocation: string) => {
 	const response = await axios.get(baseUrl, { params });
 	if (
 		response.data.items[0].link.includes("fbsbx") ||
+		response.data.items[0].link.includes("facebook") ||
 		checkURL(response.data.items[0].link)
 	) {
 		return response.data.items[1].link as string;

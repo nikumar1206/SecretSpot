@@ -110,9 +110,9 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 					</Autocomplete>
 
 					<Input
-						type={"number"}
+						type={"float"}
 						color="teal"
-						maxLength={2}
+						maxLength={5}
 						label="Rating"
 						onChange={handleUpdate("rating")}
 					/>

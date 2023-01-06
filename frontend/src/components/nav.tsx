@@ -20,6 +20,11 @@ export const Nav = ({ params }: { params: string }) => {
 			"resize",
 			() => window.innerWidth >= 960 && setOpenNav(false)
 		);
+		return () =>
+			window.removeEventListener(
+				"resize",
+				() => window.innerWidth >= 960 && setOpenNav(false)
+			);
 	}, []);
 
 	const navList = (

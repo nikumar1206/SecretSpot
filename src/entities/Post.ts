@@ -8,7 +8,7 @@ export default class Post extends Base {
 	@Property({ type: "text" })
 	caption: string;
 
-	@Property({ default: 0.0 })
+	@Property({ default: 0.0, type: "float8" })
 	rating: Number;
 
 	@ManyToOne(() => Place)

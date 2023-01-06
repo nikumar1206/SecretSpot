@@ -4,7 +4,7 @@ import { DI } from "../../app";
 import Place from "../../entities/Place";
 import Post from "../../entities/Post";
 import User from "../../entities/User";
-import { findImageUrl, findLatLng, separateNameLocation } from "../../utils";
+import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
 
@@ -46,14 +46,13 @@ postRouter.post("/create", async (req, res) => {
 			location: location,
 			lat: lat,
 			lng: lng,
-			imageURL: await findImageUrl(req.body.place),
+			imageURL: await findImageURL(req.body.place),
 		});
 		await DI.em.persistAndFlush(newPlace);
+		place = await DI.placeRepository.findOne({
+			nameLocation: req.body.place,
+		});
 	}
-
-	place = await DI.placeRepository.findOne({
-		nameLocation: req.body.place,
-	});
 
 	const post = new Post();
 	wrap(post).assign({
