@@ -34,6 +34,7 @@ export const findLatLng = async (req: any) => {
 	const response = await axios.get(baseUrl, { params });
 	return response.data.results[0].geometry.location;
 };
+
 export const separateNameLocation = (nameLocation: string) => {
 	const arr = nameLocation.split(",");
 	const name = arr[0];

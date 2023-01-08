@@ -5,6 +5,7 @@ import { fetchAllPosts } from "../utils/post_api";
 import Feed from "./feed";
 import Lists from "./lists";
 import Nav from "./nav";
+import Search from "./search";
 import Timeline from "./timeline";
 
 type Libraries = (
@@ -20,7 +21,7 @@ const Home = () => {
 	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
+		googleMapsApiKey: "",
 		libraries: libraries, // ,
 	});
 
@@ -34,8 +35,8 @@ const Home = () => {
 		case "lists":
 			component = <Lists />;
 			break;
-		case "berr":
-			component = <></>;
+		case "search":
+			component = <Search />;
 			break;
 		case "timeline":
 			component = <Timeline posts={data} isLoaded={isLoaded} />;

@@ -5,8 +5,9 @@ import {
 	CardFooter,
 	Typography,
 } from "@material-tailwind/react";
+import { Place } from "../types";
 
-const MiniPlaceCard = ({ place }) => {
+const MiniPlaceCard = ({ place }: { place: Place }) => {
 	return (
 		<Card className="w-80 h-24 m-0 mr-0 flex flex-row justify-center items-center shadow-lg">
 			<Avatar src={place.imageURL} alt="img-blur-shadow" size="lg" />

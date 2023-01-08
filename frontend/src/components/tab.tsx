@@ -19,8 +19,8 @@ const TabComponent = ({ params }: { params: string }) => {
 		},
 
 		{
-			label: "Favorites",
-			value: "favorites",
+			label: "Search",
+			value: "search",
 		},
 
 		{

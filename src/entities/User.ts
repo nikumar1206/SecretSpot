@@ -25,6 +25,9 @@ export default class User extends Base {
 	@Property({ default: "", nullable: true })
 	favorite_cuisine!: string;
 
+	@ManyToMany(() => Post)
+	feed: Collection<Post> = new Collection<Post>(this);
+
 	@ManyToMany(() => User)
 	followers: Collection<User> = new Collection<User>(this);
 

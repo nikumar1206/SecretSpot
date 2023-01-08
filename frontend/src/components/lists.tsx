@@ -1,11 +1,12 @@
 import { useQuery } from "react-query";
+import { User } from "../types";
 import { fetchCurrentUser } from "../utils/user_api";
 import BeenList from "./beenList";
 import BookmarkList from "./bookmarkList";
 import RecList from "./recList";
 
 const Lists = () => {
-	const { data } = useQuery("user", fetchCurrentUser);
+	const data: User = useQuery("user", fetchCurrentUser).data;
 
 	if (data) {
 		return (

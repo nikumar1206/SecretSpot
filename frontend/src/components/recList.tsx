@@ -1,6 +1,7 @@
 import { Typography } from "@material-tailwind/react";
+import { User } from "../types";
 import MiniPlaceCard from "./miniPostcard";
-const RecList = ({ list }) => {
+const RecList = ({ list }: { list: User["places_been"] }) => {
 	return (
 		<div>
 			<Typography variant="h4" className="text-center">

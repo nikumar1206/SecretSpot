@@ -1,6 +1,14 @@
 export interface User {
 	id: string;
 	username: string;
+	pfpURL: string;
+	favorite_cuisine: string;
+	followers: User[];
+	following: User[];
+	posts: Post[];
+	places_been: Place[];
+	places_to_go: Place[];
+	recs: Place[];
 }
 
 export interface Place {

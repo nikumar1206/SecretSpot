@@ -11,7 +11,7 @@ const postRouter = express.Router();
 postRouter.get("/", async (_, res) => {
 	const posts = await DI.postRepository.find(
 		{},
-		{ populate: ["place", "creator"] }
+		{ populate: ["place", "creator"], orderBy: { createdAt: "DESC" } }
 	);
 	return res.json(posts);
 });
