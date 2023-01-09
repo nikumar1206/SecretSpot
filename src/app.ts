@@ -12,6 +12,7 @@ import Post from "./entities/Post";
 import User from "./entities/User";
 import mikroOrmConfig from "./mikro-orm.config";
 import mapsRouter from "./routes/api/maps";
+import placeRouter from "./routes/api/place";
 import postRouter from "./routes/api/posts";
 import userRouter from "./routes/api/user";
 import { DatabaseInterface } from "./types";
@@ -57,6 +58,7 @@ const main = async () => {
 	app.use("/api/users", userRouter);
 	app.use("/api/posts", postRouter);
 	app.use("/api/maps", mapsRouter);
+	app.use("/api/place", placeRouter);
 
 	app.listen(port, () => {
 		console.log(`🚀 Server is running on port ${port}!`);
