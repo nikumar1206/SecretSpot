@@ -66,6 +66,7 @@ postRouter.post("/create", async (req, res) => {
 
 	await poster.places_been.init();
 	poster.places_been.add(place!);
+
 	return res.json(post);
 });
 

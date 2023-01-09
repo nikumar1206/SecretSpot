@@ -127,7 +127,10 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 				</DialogBody>
 				<DialogFooter className="flex gap-5">
 					<Button
-						onClick={() => setOpen(false)}
+						onClick={() => {
+							setOpen(false);
+							setErrors([{ message: "" }]);
+						}}
 						color="red"
 						variant="outlined"
 						ripple={false}

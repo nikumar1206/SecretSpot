@@ -36,7 +36,7 @@ div.pac-item:hover {
 
 img[src$="#custom_marker"] {
 	border: 2px solid black !important;
-	border-radius: 70px 70px 0px 70px;
+	border-radius: 50%;
 }
 
 textarea {
