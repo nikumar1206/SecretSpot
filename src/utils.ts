@@ -28,7 +28,7 @@ export const findLatLng = async (req: any) => {
 	const baseUrl = "https://maps.googleapis.com/maps/api/geocode/json";
 	const params = {
 		key: process.env.GOOGLE_API_KEY,
-		address: req.body.place,
+		address: req.body?.place || req.params.namelocation,
 	};
 
 	const response = await axios.get(baseUrl, { params });

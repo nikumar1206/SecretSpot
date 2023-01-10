@@ -32,6 +32,11 @@ postRouter.post("/create", async (req, res) => {
 		id: req.session.userId,
 	})) as User;
 
+	if (!poster) {
+		return res.json({
+			errors: "User not found. Please ensured you are logged in.",
+		});
+	}
 	let place = await DI.placeRepository.findOne({
 		nameLocation: req.body.place,
 	});

@@ -26,11 +26,23 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 	});
 	const [errors, setErrors] = useState([{ message: "" }]);
 
+	console.log(post);
+
 	const postMutation = useMutation(createPost, {
 		onSuccess: () => {
 			queryClient.invalidateQueries("posts");
 		},
 	});
+
+	const resetModalonClose = () => {
+		setOpen(false);
+		setPost({
+			place: "",
+			rating: "",
+			caption: "",
+		});
+		setErrors([{ message: "" }]);
+	};
 
 	const handlePlaceChanged = () => {
 		const placeName = document.getElementById("name") as HTMLInputElement;
@@ -127,10 +139,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 				</DialogBody>
 				<DialogFooter className="flex gap-5">
 					<Button
-						onClick={() => {
-							setOpen(false);
-							setErrors([{ message: "" }]);
-						}}
+						onClick={resetModalonClose}
 						color="red"
 						variant="outlined"
 						ripple={false}
@@ -145,14 +154,29 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						type="submit"
 						color="teal"
 						disabled={
-							post.place === "" ||
-							post.rating === "" ||
-							post.caption === "" ||
-							postMutation.isLoading
+							post.place === "" || post.rating === "" || post.caption === ""
 						}
 						className="normal-case transition ease-in-out delay-75 hover:scale-110 hover:bg-teal-700 duration-300 rounded-sm"
 					>
-						Create Post!
+						{postMutation.isLoading ? (
+							<span className="inline-block animate-spin rounded-full w-full h-full">
+								<svg
+									className="h-6 w-6"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+									></path>
+								</svg>
+							</span>
+						) : (
+							"Create Post"
+						)}
 					</Button>
 				</DialogFooter>
 			</form>

@@ -7,6 +7,7 @@ import {
 	createRoutesFromElements,
 } from "react-router-dom";
 import Home from "./components/home";
+import NotFound from "./components/notFound";
 import PlaceShow from "./components/placeShow";
 import Splash from "./components/splash";
 import UserProfilePage from "./components/userShowPage";
@@ -17,6 +18,7 @@ const App = () => {
 	const router = createBrowserRouter(
 		createRoutesFromElements(
 			<>
+				<Route path="*" element={<NotFound />} />
 				<Route path="/" element={<Splash />} />
 				<Route path="/home/*" element={<Home />} />
 				<Route path="/user/" element={<UserProfilePage />} />
