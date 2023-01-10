@@ -11,7 +11,7 @@ const UserProfilePage = () => {
 
 	if (isFetched) {
 		return (
-			<div className="flex flex-col items-center justify-center w-full ">
+			<div className="flex flex-col items-center justify-center w-full h-screen bg-teal-50">
 				<div className="flex flex-col items-center w-full">
 					<Avatar
 						src={data.pfpURL}

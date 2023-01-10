@@ -50,7 +50,9 @@ const Home = () => {
 	return (
 		<>
 			<Nav params={params} />
-			{isLoaded ? component : <></>}
+			<div className="bg-teal-50 flex justify-center">
+				{isLoaded ? component : <></>}
+			</div>
 		</>
 	);
 };

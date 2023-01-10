@@ -175,7 +175,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 								</svg>
 							</span>
 						) : (
-							"Create Post"
+							"Add Post"
 						)}
 					</Button>
 				</DialogFooter>

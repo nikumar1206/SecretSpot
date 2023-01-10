@@ -15,9 +15,9 @@ export default class Base {
 	@PrimaryKey({ type: "uuid" })
 	id: string = v4();
 
-	@Property({ hidden: true })
+	@Property()
 	createdAt?: Date = new Date();
 
-	@Property({ onUpdate: () => new Date(), hidden: true })
+	@Property({ onUpdate: () => new Date() })
 	updatedAt?: Date = new Date();
 }

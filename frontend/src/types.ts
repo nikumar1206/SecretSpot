@@ -26,6 +26,8 @@ export interface Post {
 	rating: number;
 	creator: User;
 	place: Place;
+	createdAt: Date;
+	updatedAt: Date;
 }
 export interface postForm {
 	place: string;
