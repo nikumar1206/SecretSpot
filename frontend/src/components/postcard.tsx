@@ -21,6 +21,7 @@ const PostCard = ({ post }: { post: Post }) => {
 			return "text-red-500";
 		}
 	};
+
 	const changeBorderColor = (rating: number) => {
 		if (rating >= 5.5) {
 			return "border-green-500";
