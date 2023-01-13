@@ -150,7 +150,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 							{formType} User!
 						</Button>
 					</div>
-					<Button
+					{/* <Button
 						size="md"
 						variant="outlined"
 						ripple={false}
@@ -160,7 +160,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 						className="normal-case hover:shadow-none"
 					>
 						Demo User login
-					</Button>
+					</Button> */}
 				</DialogFooter>
 			</form>
 		</Dialog>

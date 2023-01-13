@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, Property } from "@mikro-orm/core";
+import { AfterCreate, Entity, ManyToOne, Property } from "@mikro-orm/core";
 import Base from "./Base";
 import Place from "./Place";
 import User from "./User";
@@ -16,4 +16,7 @@ export default class Post extends Base {
 
 	@ManyToOne(() => User)
 	creator: User;
+
+	@AfterCreate()
+	async updateUserFeed() {}
 }

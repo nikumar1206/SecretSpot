@@ -11,7 +11,7 @@ const UserProfilePage = () => {
 
 	if (isFetched) {
 		return (
-			<div className="flex flex-col items-center justify-center w-full h-screen bg-teal-50">
+			<div className="pt-20 selection:flex flex-col items-center w-full h-screen bg-teal-50">
 				<div className="flex flex-col items-center w-full">
 					<Avatar
 						src={data.pfpURL}
@@ -20,17 +20,22 @@ const UserProfilePage = () => {
 					/>
 					<h1 className="text-2xl font-bold">{"@" + data.username}</h1>
 				</div>
-				<div className="flex flex-row gap-5 mt-5">
-					<div className="flex flex-col items-center w-full">
+				<div className="flex flex-row gap-x-10 justify-center text-center mt-5">
+					<div className="flex flex-col">
 						<h1 className="text-2xl font-bold">{2}</h1>
 						<h1 className="text-l">Followers</h1>
 					</div>
-					<div className="flex flex-col items-center w-full">
+					<div className="flex flex-col">
 						<h1 className="text-2xl font-bold">{1}</h1>
 						<h1 className="text-l">Following</h1>
 					</div>
 				</div>
-				<button onClick={handleEditProfile}>Edit Profile</button>
+				<button
+					className="flex flex-row justify-center w-full pt-2"
+					onClick={handleEditProfile}
+				>
+					Edit Profile
+				</button>
 			</div>
 		);
 	}

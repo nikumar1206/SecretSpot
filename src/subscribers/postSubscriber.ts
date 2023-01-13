@@ -3,9 +3,7 @@ import Post from "../entities/Post";
 
 @Subscriber()
 export class PostSubscriber implements EventSubscriber<Post> {
-	async afterCreate() {
-		console.log("afterCreate");
-	}
+	async afterCreate() {}
 }
 
 export default PostSubscriber;
