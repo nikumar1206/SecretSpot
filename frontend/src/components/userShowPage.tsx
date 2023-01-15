@@ -1,12 +1,30 @@
-import { Avatar } from "@material-tailwind/react";
+import { Avatar, Button } from "@material-tailwind/react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { fetchCurrentUser } from "../utils/user_api";
+import { addFollower, fetchCurrentUser } from "../utils/user_api";
 
 const UserProfilePage = () => {
 	const { data, isFetched } = useQuery("user", fetchCurrentUser);
 
+	const [username, setUsername] = useState("");
+	const [errors, setErrors] = useState([{ message: "" }]);
+
 	const handleEditProfile = () => {
 		console.log("edit profile");
+	};
+
+	const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setUsername(e.target.value);
+	};
+
+	const handleSubmit = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		const data = await addFollower(username);
+		if (data.errors) {
+			return setErrors(data.errors);
+		} else {
+			return console.log("success");
+		}
 	};
 
 	if (isFetched) {
@@ -36,6 +54,13 @@ const UserProfilePage = () => {
 				>
 					Edit Profile
 				</button>
+
+				<form onSubmit={handleSubmit}>
+					<input type="text" value={username} onChange={handleUpdate} />
+					<Button type="submit" className="border-2 border-black">
+						Follow User
+					</Button>
+				</form>
 			</div>
 		);
 	}

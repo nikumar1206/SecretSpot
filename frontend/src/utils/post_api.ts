@@ -1,7 +1,7 @@
 import axios from "axios";
 import { postForm } from "../types";
 
-export const fetchAllPosts = async () => {
+export const fetchFeed = async () => {
 	try {
 		let res = await axios.get("/api/posts");
 		return res.data;

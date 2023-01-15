@@ -5,7 +5,6 @@ import { getPlaceById } from "../utils/place_api";
 
 const PlaceShow = () => {
 	const placeId = useParams().placeId;
-	console.log("yerr");
 
 	const data: Place = useQuery("place", () => getPlaceById(placeId!)).data;
 	if (!data) return null;

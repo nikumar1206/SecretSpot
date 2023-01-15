@@ -8,11 +8,22 @@ import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
 
-postRouter.get("/", async (_, res) => {
-	const posts = await DI.postRepository.find(
-		{},
-		{ populate: ["place", "creator"], orderBy: { createdAt: "DESC" } }
+postRouter.get("/", async (req, res) => {
+	const currentUser = await DI.userRepository.findOne(
+		{
+			id: req.session.userId,
+		},
+		{ populate: ["feed"] }
 	);
+	if (!currentUser) {
+		return res.json({
+			errors: "User not found. Please ensured you are logged in.",
+			status: 401,
+			data: null,
+		});
+	}
+	const posts = (await currentUser.feed.init()).getItems();
+
 	return res.json(posts);
 });
 

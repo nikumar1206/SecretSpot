@@ -13,7 +13,7 @@ const userRouter = express.Router();
 userRouter.get("/", async (_, res) => {
 	const users = await DI.userRepository.find(
 		{},
-		{ populate: ["following", "followers"] }
+		{ populate: ["following", "followers", "feed"] }
 	);
 	return res.json({ data: users, errors: null, success: true });
 });
@@ -22,7 +22,7 @@ userRouter.get("/user", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
 		{
-			populate: ["places_been"],
+			populate: ["places_been", "following", "followers", "feed"],
 		}
 	);
 	return res.json(user);
@@ -53,7 +53,11 @@ userRouter.post("/login", async (req, res) => {
 		return res.json({ errors: saveDataResult.errors });
 	}
 
-	const user = await DI.em.findOne(User, { username: req.body.username });
+	const user = await DI.em.findOne(
+		User,
+		{ username: req.body.username },
+		{ populate: ["places_been", "following", "followers", "feed"] }
+	);
 	if (!user) {
 		return res.json({
 			errors: [
@@ -86,7 +90,7 @@ userRouter.post("/login", async (req, res) => {
 	// gets the session key, sends to redis
 	// redis sends back the user id
 
-	return res.json(user);
+	return res.json({ data: user, errors: null, success: true });
 });
 
 userRouter.post("/logout", async (req, res) => {
@@ -101,6 +105,53 @@ userRouter.post("/logout", async (req, res) => {
 		})
 	);
 	return res.json(deleteCookie);
+});
+
+userRouter.post("/follow/:username", async (req, res) => {
+	const newFollower = await DI.userRepository.findOne({
+		username: req.params.username,
+	});
+	if (!newFollower) {
+		return res.json({
+			errors: [
+				{
+					field: "username",
+					message: "Username does not exist!",
+				},
+			],
+		});
+	}
+	const currentUser = await DI.userRepository.findOne(
+		{ id: req.session.userId },
+		{ populate: ["following"] }
+	);
+	if (!currentUser) {
+		return res.json({
+			errors: [
+				{
+					field: "username",
+					message: "Username does not exist!",
+				},
+			],
+		});
+	}
+	await currentUser.followers.init();
+	await newFollower.following.init();
+
+	if (currentUser.followers.contains(newFollower)) {
+		return res.json({
+			errors: [
+				{
+					field: "username",
+					message: "You are already following this user!",
+				},
+			],
+		});
+	}
+	currentUser.following.add(newFollower);
+	newFollower.followers.add(currentUser);
+	await DI.em.persistAndFlush(currentUser);
+	return res.json({ success: true, errors: null, data: newFollower });
 });
 
 export default userRouter;

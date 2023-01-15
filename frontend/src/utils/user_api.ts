@@ -40,3 +40,12 @@ export const logoutUser = async () => {
 		throw new Error(`${error}`);
 	}
 };
+
+export const addFollower = async (username: string) => {
+	try {
+		let res = await axios.post(`/api/users/follow/${username}`);
+		return res.data;
+	} catch (error) {
+		throw new Error(`${error}`);
+	}
+};

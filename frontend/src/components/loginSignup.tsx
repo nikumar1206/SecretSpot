@@ -9,7 +9,6 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import userContext from "../utils/userContext";
-import { loginUser } from "../utils/user_api";
 
 interface fieldError {
 	field: string;
@@ -43,15 +42,16 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		}
 	}, [open]);
 
-	const handleDemoUser = async (e: React.SyntheticEvent) => {
-		e.preventDefault();
-		setUser({
-			username: "test1",
-			password: "password",
-		});
-		await loginUser(user);
-		navigate("/home/feed");
-	};
+	// const handleDemoUser = async (e: React.SyntheticEvent) => {
+	// 	e.preventDefault();
+	// 	setUser({
+	// 		username: "test1",
+	// 		password: "password",
+	// 	});
+	// 	await loginUser(user);
+	// 	navigate("/home/feed");
+	// };
+
 	const handleOpen = (formType: string) => {
 		setModal(formType);
 		setOpen(!open);
@@ -73,6 +73,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		if (data.errors) {
 			return setErrors(data.errors);
 		}
+
 		setCurrentUser(data);
 		navigate("/home/feed");
 	};

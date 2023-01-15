@@ -5,7 +5,6 @@ import Base from "./entities/Base";
 import Place from "./entities/Place";
 import Post from "./entities/Post";
 import User from "./entities/User";
-import PostSubscriber from "./subscribers/postSubscriber";
 
 export default {
 	migrations: {
@@ -15,7 +14,7 @@ export default {
 		glob: "!(*.d).{js,ts}", // match migration files (all .js and .ts files, but not .d.ts)
 	},
 	highlighter: new SqlHighlighter(),
-	subscribers: [PostSubscriber],
+
 	entities: [User, Base, Post, Place],
 	dbName: "secret_spot",
 	type: "postgresql",
