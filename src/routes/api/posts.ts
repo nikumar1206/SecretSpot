@@ -8,7 +8,7 @@ import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
 
-postRouter.get("/", async (req, res) => {
+postRouter.get("/feed", async (req, res) => {
 	const currentUser = await DI.userRepository.findOne(
 		{
 			id: req.session.userId,

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Post } from "../types";
+import Pagination from "./pagination";
 import PostCard from "./postcard";
 
 const Feed = ({ posts }: { posts: Post[] }) => {
@@ -18,9 +19,14 @@ const Feed = ({ posts }: { posts: Post[] }) => {
 					return <PostCard post={post} key={post.id} />;
 				})}
 			</div>
-			<button onClick={() => setPageNumber(pageNumber + 1)}>
-				increment pageNumber
-			</button>
+
+			{posts.length > itemsPerPage ? (
+				<Pagination
+					currentPage={pageNumber}
+					setPageNumber={setPageNumber}
+					totalPages={Math.ceil(posts.length / itemsPerPage)}
+				/>
+			) : null}
 		</div>
 	);
 };
