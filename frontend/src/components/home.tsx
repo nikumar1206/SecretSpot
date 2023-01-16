@@ -1,7 +1,8 @@
 import { useJsApiLoader } from "@react-google-maps/api";
-import { useQuery } from "react-query";
+import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
-import { fetchFeed } from "../utils/post_api";
+import { Place, Post } from "../types";
+import { fetchFeed, fetchPosts } from "../utils/post_api";
 import Feed from "./feed";
 import Lists from "./lists";
 import Nav from "./nav";
@@ -25,12 +26,25 @@ const Home = () => {
 		libraries: libraries, // ,
 	});
 
-	const { data, isFetched } = useQuery("feed", fetchFeed);
+	const results = useQueries([
+		{
+			queryKey: "feed",
+			queryFn: fetchFeed,
+		},
+		{
+			queryKey: "myPosts",
+			queryFn: fetchPosts,
+		},
+	]);
+
+	const feed: Post[] = results[0].data;
+	const myPlaces: Place[] = results[1].data;
+	const isFetched = results.every((result) => result.isSuccess);
 
 	let component = null;
 	switch (params) {
 		case "feed":
-			component = <Feed posts={data} />;
+			component = <Feed posts={feed} />;
 			break;
 		case "lists":
 			component = <Lists />;
@@ -39,7 +53,7 @@ const Home = () => {
 			component = <Search />;
 			break;
 		case "timeline":
-			component = <Timeline posts={data} isLoaded={isLoaded} />;
+			component = <Timeline places={myPlaces} isLoaded={isLoaded} />;
 			break;
 
 		default:
@@ -51,7 +65,7 @@ const Home = () => {
 		return isFetched ? (
 			<>
 				<Nav params={params} />
-				<div className="bg-teal-50 flex justify-center">
+				<div className="bg-teal-50 w-full h-[calc(100vh-80px)] flex justify-center">
 					{isLoaded ? component : <></>}
 				</div>
 			</>

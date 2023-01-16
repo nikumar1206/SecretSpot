@@ -1,6 +1,6 @@
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { memo, useState } from "react";
-import { Post } from "../types";
+import { Place } from "../types";
 import googleMapsStyle from "../utils/googleMaps";
 import MapPostModal from "./mapPostModal";
 
@@ -15,19 +15,20 @@ const center = {
 };
 
 const Timeline = ({
-	posts,
+	places,
 	isLoaded,
 }: {
-	posts: Post[];
+	places: Place[];
 	isLoaded: boolean;
 }) => {
 	const renderMap = () => {
+		// const map = useGoogleMap();
 		const [open, setOpen] = useState(false);
-		const [post, setPost] = useState<Post>(posts[0]);
+		const [place, setPlace] = useState<Place>(places[0]);
 
-		const handleDialogOpen = (post: Post) => {
+		const handleDialogOpen = (place: Place) => {
 			setOpen(true);
-			setPost(post);
+			setPlace(place);
 			return null;
 		};
 		return (
@@ -38,30 +39,34 @@ const Timeline = ({
 					zoom={10}
 					mapContainerStyle={containerStyle}
 					options={{
-						minZoom: 11,
+						minZoom: 3,
+						maxZoom: 15,
 						panControl: false,
 						disableDefaultUI: true,
 						styles: googleMapsStyle,
 						clickableIcons: false,
 					}}
 				>
-					{posts.map((post) => {
+					{places.map((place) => {
 						return (
 							<Marker
-								key={post.id}
-								position={{ lat: post.place.lat, lng: post.place.lng }}
+								key={place.id}
+								position={{ lat: place.lat, lng: place.lng }}
 								icon={{
-									url: post.place.imageURL + "#custom_marker",
+									url: place.imageURL + "#custom_marker",
 									scaledSize: new window.google.maps.Size(28, 28),
 									origin: new window.google.maps.Point(0, 0),
 									anchor: new window.google.maps.Point(28, 28),
 								}}
-								onClick={() => handleDialogOpen(post)}
+								onClick={() => {
+									handleDialogOpen(place);
+									// map?.panTo({ lat: place.lat, lng: place.lng });
+								}}
 							/>
 						);
 					})}
 				</GoogleMap>
-				<MapPostModal open={open} setOpen={setOpen} post={post} />
+				<MapPostModal open={open} setOpen={setOpen} place={place} />
 			</>
 		);
 	};

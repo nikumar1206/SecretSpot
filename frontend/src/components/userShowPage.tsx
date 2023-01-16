@@ -9,8 +9,6 @@ const UserProfilePage = () => {
 	const [username, setUsername] = useState("");
 	const [errors, setErrors] = useState([{ message: "" }]);
 
-	console.log(data);
-
 	const handleEditProfile = () => {
 		console.log("edit profile");
 	};

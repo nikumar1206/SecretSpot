@@ -73,8 +73,8 @@ export const Nav = ({ params }: { params: string }) => {
 	);
 
 	return (
-		<div className="bg-teal-50">
-			<Navbar className="relative mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-4/6 z-50">
+		<div className="bg-teal-50 ">
+			<Navbar className="relative mx-auto max-w-screen-xl py-2 px-4 lg:px-8 lg:py-4 w-4/6 z-50 h-20">
 				<div className="container mx-auto flex items-center justify-between text-blue-gray-900">
 					<UserProfile />
 

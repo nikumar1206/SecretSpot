@@ -1,6 +1,15 @@
 import axios from "axios";
 import { postForm } from "../types";
 
+export const fetchPosts = async () => {
+	try {
+		let res = await axios.get("/api/posts");
+		return res.data;
+	} catch (error) {
+		console.log(error);
+	}
+};
+
 export const fetchFeed = async () => {
 	console.log("res");
 	try {

@@ -1,12 +1,12 @@
-import { Post } from "../types";
+import { Place } from "../types";
 
 interface MapPostModalProps {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-	post: Post;
+	place: Place;
 }
 
-const MapPostModal = ({ open, setOpen, post }: MapPostModalProps) => {
+const MapPostModal = ({ open, setOpen, place }: MapPostModalProps) => {
 	return (
 		<div
 			className={`${
@@ -17,8 +17,7 @@ const MapPostModal = ({ open, setOpen, post }: MapPostModalProps) => {
 			aria-modal="true"
 			tabIndex={-1}
 		>
-			<div>{post.place.name}</div>
-			<div>{post.rating}</div>
+			<div>{place.name}</div>
 		</div>
 	);
 };
