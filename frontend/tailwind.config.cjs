@@ -20,6 +20,13 @@ module.exports = withMT({
 				700: "700",
 			},
 		},
+		colors: {
+			transparent: "transparent",
+			current: "currentColor",
+			rateYellow: "#fff170",
+			rateRed: "#ff9c9c",
+			rateGreen: "#7ff6c3",
+		},
 	},
 	plugins: [],
 });

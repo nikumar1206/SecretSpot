@@ -2,88 +2,69 @@ import {
 	Card,
 	CardBody,
 	CardFooter,
-	IconButton,
-	Menu,
-	MenuHandler,
-	MenuItem,
-	MenuList,
 	Typography,
 } from "@material-tailwind/react";
-import { RxHamburgerMenu } from "react-icons/rx";
+import { BiHide } from "react-icons/bi";
+import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { Post } from "../types";
 const PostCard = ({ post }: { post: Post }) => {
-	const changeTextColor = (rating: number) => {
-		if (rating >= 5.5) {
-			return "text-green-500";
-		} else if (rating >= 3) {
-			return "text-yellow-700";
-		} else {
-			return "text-red-500";
-		}
-	};
+	// const changeTextColor = (rating: number) => {
+	// 	if (rating >= 5.5) {
+	// 		return "text-green-500";
+	// 	} else if (rating >= 3) {
+	// 		return "text-yellow-700";
+	// 	} else {
+	// 		return "text-red-500";
+	// 	}
+	// };
+	// console.log(post);
 
 	const changeBorderColor = (rating: number) => {
 		if (rating >= 5.5) {
-			return "border-green-500";
+			return "bg-rateGreen";
 		} else if (rating >= 3) {
-			return "border-yellow-700";
+			return "bg-rateYellow";
 		} else {
-			return "border-red-500";
+			return "bg-rateRed";
 		}
 	};
 	const convertedDate = (date: Date) => {
 		return new Date(date).toLocaleDateString("en-us", {
 			weekday: "short",
-
 			month: "short",
 			day: "numeric",
 		});
 	};
 	return (
 		<Card className="w-96 h-6/6 m-0 mr-0">
-			<div className=" flex flex-row space-x-72 justify-center">
+			<div className=" flex flex-row space-x-[15rem] justify-center items-center py-1">
 				<section className="flex flex-row gap-x-1 items-center">
 					<img
 						src={post.creator.pfpURL}
 						alt=""
-						className="w-5 h-5 rounded-full"
+						className="w-7 h-7 rounded-full"
 					/>
 					<span className="text-gray-700 font-semibold text-sm">
 						{post.creator.username}
 					</span>
 				</section>
-				<Menu>
-					<MenuHandler>
-						<IconButton
-							color="teal"
-							variant="text"
-							size="sm"
-							className="hover:bg-none text-teal-700"
-							ripple={false}
-						>
-							<RxHamburgerMenu />
-						</IconButton>
-					</MenuHandler>
-					<MenuList>
-						<MenuItem>Hide</MenuItem>
-						<MenuItem>Edit</MenuItem>
-						<MenuItem>Delete</MenuItem>
-					</MenuList>
-				</Menu>
+				<div className="flex flex-row gap-x-2">
+					<BiHide className="text-teal-500 hover:cursor-pointer font-bold" />
+					<RiBookmarkFill className="text-teal-500 hover:cursor-pointer font-bold" />
+					<RiBookmarkLine className="text-teal-500 hover:cursor-pointer font-bold" />
+				</div>
 			</div>
 			<img
 				src={post.place.imageURL}
 				alt="img-blur-shadow"
-				className="float-left object-cover overflow-hidden w-96 max-h-56"
+				className="float-left object-cover overflow-hidden w-[32rem] max-h-56"
 			/>
-			<CardBody className="text-center flex flex-row items-center p-5">
-				<Typography variant="h5" className="w-5/6">
-					{post.place.name}
-				</Typography>
+			<CardBody className="flex flex-row items-center justify-between">
+				<Typography variant="h5">{post.place.name}</Typography>
 				<div
-					className={`rounded-2xl w-10 h-10 p-1.5 ${changeTextColor(
+					className={`rounded-full w-10 h-10 p-2 font-bold text-black ${changeBorderColor(
 						post.rating
-					)} border-2 ${changeBorderColor(post.rating)}	text-center`}
+					)}	text-center`}
 				>
 					{post.rating}
 				</div>

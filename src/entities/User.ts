@@ -28,6 +28,9 @@ export default class User extends Base {
 	@ManyToMany(() => Post)
 	feed: Collection<Post> = new Collection<Post>(this);
 
+	@ManyToMany(() => Place)
+	bookmarks: Collection<Place> = new Collection<Place>(this);
+
 	@ManyToMany(() => User)
 	followers: Collection<User> = new Collection<User>(this);
 

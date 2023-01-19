@@ -22,8 +22,9 @@ postRouter.get("/feed", async (req, res) => {
 		{
 			id: req.session.userId,
 		},
-		{ populate: ["feed"] }
+		{ populate: ["feed", "feed.place", "feed.creator", "bookmarks"] }
 	);
+	console.log(currentUser);
 	if (!currentUser) {
 		return res.json({
 			errors: "User not found. Please ensured you are logged in.",
@@ -31,8 +32,15 @@ postRouter.get("/feed", async (req, res) => {
 			data: null,
 		});
 	}
-	const posts = (await currentUser.feed.init()).getItems();
+	const posts = (await currentUser.feed.init()).getItems() as Post[];
 
+	// posts.forEach((post) => {
+
+	// 	const bookmarked = currentUser.bookmarks.contains(post);
+	// 	post["bookmarked"] = bookmarked;
+	// })
+
+	console.log(posts);
 	return res.json(posts);
 });
 

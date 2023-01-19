@@ -22,7 +22,7 @@ const Home = () => {
 	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "",
+		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
 		libraries: libraries, // ,
 	});
 
@@ -65,7 +65,7 @@ const Home = () => {
 		return isFetched ? (
 			<>
 				<Nav params={params} />
-				<div className="bg-teal-50 w-full h-[calc(100vh-80px)] flex justify-center">
+				<div className="bg-teal-50 w-full flex justify-center">
 					{isLoaded ? component : <></>}
 				</div>
 			</>

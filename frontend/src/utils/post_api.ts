@@ -11,7 +11,6 @@ export const fetchPosts = async () => {
 };
 
 export const fetchFeed = async () => {
-	console.log("res");
 	try {
 		let res = await axios.get("/api/posts/feed");
 		return res.data;
