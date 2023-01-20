@@ -1,9 +1,9 @@
 import { Typography } from "@material-tailwind/react";
 import { User } from "../types";
 import MiniPlaceCard from "./miniPostcard";
-const BookmarkList = ({ list }: { list: User["places_been"] }) => {
+const BookmarkList = ({ list }: { list: User["bookmarks"] }) => {
 	return (
-		<div>
+		<div className="w-1/3">
 			<Typography variant="h4" className="text-center">
 				Want to Try
 			</Typography>

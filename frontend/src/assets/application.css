@@ -42,3 +42,7 @@ img[src$="#custom_marker"] {
 textarea {
 	padding: 5px;
 }
+
+body {
+	background-color: #e0f2f1;
+}

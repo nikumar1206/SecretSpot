@@ -2,6 +2,7 @@ import { Button } from "@material-tailwind/react";
 import { useEffect, useRef, useState } from "react";
 import { loginUser, registerUser } from "../utils/user_api";
 import LoginSignup from "./loginSignup";
+import SplashSpinner from "./splashSpinner";
 
 const Splash = () => {
 	const [open, setOpen] = useState(false);
@@ -22,16 +23,7 @@ const Splash = () => {
 
 	return (
 		<>
-			{loaded ? null : (
-				<div className="flex justify-center items-center w-full h-full">
-					<div
-						className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
-						role="status"
-					>
-						<span className="visually-hidden">Loading...</span>
-					</div>
-				</div>
-			)}
+			{loaded ? null : <SplashSpinner loaded={loaded} />}
 			<video
 				src="https://streetsmart-safeassets.s3.amazonaws.com/diningout_broll.mp4"
 				autoPlay={true}
@@ -43,7 +35,9 @@ const Splash = () => {
 				onContextMenu={(e) => e.preventDefault()}
 				onLoadedData={() => setLoaded(true)}
 				className={`absolute top-0 left-0 w-full h-auto overflow-hidden z-0  m-0 ${
-					loaded ? "" : "hidden"
+					loaded
+						? "opacity-1 transition-opacity duration-200 visible"
+						: "opacity-0 invisible"
 				}`}
 			></video>
 

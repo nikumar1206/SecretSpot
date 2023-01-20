@@ -3,7 +3,7 @@ import { User } from "../types";
 import MiniPlaceCard from "./miniPostcard";
 const RecList = ({ list }: { list: User["places_been"] }) => {
 	return (
-		<div>
+		<div className="w-1/3">
 			<Typography variant="h4" className="text-center">
 				Recommendations
 			</Typography>

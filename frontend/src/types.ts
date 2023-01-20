@@ -9,6 +9,7 @@ export interface User {
 	places_been: Place[];
 	places_to_go: Place[];
 	recs: Place[];
+	bookmarks: Place[];
 }
 
 export interface Place {

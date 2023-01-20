@@ -10,9 +10,9 @@ const Lists = () => {
 
 	if (data) {
 		return (
-			<div className="flex flex-row gap-x-10 justify-center mt-10">
+			<div className="flex flex-row gap-x-10 justify-center mt-10 w-5/6">
 				<BeenList list={data.places_been} />
-				<BookmarkList list={data.places_been} />
+				<BookmarkList list={data.bookmarks} />
 				<RecList list={data.places_been} />
 			</div>
 		);
