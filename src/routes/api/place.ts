@@ -18,7 +18,6 @@ placeRouter.get("/:id", async (req, res) => {
 });
 
 placeRouter.get("/search/:namelocation", async (req, res) => {
-	console.log(req.params.namelocation);
 	const place = await DI.placeRepository.findOne({
 		nameLocation: req.params.namelocation,
 	});

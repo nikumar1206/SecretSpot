@@ -21,6 +21,7 @@ export interface Place {
 	lng: number;
 	imageURL: string;
 }
+
 export interface Post {
 	id: string;
 	caption: string;
@@ -29,6 +30,7 @@ export interface Post {
 	place: Place;
 	createdAt: Date;
 	updatedAt: Date;
+	bookmarked: boolean;
 }
 export interface postForm {
 	place: string;

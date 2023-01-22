@@ -7,17 +7,25 @@ import {
 import { BiHide } from "react-icons/bi";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { Post } from "../types";
+import { addBookmark, removeBookmark } from "../utils/bookmark_api";
 const PostCard = ({ post }: { post: Post }) => {
-	// const changeTextColor = (rating: number) => {
-	// 	if (rating >= 5.5) {
-	// 		return "text-green-500";
-	// 	} else if (rating >= 3) {
-	// 		return "text-yellow-700";
-	// 	} else {
-	// 		return "text-red-500";
-	// 	}
-	// };
-	// console.log(post);
+	const handleBookmarkAdd = async () => {
+		const res = await addBookmark(post.place.id);
+		if (res.errors) {
+			console.log(res.errors);
+		} else {
+			return console.log(res);
+		}
+	};
+
+	const handleBookmarkRemove = async () => {
+		const res = await removeBookmark(post.place.id);
+		if (res.errors) {
+			console.log(res.errors);
+		} else {
+			return console.log(res);
+		}
+	};
 
 	const changeBorderColor = (rating: number) => {
 		if (rating >= 5.5) {
@@ -36,22 +44,31 @@ const PostCard = ({ post }: { post: Post }) => {
 		});
 	};
 	return (
-		<Card className="w-96 h-6/6 m-0 mr-0">
-			<div className=" flex flex-row space-x-[15rem] justify-center items-center py-1">
+		<Card className="w-[28rem] h-[28rem] m-0 mr-0">
+			<div className=" flex flex-row space-x-[19rem] justify-center items-center py-2">
 				<section className="flex flex-row gap-x-1 items-center">
 					<img
 						src={post.creator.pfpURL}
 						alt=""
-						className="w-7 h-7 rounded-full"
+						className="w-9 h-9 rounded-full"
 					/>
 					<span className="text-gray-700 font-semibold text-sm">
 						{post.creator.username}
 					</span>
 				</section>
-				<div className="flex flex-row gap-x-2">
+				<div className="flex flex-row gap-x-3 text-[20px]">
 					<BiHide className="text-teal-500 hover:cursor-pointer font-bold" />
-					<RiBookmarkFill className="text-teal-500 hover:cursor-pointer font-bold" />
-					<RiBookmarkLine className="text-teal-500 hover:cursor-pointer font-bold" />
+					{post.bookmarked ? (
+						<RiBookmarkFill
+							onClick={handleBookmarkAdd}
+							className="text-teal-500 hover:cursor-pointer font-bold"
+						/>
+					) : (
+						<RiBookmarkLine
+							onClick={handleBookmarkRemove}
+							className="text-teal-500 hover:cursor-pointer font-bold"
+						/>
+					)}
 				</div>
 			</div>
 			<img
@@ -59,12 +76,12 @@ const PostCard = ({ post }: { post: Post }) => {
 				alt="img-blur-shadow"
 				className="float-left object-cover overflow-hidden w-[32rem] max-h-56"
 			/>
-			<CardBody className="flex flex-row items-center justify-between">
+			<CardBody className="flex flex-row flex-grow items-center justify-between">
 				<Typography variant="h5">{post.place.name}</Typography>
 				<div
-					className={`rounded-full w-10 h-10 p-2 font-bold text-black ${changeBorderColor(
+					className={`rounded-md w-8 h-8 font-bold text-black ${changeBorderColor(
 						post.rating
-					)}	text-center`}
+					)} flex justify-center items-center`}
 				>
 					{post.rating}
 				</div>

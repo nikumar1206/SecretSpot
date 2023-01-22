@@ -13,7 +13,13 @@ import Splash from "./components/splash";
 import UserProfilePage from "./components/userShowPage";
 
 const App = () => {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				refetchOnWindowFocus: false,
+			},
+		},
+	});
 
 	const router = createBrowserRouter(
 		createRoutesFromElements(

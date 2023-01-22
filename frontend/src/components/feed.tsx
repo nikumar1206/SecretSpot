@@ -11,9 +11,10 @@ const Feed = ({ posts }: { posts: Post[] }) => {
 		(pageNumber - 1) * itemsPerPage,
 		pageNumber * itemsPerPage
 	);
+	console.log(posts);
 
 	return (
-		<div className="flex flex-col">
+		<div className="flex flex-col mb-5">
 			<div className="pt-10 grid grid-cols-1 gap-5">
 				{paginatedPosts.map((post) => {
 					return <PostCard post={post} key={post.id} />;

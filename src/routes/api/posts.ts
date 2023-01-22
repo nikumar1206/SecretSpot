@@ -7,13 +7,13 @@ import User from "../../entities/User";
 import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
-
+// type newPost =
+// 	Loaded<Post, "place" | "creator">[] | "bookmarmed" : boolean
 postRouter.get("/", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
 		{ populate: ["places_been"] }
 	);
-
 	return res.json(user?.places_been);
 });
 
@@ -24,7 +24,6 @@ postRouter.get("/feed", async (req, res) => {
 		},
 		{ populate: ["feed", "feed.place", "feed.creator", "bookmarks"] }
 	);
-	console.log(currentUser);
 	if (!currentUser) {
 		return res.json({
 			errors: "User not found. Please ensured you are logged in.",
@@ -32,16 +31,23 @@ postRouter.get("/feed", async (req, res) => {
 			data: null,
 		});
 	}
-	const posts = (await currentUser.feed.init()).getItems() as Post[];
+	const posts = await currentUser.feed.matching({
+		limit: 20,
+		offset: 0,
+		orderBy: { createdAt: "DESC" },
+		populate: ["place", "creator"],
+	});
+	const handleBookmarked = (post: Post) => {
+		const bookmarked = currentUser.bookmarks.contains(post.place);
+		const updatedPost = { ...post, bookmarked: bookmarked };
+		return updatedPost;
+	};
 
-	// posts.forEach((post) => {
+	const updatedPosts = posts.map((post) => {
+		return handleBookmarked(post);
+	});
 
-	// 	const bookmarked = currentUser.bookmarks.contains(post);
-	// 	post["bookmarked"] = bookmarked;
-	// })
-
-	console.log(posts);
-	return res.json(posts);
+	return res.json(updatedPosts);
 });
 
 postRouter.get("/:id", async (req, res) => {
@@ -69,17 +75,21 @@ postRouter.post("/create", async (req, res) => {
 		nameLocation: req.body.place,
 	});
 
+	const [latlongObj, imageURL] = await Promise.all([
+		findLatLng(req),
+		findImageURL(req.body.place),
+	]);
+
 	if (!place) {
 		const { name, location } = separateNameLocation(req.body.place);
-		const { lat, lng } = await findLatLng(req);
 
 		let newPlace = DI.em.create(Place, {
 			nameLocation: req.body.place,
 			name: name,
 			location: location,
-			lat: lat,
-			lng: lng,
-			imageURL: await findImageURL(req.body.place),
+			lat: latlongObj.lat,
+			lng: latlongObj.lng,
+			imageURL: imageURL,
 		});
 		await DI.em.persistAndFlush(newPlace);
 		place = await DI.placeRepository.findOne({
@@ -113,6 +123,26 @@ postRouter.delete("/:id", async (req, res) => {
 	const post = await DI.postRepository.findOne(req.params.id);
 	await DI.em.removeAndFlush(post!);
 	return post ? res.json(true) : res.json(false);
+});
+
+postRouter.post("/bookmark/:placeId", async (req, res) => {
+	const placeId = req.params.placeId;
+	const place = await DI.placeRepository.findOne({ id: placeId });
+	const currentUser = await DI.userRepository.findOne({
+		id: req.session.userId,
+	});
+	currentUser?.bookmarks.add(place!);
+	return res.json(place);
+});
+
+postRouter.delete("/bookmark/:placeId", async (req, res) => {
+	const placeId = req.params.placeId;
+	const place = await DI.placeRepository.findOne({ id: placeId });
+	const currentUser = await DI.userRepository.findOne({
+		id: req.session.userId,
+	});
+	currentUser?.bookmarks.remove(place!);
+	return res.json(place);
 });
 
 export default postRouter;
