@@ -38,6 +38,7 @@ const App = () => {
 			<ThemeProvider>
 				<RouterProvider router={router} />
 			</ThemeProvider>
+			{/* <ReactQueryDevtools initialIsOpen={true} /> */}
 		</QueryClientProvider>
 	);
 };

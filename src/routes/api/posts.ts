@@ -9,6 +9,7 @@ import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
 // type newPost =
 // 	Loaded<Post, "place" | "creator">[] | "bookmarmed" : boolean
+
 postRouter.get("/", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
@@ -126,21 +127,29 @@ postRouter.delete("/:id", async (req, res) => {
 });
 
 postRouter.post("/bookmark/:placeId", async (req, res) => {
+	console.log("yerr");
 	const placeId = req.params.placeId;
 	const place = await DI.placeRepository.findOne({ id: placeId });
-	const currentUser = await DI.userRepository.findOne({
-		id: req.session.userId,
-	});
+	const currentUser = await DI.userRepository.findOne(
+		{
+			id: req.session.userId,
+		},
+		{ populate: ["bookmarks"] }
+	);
 	currentUser?.bookmarks.add(place!);
+	console.log("yerr", currentUser);
 	return res.json(place);
 });
 
 postRouter.delete("/bookmark/:placeId", async (req, res) => {
 	const placeId = req.params.placeId;
 	const place = await DI.placeRepository.findOne({ id: placeId });
-	const currentUser = await DI.userRepository.findOne({
-		id: req.session.userId,
-	});
+	const currentUser = await DI.userRepository.findOne(
+		{
+			id: req.session.userId,
+		},
+		{ populate: ["bookmarks"] }
+	);
 	currentUser?.bookmarks.remove(place!);
 	return res.json(place);
 });

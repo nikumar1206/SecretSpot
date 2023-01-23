@@ -4,24 +4,38 @@ import {
 	CardFooter,
 	Typography,
 } from "@material-tailwind/react";
+import { useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
+import { useMutation, useQueryClient } from "react-query";
 import { Post } from "../types";
 import { addBookmark, removeBookmark } from "../utils/bookmark_api";
 const PostCard = ({ post }: { post: Post }) => {
+	const [errors, setErrors] = useState([]);
+	const queryClient = useQueryClient();
+	const removeBookmarkMutation = useMutation(removeBookmark, {
+		onSettled: () => queryClient.invalidateQueries("posts"),
+	});
+	const addBookmarkMutation = useMutation(addBookmark, {
+		onSettled: () => {
+			console.log("yeerr");
+			queryClient.invalidateQueries("posts");
+		},
+	});
+
 	const handleBookmarkAdd = async () => {
-		const res = await addBookmark(post.place.id);
+		const res = await addBookmarkMutation.mutateAsync(post.place.id);
 		if (res.errors) {
-			console.log(res.errors);
+			setErrors(res.errors);
 		} else {
 			return console.log(res);
 		}
 	};
 
 	const handleBookmarkRemove = async () => {
-		const res = await removeBookmark(post.place.id);
+		const res = await removeBookmarkMutation.mutateAsync(post.place.id);
 		if (res.errors) {
-			console.log(res.errors);
+			setErrors(res.errors);
 		} else {
 			return console.log(res);
 		}
@@ -44,7 +58,7 @@ const PostCard = ({ post }: { post: Post }) => {
 		});
 	};
 	return (
-		<Card className="w-[28rem] h-[28rem] m-0 mr-0">
+		<Card className="w-[28rem] h-[29rem] m-0 mr-0">
 			<div className=" flex flex-row space-x-[19rem] justify-center items-center py-2">
 				<section className="flex flex-row gap-x-1 items-center">
 					<img
@@ -60,17 +74,18 @@ const PostCard = ({ post }: { post: Post }) => {
 					<BiHide className="text-teal-500 hover:cursor-pointer font-bold" />
 					{post.bookmarked ? (
 						<RiBookmarkFill
-							onClick={handleBookmarkAdd}
+							onClick={handleBookmarkRemove}
 							className="text-teal-500 hover:cursor-pointer font-bold"
 						/>
 					) : (
 						<RiBookmarkLine
-							onClick={handleBookmarkRemove}
+							onClick={handleBookmarkAdd}
 							className="text-teal-500 hover:cursor-pointer font-bold"
 						/>
 					)}
 				</div>
 			</div>
+			{errors}
 			<img
 				src={post.place.imageURL}
 				alt="img-blur-shadow"
@@ -86,7 +101,9 @@ const PostCard = ({ post }: { post: Post }) => {
 					{post.rating}
 				</div>
 			</CardBody>
-			<Typography className="text-center pb-2">{post.caption}</Typography>
+			<Typography className="flex flex-grow justify-center">
+				{post.caption}
+			</Typography>
 			<CardFooter divider className="flex items-center justify-between py-3">
 				<Typography variant="small">{post.place.location}</Typography>
 				<Typography variant="small" color="gray" className="flex gap-1">
