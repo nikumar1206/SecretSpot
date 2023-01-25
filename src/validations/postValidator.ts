@@ -10,7 +10,7 @@ const postInput = z.object({
 	rating: z
 		.number({
 			required_error: "Rating is required",
-			invalid_type_error: "Please provide a number between 0 and 10",
+			invalid_type_error: "Please provide a rating between 0 and 10",
 		})
 		.min(0, { message: "Rating must be at least 0" })
 		.max(10, {

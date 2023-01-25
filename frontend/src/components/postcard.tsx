@@ -14,13 +14,10 @@ const PostCard = ({ post }: { post: Post }) => {
 	const [errors, setErrors] = useState([]);
 	const queryClient = useQueryClient();
 	const removeBookmarkMutation = useMutation(removeBookmark, {
-		onSettled: () => queryClient.invalidateQueries("posts"),
+		onSuccess: () => queryClient.invalidateQueries("feed"),
 	});
 	const addBookmarkMutation = useMutation(addBookmark, {
-		onSettled: () => {
-			console.log("yeerr");
-			queryClient.invalidateQueries("posts");
-		},
+		onSettled: () => queryClient.refetchQueries("feed"),
 	});
 
 	const handleBookmarkAdd = async () => {
