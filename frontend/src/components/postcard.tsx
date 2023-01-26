@@ -10,15 +10,28 @@ import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { useMutation, useQueryClient } from "react-query";
 import { Post } from "../types";
 import { addBookmark, removeBookmark } from "../utils/bookmark_api";
+import { removePost } from "../utils/post_api";
 const PostCard = ({ post }: { post: Post }) => {
 	const [errors, setErrors] = useState([]);
+	// const [elongated, setElongated] = useState(false);
 	const queryClient = useQueryClient();
 	const removeBookmarkMutation = useMutation(removeBookmark, {
-		onSuccess: () => queryClient.invalidateQueries("feed"),
+		onSuccess: () => queryClient.refetchQueries("feed"),
 	});
 	const addBookmarkMutation = useMutation(addBookmark, {
 		onSettled: () => queryClient.refetchQueries("feed"),
 	});
+	const removePostMutation = useMutation(removePost, {
+		onSuccess: () => queryClient.refetchQueries("feed"),
+	});
+	const handleHide = async () => {
+		const res = await removePostMutation.mutateAsync(post.id);
+		if (res.errors) {
+			setErrors(res.errors);
+		} else {
+			return console.log(res);
+		}
+	};
 
 	const handleBookmarkAdd = async () => {
 		const res = await addBookmarkMutation.mutateAsync(post.place.id);
@@ -55,7 +68,7 @@ const PostCard = ({ post }: { post: Post }) => {
 		});
 	};
 	return (
-		<Card className="w-[28rem] h-[29rem] m-0 mr-0">
+		<Card className=" w-[28rem] h-[29rem] m-0 mr-0">
 			<div className=" flex flex-row space-x-[19rem] justify-center items-center py-2">
 				<section className="flex flex-row gap-x-1 items-center">
 					<img
@@ -68,7 +81,10 @@ const PostCard = ({ post }: { post: Post }) => {
 					</span>
 				</section>
 				<div className="flex flex-row gap-x-3 text-[20px]">
-					<BiHide className="text-teal-500 hover:cursor-pointer font-bold" />
+					<BiHide
+						onClick={handleHide}
+						className="text-teal-500 hover:cursor-pointer font-bold"
+					/>
 					{post.bookmarked ? (
 						<RiBookmarkFill
 							onClick={handleBookmarkRemove}
@@ -88,7 +104,7 @@ const PostCard = ({ post }: { post: Post }) => {
 				alt="img-blur-shadow"
 				className="float-left object-cover overflow-hidden w-[32rem] max-h-56"
 			/>
-			<CardBody className="flex flex-row flex-grow items-center justify-between">
+			<CardBody className="p-5 flex flex-row items-center justify-between">
 				<Typography variant="h5">{post.place.name}</Typography>
 				<div
 					className={`rounded-md w-8 h-8 font-bold text-black ${changeBorderColor(
@@ -98,9 +114,11 @@ const PostCard = ({ post }: { post: Post }) => {
 					{post.rating}
 				</div>
 			</CardBody>
-			<Typography className="flex flex-grow justify-center">
-				{post.caption}
-			</Typography>
+			<div className="flex flex-grow pb-1">
+				<p className="inline-block justify-center pl-5 pr-4 line-clamp-3 w-[28rem] float-left">
+					{post.caption}
+				</p>
+			</div>
 			<CardFooter divider className="flex items-center justify-between py-3">
 				<Typography variant="small">{post.place.location}</Typography>
 				<Typography variant="small" color="gray" className="flex gap-1">

@@ -9,8 +9,10 @@
 		"preview": "vite preview"
 	},
 	"dependencies": {
+		"@formkit/auto-animate": "^1.0.0-beta.5",
 		"@material-tailwind/react": "^1.2.4",
 		"@react-google-maps/api": "^2.17.1",
+		"@tailwindcss/line-clamp": "^0.4.2",
 		"@tanstack/react-query-devtools": "^4.22.4",
 		"axios": "^1.2.0",
 		"react": "^18.2.0",

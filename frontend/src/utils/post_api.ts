@@ -27,3 +27,12 @@ export const createPost = async (post: postForm) => {
 		console.log(error);
 	}
 };
+
+export const removePost = async (postId: string) => {
+	try {
+		let res = await axios.delete(`/api/posts/${postId}`);
+		return res.data;
+	} catch (error) {
+		console.log(error);
+	}
+};

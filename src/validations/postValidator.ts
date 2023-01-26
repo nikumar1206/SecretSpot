@@ -20,7 +20,7 @@ const postInput = z.object({
 		.string()
 		.trim()
 		.min(3, { message: "Caption must be at least 3 characters long" })
-		.max(255, { message: "Caption must be less than 255 characters long" }),
+		.max(500, { message: "Caption must be less than 500 characters long" }),
 });
 
 export const postInputValidator = (rawData: any) => {

@@ -28,5 +28,5 @@ module.exports = withMT({
 			rateGreen: "#7ff6c3",
 		},
 	},
-	plugins: [],
+	plugins: [require("@tailwindcss/line-clamp")],
 });

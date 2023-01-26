@@ -32,6 +32,7 @@ postRouter.get("/feed", async (req, res) => {
 			data: null,
 		});
 	}
+
 	const posts = await currentUser.feed.matching({
 		limit: 20,
 		offset: 0,
@@ -121,9 +122,16 @@ postRouter.patch("/:id/edit", async (req, res) => {
 });
 
 postRouter.delete("/:id", async (req, res) => {
+	const currentUser = await DI.userRepository.findOne(
+		{
+			id: req.session.userId,
+		},
+		{ populate: ["feed"] }
+	);
 	const post = await DI.postRepository.findOne(req.params.id);
-	await DI.em.removeAndFlush(post!);
-	return post ? res.json(true) : res.json(false);
+	currentUser?.feed.remove(post!);
+	await DI.em.flush();
+	return res.json(post);
 });
 
 postRouter.post("/bookmark/:placeId", async (req, res) => {

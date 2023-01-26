@@ -1,3 +1,10 @@
+import {
+	AiOutlineDoubleLeft,
+	AiOutlineDoubleRight,
+	AiOutlineLeft,
+	AiOutlineRight,
+} from "react-icons/ai";
+
 interface PaginationTypes {
 	currentPage: number;
 	setPageNumber: React.Dispatch<React.SetStateAction<number>>;
@@ -29,30 +36,20 @@ const Pagination = ({
 	};
 
 	return (
-		<div className="flex justify-center">
-			<ul className="pagination">
-				<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-					<button
-						className="page-link"
-						onClick={() => handlePageChange("first")}
-					>
-						First
-					</button>
+		<div className="flex justify-center w-screen text-2xl pt-5">
+			<ul className="inline-flex gap-x-5 items-center">
+				<li className={`text-lg ${currentPage === 1 ? "disabled" : ""}`}>
+					<AiOutlineDoubleLeft onClick={() => handlePageChange("first")} />
 				</li>
-				<li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
-					<button
-						className="page-link"
-						onClick={() => handlePageChange("previous")}
-					>
-						Previous
-					</button>
+				<li className={`text-lg ${currentPage === 1 ? "disabled" : ""}`}>
+					<AiOutlineLeft onClick={() => handlePageChange("previous")} />
 				</li>
 				{pageNumbers.map((number) => {
 					return (
 						<li
 							key={number}
-							className={`page-item ${
-								currentPage === number ? "bg-gray-200" : ""
+							className={`text-lg ${
+								currentPage === number ? "border-2 border-black" : ""
 							}`}
 						>
 							<button
@@ -65,28 +62,14 @@ const Pagination = ({
 					);
 				})}
 				<li
-					className={`page-item ${
-						currentPage === totalPages ? "disabled" : ""
-					}`}
+					className={`text-lg ${currentPage === totalPages ? "disabled" : ""}`}
 				>
-					<button
-						className="page-link"
-						onClick={() => handlePageChange("next")}
-					>
-						Next
-					</button>
+					<AiOutlineRight onClick={() => handlePageChange("next")} />
 				</li>
 				<li
-					className={`page-item ${
-						currentPage === totalPages ? "disabled" : ""
-					}`}
+					className={`text-lg ${currentPage === totalPages ? "disabled" : ""}`}
 				>
-					<button
-						className="page-link"
-						onClick={() => handlePageChange("last")}
-					>
-						Last
-					</button>
+					<AiOutlineDoubleRight onClick={() => handlePageChange("last")} />
 				</li>
 			</ul>
 		</div>
