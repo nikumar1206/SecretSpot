@@ -1,6 +1,7 @@
 import { Avatar, Button } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
+import { User } from "../types";
 import { addFollower, fetchCurrentUser } from "../utils/user_api";
 
 const UserProfilePage = () => {
@@ -9,9 +10,7 @@ const UserProfilePage = () => {
 	const [username, setUsername] = useState("");
 	const [errors, setErrors] = useState([{ message: "" }]);
 
-	const handleEditProfile = () => {
-		console.log("edit profile");
-	};
+	const handleEditProfile = () => {};
 
 	const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setUsername(e.target.value);
@@ -61,6 +60,18 @@ const UserProfilePage = () => {
 						Follow User
 					</Button>
 				</form>
+
+				<ul>
+					{data.followers.map((follower: User) => {
+						return <li key={follower.id}>Follower: {follower.username}</li>;
+					})}
+				</ul>
+
+				<ul>
+					{data.following.map((following: User) => {
+						return <li key={following.id}>following: {following.username}</li>;
+					})}
+				</ul>
 			</div>
 		);
 	}

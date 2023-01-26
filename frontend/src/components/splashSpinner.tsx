@@ -1,11 +1,11 @@
 const SplashSpinner = ({ loaded }: { loaded: boolean }) => {
 	return (
 		<div
-			className={`bg-black w-full min-h-screen flex justify-center items-center opacity-100 ${
+			className={`bg-teal-50 w-full min-h-screen flex justify-center items-center opacity-70 ${
 				loaded ? "opacity-0 transition-opacity duration-200 invisible" : ""
 			}`}
 		>
-			<div className="bg-black opacity-50 p-10 shadow-md rounded-xl relative">
+			<div className="bg-teal-50 opacity-70 p-10 shadow-md rounded-xl relative">
 				<svg
 					className="w-12 h-12 animate-spin text-teal-400"
 					viewBox="0 0 24 24"

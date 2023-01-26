@@ -108,9 +108,17 @@ userRouter.post("/logout", async (req, res) => {
 });
 
 userRouter.post("/follow/:username", async (req, res) => {
-	const newFollower = await DI.userRepository.findOne({
-		username: req.params.username,
-	});
+	const [newFollower, currentUser] = await Promise.all([
+		DI.userRepository.findOne(
+			{ username: req.params.username },
+			{ populate: ["followers"] }
+		),
+		DI.userRepository.findOne(
+			{ id: req.session.userId },
+			{ populate: ["following"] }
+		),
+	]);
+
 	if (!newFollower) {
 		return res.json({
 			errors: [
@@ -121,10 +129,7 @@ userRouter.post("/follow/:username", async (req, res) => {
 			],
 		});
 	}
-	const currentUser = await DI.userRepository.findOne(
-		{ id: req.session.userId },
-		{ populate: ["following"] }
-	);
+
 	if (!currentUser) {
 		return res.json({
 			errors: [
@@ -135,11 +140,11 @@ userRouter.post("/follow/:username", async (req, res) => {
 			],
 		});
 	}
-	await currentUser.followers.init();
-	await newFollower.following.init();
 
 	if (currentUser.followers.contains(newFollower)) {
 		return res.json({
+			success: false,
+			data: null,
 			errors: [
 				{
 					field: "username",
@@ -150,7 +155,7 @@ userRouter.post("/follow/:username", async (req, res) => {
 	}
 	currentUser.following.add(newFollower);
 	newFollower.followers.add(currentUser);
-	await DI.em.persistAndFlush(currentUser);
+	await DI.em.flush();
 	return res.json({ success: true, errors: null, data: newFollower });
 });
 

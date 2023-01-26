@@ -3,7 +3,6 @@ import express from "express";
 import { DI } from "../../app";
 import Place from "../../entities/Place";
 import Post from "../../entities/Post";
-import User from "../../entities/User";
 import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
@@ -64,25 +63,26 @@ postRouter.post("/create", async (req, res) => {
 		return res.json({ errors: saveDataResult.errors });
 	}
 
-	let poster = (await DI.userRepository.findOne({
-		id: req.session.userId,
-	})) as User;
+	let [poster, place] = await Promise.all([
+		DI.userRepository.findOne({
+			id: req.session.userId,
+		}),
+		DI.placeRepository.findOne({
+			nameLocation: req.body.place,
+		}),
+	]);
 
 	if (!poster) {
 		return res.json({
 			errors: "User not found. Please ensured you are logged in.",
 		});
 	}
-	let place = await DI.placeRepository.findOne({
-		nameLocation: req.body.place,
-	});
-
-	const [latlongObj, imageURL] = await Promise.all([
-		findLatLng(req),
-		findImageURL(req.body.place),
-	]);
 
 	if (!place) {
+		const [latlongObj, imageURL] = await Promise.all([
+			findLatLng(req),
+			findImageURL(req.body.place),
+		]);
 		const { name, location } = separateNameLocation(req.body.place);
 
 		let newPlace = DI.em.create(Place, {
@@ -122,42 +122,48 @@ postRouter.patch("/:id/edit", async (req, res) => {
 });
 
 postRouter.delete("/:id", async (req, res) => {
-	const currentUser = await DI.userRepository.findOne(
-		{
-			id: req.session.userId,
-		},
-		{ populate: ["feed"] }
-	);
-	const post = await DI.postRepository.findOne(req.params.id);
+	const [currentUser, post] = await Promise.all([
+		DI.userRepository.findOne(
+			{
+				id: req.session.userId,
+			},
+			{ populate: ["feed"] }
+		),
+		DI.postRepository.findOne(req.params.id),
+	]);
 	currentUser?.feed.remove(post!);
 	await DI.em.flush();
 	return res.json(post);
 });
 
 postRouter.post("/bookmark/:placeId", async (req, res) => {
-	console.log("yerr");
 	const placeId = req.params.placeId;
-	const place = await DI.placeRepository.findOne({ id: placeId });
-	const currentUser = await DI.userRepository.findOne(
-		{
-			id: req.session.userId,
-		},
-		{ populate: ["bookmarks"] }
-	);
+	const [place, currentUser] = await Promise.all([
+		DI.placeRepository.findOne({ id: placeId }),
+		DI.userRepository.findOne(
+			{
+				id: req.session.userId,
+			},
+			{ populate: ["bookmarks"] }
+		),
+	]);
 	currentUser?.bookmarks.add(place!);
-	console.log("yerr", currentUser);
 	return res.json(place);
 });
 
 postRouter.delete("/bookmark/:placeId", async (req, res) => {
 	const placeId = req.params.placeId;
-	const place = await DI.placeRepository.findOne({ id: placeId });
-	const currentUser = await DI.userRepository.findOne(
-		{
-			id: req.session.userId,
-		},
-		{ populate: ["bookmarks"] }
-	);
+	const [place, currentUser] = await Promise.all([
+		DI.placeRepository.findOne({ id: placeId }),
+		DI.userRepository.findOne(
+			{
+				id: req.session.userId,
+			},
+
+			{ populate: ["bookmarks"] }
+		),
+	]);
+
 	currentUser?.bookmarks.remove(place!);
 	return res.json(place);
 });

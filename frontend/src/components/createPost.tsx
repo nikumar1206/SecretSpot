@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
 	Button,
 	Dialog,
@@ -16,8 +17,8 @@ interface createPostProps {
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	open: boolean;
 }
-
 const CreatePostForm = ({ open, setOpen }: createPostProps) => {
+	const [parent] = useAutoAnimate<HTMLDivElement>();
 	const queryClient = useQueryClient();
 	const [post, setPost] = useState<postForm>({
 		place: "",
@@ -68,6 +69,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 
 	return (
 		<Dialog
+			ref={parent}
 			dismiss={{
 				outsidePointerDown: false,
 				escapeKey: false,
@@ -157,7 +159,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 						className="normal-case transition ease-in-out delay-75 hover:scale-110 hover:bg-teal-700 duration-300 rounded-sm"
 					>
 						{postMutation.isLoading ? (
-							<span className="inline-block animate-spin rounded-full w-full h-full">
+							<span className="inline-block animate-spin">
 								<svg
 									className="h-6 w-6"
 									fill="none"
@@ -173,7 +175,9 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 								</svg>
 							</span>
 						) : (
-							"Add Post"
+							<span className="inline-block rounded-full w-full h-full">
+								Add Post
+							</span>
 						)}
 					</Button>
 				</DialogFooter>
