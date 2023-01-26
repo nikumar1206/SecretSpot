@@ -140,8 +140,20 @@ userRouter.post("/follow/:username", async (req, res) => {
 			],
 		});
 	}
+	if (currentUser.username === newFollower.username) {
+		return res.json({
+			success: false,
+			data: null,
+			errors: [
+				{
+					field: "username",
+					message: "You cannot follow yourself!",
+				},
+			],
+		});
+	}
 
-	if (currentUser.followers.contains(newFollower)) {
+	if (currentUser.following.contains(newFollower)) {
 		return res.json({
 			success: false,
 			data: null,

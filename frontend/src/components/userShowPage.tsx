@@ -21,8 +21,6 @@ const UserProfilePage = () => {
 		const data = await addFollower(username);
 		if (data.errors) {
 			return setErrors(data.errors);
-		} else {
-			return console.log("success");
 		}
 	};
 
@@ -54,6 +52,9 @@ const UserProfilePage = () => {
 					Edit Profile
 				</button>
 
+				{errors.map((error, i) => {
+					return <p key={i}>{error.message}</p>;
+				})}
 				<form onSubmit={handleSubmit}>
 					<input type="text" value={username} onChange={handleUpdate} />
 					<Button type="submit" className="border-2 border-black">

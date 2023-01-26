@@ -19,9 +19,11 @@ export default class Post extends Base {
 
 	@AfterCreate()
 	async updateUserFeed() {
-		const userFollowers = await this.creator.followers.init();
+		const userFollowers = await this.creator.followers.init({
+			populate: ["feed"],
+		});
+
 		for (const follower of userFollowers) {
-			await follower.feed.init();
 			follower.feed.add(this);
 		}
 	}
