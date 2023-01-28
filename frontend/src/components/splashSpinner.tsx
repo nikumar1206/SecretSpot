@@ -1,7 +1,7 @@
 const SplashSpinner = ({ loaded }: { loaded: boolean }) => {
 	return (
 		<div
-			className={`bg-teal-50 w-full min-h-screen flex justify-center items-center opacity-70 ${
+			className={`bg-gray-50 w-full min-h-screen flex justify-center items-center opacity-70 ${
 				loaded ? "opacity-0 transition-opacity duration-200 invisible" : ""
 			}`}
 		>

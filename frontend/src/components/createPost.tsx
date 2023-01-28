@@ -29,7 +29,7 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 
 	const postMutation = useMutation(createPost, {
 		onSuccess: () => {
-			queryClient.invalidateQueries("posts");
+			queryClient.invalidateQueries("feed");
 		},
 	});
 

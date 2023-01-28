@@ -37,7 +37,6 @@ postRouter.get("/feed", async (req, res) => {
 		offset: 0,
 		orderBy: { createdAt: "DESC" },
 		populate: ["place", "creator"],
-		store: true,
 	});
 	const handleBookmarked = (post: Post) => {
 		const bookmarked = currentUser.bookmarks.contains(post.place);

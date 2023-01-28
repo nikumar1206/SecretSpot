@@ -104,7 +104,7 @@ const PostCard = ({ post }: { post: Post }) => {
 				alt="img-blur-shadow"
 				className="float-left object-cover overflow-hidden w-[32rem] max-h-56"
 			/>
-			<CardBody className="p-5 flex flex-row items-center justify-between">
+			<CardBody className="p-5 flex flex-row flex-grow items-center justify-between">
 				<Typography variant="h5">{post.place.name}</Typography>
 				<div
 					className={`rounded-md w-8 h-8 font-bold text-black ${changeBorderColor(

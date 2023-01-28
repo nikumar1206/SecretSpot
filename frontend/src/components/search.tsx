@@ -1,4 +1,4 @@
-import { Dialog, Input } from "@material-tailwind/react";
+import { Input } from "@material-tailwind/react";
 import { Autocomplete } from "@react-google-maps/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,31 +21,20 @@ const Search = () => {
 	};
 
 	return (
-		<Dialog
-			open={open}
-			dismiss={{
-				outsidePointerDown: false,
-				escapeKey: false,
-			}}
-			handler={() => setOpen(false)}
-			size="lg"
-			className="py-5 px-10"
-		>
-			<Autocomplete types={["restaurant"]} onPlaceChanged={handlePlaceChanged}>
-				<Input
-					variant="outlined"
-					label="Search for a Place"
-					type="text"
-					size="md"
-					color="teal"
-					id="placeName"
-					className="w-3"
-					autoComplete="off"
-					onChange={handleUpdate}
-					value={place}
-				/>
-			</Autocomplete>
-		</Dialog>
+		<Autocomplete types={["restaurant"]} onPlaceChanged={handlePlaceChanged}>
+			<Input
+				variant="outlined"
+				label="Search for a Place"
+				type="text"
+				size="md"
+				color="teal"
+				id="placeName"
+				className="w-3"
+				autoComplete="off"
+				onChange={handleUpdate}
+				value={place}
+			/>
+		</Autocomplete>
 	);
 };
 export default Search;

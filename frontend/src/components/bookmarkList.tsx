@@ -11,7 +11,7 @@ const BookmarkList = ({ list }: { list: User["bookmarks"] }) => {
 			</Typography>
 			<div className="mt-5 flex flex-col gap-5" ref={parent}>
 				{list.map((item) => {
-					return <MiniPlaceCard place={item} key={item.id} />;
+					return <MiniPlaceCard place={item} key={item.id} type="bookmark" />;
 				})}
 			</div>
 		</div>
