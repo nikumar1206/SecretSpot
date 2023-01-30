@@ -27,6 +27,40 @@ userRouter.get("/user", async (req, res) => {
 	);
 	return res.json(user);
 });
+
+userRouter.get("/lists", async (req, res) => {
+	const user = await DI.userRepository.findOne(
+		{ id: req.session.userId },
+		{
+			populate: ["places_been", "places_to_go", "recs"],
+		}
+	);
+	if (!user) {
+		return res.json({
+			errors: "User not found. Please ensured you are logged in.",
+			status: 401,
+			data: null,
+		});
+	}
+	const updatedPlacesBeen = { ...user.places_been };
+	for (const place of updatedPlacesBeen) {
+		const placeinPost = user.posts.toArray().find((post) => {
+			return post.place.id === place.id;
+		});
+
+		if (placeinPost) {
+			place["rating"] = placeinPost.rating;
+		}
+	}
+	const data = {
+		places_been: user.places_been,
+		bookmarks: user.bookmarks,
+		recs: user.recs,
+	};
+
+	return res.json({ data: data, errors: null, success: true });
+});
+
 userRouter.post("/register", async (req, res) => {
 	const saveDataResult = userInputValidator(req.body);
 	if (!saveDataResult.success) {

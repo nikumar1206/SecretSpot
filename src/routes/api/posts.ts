@@ -64,9 +64,12 @@ postRouter.post("/create", async (req, res) => {
 	}
 
 	let [poster, place] = await Promise.all([
-		DI.userRepository.findOne({
-			id: req.session.userId,
-		}),
+		DI.userRepository.findOne(
+			{
+				id: req.session.userId,
+			},
+			{ populate: ["places_been"] }
+		),
 		DI.placeRepository.findOne({
 			nameLocation: req.body.place,
 		}),
@@ -109,9 +112,13 @@ postRouter.post("/create", async (req, res) => {
 
 	await DI.em.persistAndFlush(post);
 
-	await poster.places_been.init();
-	poster.places_been.add(place!);
-
+	if (!poster.places_been.contains(place!)) {
+		poster.places_been.add(place!);
+	}
+	if (poster.bookmarks.contains(place!)) {
+		poster.bookmarks.remove(place!);
+	}
+	await DI.em.flush();
 	return res.json(post);
 });
 
