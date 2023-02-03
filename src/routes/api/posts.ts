@@ -68,7 +68,7 @@ postRouter.post("/create", async (req, res) => {
 			{
 				id: req.session.userId,
 			},
-			{ populate: ["places_been"] }
+			{ populate: ["places_been", "bookmarks"] }
 		),
 		DI.placeRepository.findOne({
 			nameLocation: req.body.place,

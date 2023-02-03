@@ -3,10 +3,10 @@ import { useState } from "react";
 import { CiSquareRemove } from "react-icons/ci";
 import { RiBookmarkFill } from "react-icons/ri";
 import { useMutation, useQueryClient } from "react-query";
-import { Post } from "../types";
+import { Place } from "../types";
 import { addBookmark, removeBookmark } from "../utils/bookmark_api";
 
-const MiniPostCard = ({ post, type }: { post: Post; type: string }) => {
+const MiniPlaceCard = ({ place, type }: { place: Place; type: string }) => {
 	const [errors, setErrors] = useState("");
 	const queryClient = useQueryClient();
 	const changeBorderColor = (rating: number) => {
@@ -25,7 +25,7 @@ const MiniPostCard = ({ post, type }: { post: Post; type: string }) => {
 		onSettled: () => queryClient.refetchQueries("feed"),
 	});
 	const handleBookmarkAdd = async () => {
-		const res = await addBookmarkMutation.mutateAsync(post.place.id);
+		const res = await addBookmarkMutation.mutateAsync(place.id);
 		if (res.errors) {
 			setErrors(res.errors);
 		} else {
@@ -34,7 +34,7 @@ const MiniPostCard = ({ post, type }: { post: Post; type: string }) => {
 	};
 
 	const handleBookmarkRemove = async () => {
-		const res = await removeBookmarkMutation.mutateAsync(post.place.id);
+		const res = await removeBookmarkMutation.mutateAsync(place.id);
 		if (res.errors) {
 			setErrors(res.errors);
 		} else {
@@ -48,10 +48,10 @@ const MiniPostCard = ({ post, type }: { post: Post; type: string }) => {
 					<div className="w-1/3 flex justify-center items-center">
 						<span
 							className={`rounded-md w-8 h-8 font-bold text-black ${changeBorderColor(
-								post.rating
+								place.rating!
 							)} flex justify-center items-center`}
 						>
-							{post.rating}
+							{place.rating}
 						</span>
 					</div>
 				);
@@ -80,13 +80,13 @@ const MiniPostCard = ({ post, type }: { post: Post; type: string }) => {
 	return (
 		<Card className="w-96 h-24 flex flex-row text-center shadow-lg">
 			<Typography variant="h6" className="line-clamp-3 my-auto w-1/3 px-2">
-				{post.place.name}
+				{place.name}
 			</Typography>
 			<Typography variant="small" className="w-1/3 flex items-center">
-				{post.place.location}
+				{place.location}
 			</Typography>
 			{handleWildCard()}
 		</Card>
 	);
 };
-export default MiniPostCard;
+export default MiniPlaceCard;

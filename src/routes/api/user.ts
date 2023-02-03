@@ -32,7 +32,13 @@ userRouter.get("/lists", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
 		{
-			populate: ["places_been", "places_to_go", "recs"],
+			populate: [
+				"places_been.id",
+				"places_to_go",
+				"recs",
+				"posts",
+				"posts.place",
+			],
 		}
 	);
 	if (!user) {
@@ -42,23 +48,21 @@ userRouter.get("/lists", async (req, res) => {
 			data: null,
 		});
 	}
-	const updatedPlacesBeen = { ...user.places_been };
-	for (const place of updatedPlacesBeen) {
-		const placeinPost = user.posts.toArray().find((post) => {
-			return post.place.id === place.id;
-		});
+	const placeIDset = new Set();
 
-		if (placeinPost) {
-			place["rating"] = placeinPost.rating;
+	const filteredPlacesBeenArr = [];
+	for (const post of user.posts) {
+		if (!placeIDset.has(post.place.id)) {
+			placeIDset.add(post.place.id);
+			filteredPlacesBeenArr.push(post);
 		}
 	}
-	const data = {
-		places_been: user.places_been,
+
+	return res.json({
+		places_been: filteredPlacesBeenArr,
 		bookmarks: user.bookmarks,
 		recs: user.recs,
-	};
-
-	return res.json({ data: data, errors: null, success: true });
+	});
 });
 
 userRouter.post("/register", async (req, res) => {

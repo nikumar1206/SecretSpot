@@ -6,7 +6,7 @@ export interface User {
 	followers: User[];
 	following: User[];
 	posts: Post[];
-	places_been: Place[];
+	places_been: Post[];
 	places_to_go: Place[];
 	recs: Place[];
 	bookmarks: Place[];
@@ -20,6 +20,7 @@ export interface Place {
 	lat: number;
 	lng: number;
 	imageURL: string;
+	rating?: number;
 }
 
 export interface Post {

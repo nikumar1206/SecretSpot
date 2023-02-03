@@ -1,8 +1,8 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Typography } from "@material-tailwind/react";
 import { User } from "../types";
-import MiniPlaceCard from "./miniPostcard";
-const RecList = ({ list }: { list: User["places_been"] }) => {
+import MiniPlaceCard from "./miniPlaceCard";
+const RecList = ({ list }: { list: User["recs"] }) => {
 	const [parent] = useAutoAnimate<HTMLDivElement>();
 	return (
 		<div className="w-1/3">

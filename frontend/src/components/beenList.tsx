@@ -1,7 +1,7 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Typography } from "@material-tailwind/react";
 import { User } from "../types";
-import MiniPlaceCard from "./miniPostcard";
+import MiniPostCard from "./miniPostCard";
 const BeenList = ({ list }: { list: User["places_been"] }) => {
 	const [parent] = useAutoAnimate<HTMLDivElement>();
 	return (
@@ -11,7 +11,7 @@ const BeenList = ({ list }: { list: User["places_been"] }) => {
 			</Typography>
 			<div className="mt-5 flex flex-col gap-5" ref={parent}>
 				{list.map((item) => {
-					return <MiniPlaceCard place={item} key={item.id} type="been" />;
+					return <MiniPostCard post={item} key={item.id} type="been" />;
 				})}
 			</div>
 		</div>

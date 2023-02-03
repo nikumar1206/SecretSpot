@@ -1,3 +1,4 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
@@ -19,10 +20,11 @@ type Libraries = (
 
 const libraries: Libraries = ["places"];
 const Home = () => {
+	const [parent] = useAutoAnimate<HTMLDivElement>();
 	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "",
+		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
 		libraries: libraries, // ,
 	});
 
@@ -55,7 +57,6 @@ const Home = () => {
 		case "timeline":
 			component = <Timeline places={myPlaces} isLoaded={isLoaded} />;
 			break;
-
 		default:
 			component = null;
 			break;
@@ -63,12 +64,15 @@ const Home = () => {
 
 	{
 		return isFetched ? (
-			<>
+			<div>
 				<Nav params={params} />
-				<div className="bg-teal-50 w-full flex justify-center">
+				<div
+					className="bg-teal-50 w-full flex justify-center"
+					ref={params == "timeline" ? null : parent}
+				>
 					{isLoaded ? component : <></>}
 				</div>
-			</>
+			</div>
 		) : (
 			<div className="flex justify-center items-center h-screen bg-teal-100">
 				<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>

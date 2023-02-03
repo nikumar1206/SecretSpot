@@ -32,42 +32,40 @@ const Timeline = ({
 			return null;
 		};
 		return (
-			<>
-				<GoogleMap
-					mapContainerClassName="absolute top-0 left-0"
-					center={center}
-					zoom={10}
-					mapContainerStyle={containerStyle}
-					options={{
-						minZoom: 3,
-						maxZoom: 15,
-						panControl: false,
-						disableDefaultUI: true,
-						styles: googleMapsStyle,
-						clickableIcons: false,
-					}}
-				>
-					{places.map((place) => {
-						return (
-							<Marker
-								key={place.id}
-								position={{ lat: place.lat, lng: place.lng }}
-								icon={{
-									url: place.imageURL + "#custom_marker",
-									scaledSize: new window.google.maps.Size(28, 28),
-									origin: new window.google.maps.Point(0, 0),
-									anchor: new window.google.maps.Point(28, 28),
-								}}
-								onClick={() => {
-									handleDialogOpen(place);
-									// map?.panTo({ lat: place.lat, lng: place.lng });
-								}}
-							/>
-						);
-					})}
-				</GoogleMap>
+			<GoogleMap
+				mapContainerClassName="!static top-0 left-0"
+				center={center}
+				zoom={10}
+				mapContainerStyle={containerStyle}
+				options={{
+					minZoom: 3,
+					maxZoom: 15,
+					panControl: false,
+					disableDefaultUI: true,
+					styles: googleMapsStyle,
+					clickableIcons: false,
+				}}
+			>
+				{places.map((place) => {
+					return (
+						<Marker
+							key={place.id}
+							position={{ lat: place.lat, lng: place.lng }}
+							icon={{
+								url: place.imageURL + "#custom_marker",
+								scaledSize: new window.google.maps.Size(28, 28),
+								origin: new window.google.maps.Point(0, 0),
+								anchor: new window.google.maps.Point(28, 28),
+							}}
+							onClick={() => {
+								handleDialogOpen(place);
+								// map?.panTo({ lat: place.lat, lng: place.lng });
+							}}
+						/>
+					);
+				})}
 				<MapPostModal open={open} setOpen={setOpen} place={place} />
-			</>
+			</GoogleMap>
 		);
 	};
 

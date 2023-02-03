@@ -1,7 +1,7 @@
 import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { Typography } from "@material-tailwind/react";
 import { User } from "../types";
-import MiniPlaceCard from "./miniPostcard";
+import MiniPlaceCard from "./miniPlaceCard";
 const BookmarkList = ({ list }: { list: User["bookmarks"] }) => {
 	const [parent] = useAutoAnimate<HTMLDivElement>();
 	return (
