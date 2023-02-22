@@ -1,11 +1,12 @@
 import { Avatar, Button } from "@material-tailwind/react";
 import React, { useState } from "react";
 import { useQuery } from "react-query";
-import { User } from "../types";
+import { Post, User } from "../types";
 import { addFollower, fetchCurrentUser } from "../utils/user_api";
+import MiniPostCard from "./miniPostCard";
 
 const UserProfilePage = () => {
-	const { data, isFetched } = useQuery("user", fetchCurrentUser);
+	const data: User = useQuery("user", fetchCurrentUser).data;
 
 	const [username, setUsername] = useState("");
 	const [errors, setErrors] = useState([{ message: "" }]);
@@ -24,7 +25,7 @@ const UserProfilePage = () => {
 		}
 	};
 
-	if (isFetched) {
+	if (data) {
 		return (
 			<div className="pt-20 selection:flex flex-col items-center w-full h-screen bg-teal-50">
 				<div className="flex flex-col items-center w-full">
@@ -73,6 +74,15 @@ const UserProfilePage = () => {
 						return <li key={following.id}>following: {following.username}</li>;
 					})}
 				</ul>
+
+				<div>
+					<span>{`${data.username}'s top 5 spots`}</span>
+
+					{data.top5Spots.map((post: Post) => {
+						return <MiniPostCard key={post.id} post={post} type="been" />;
+					})}
+					{}
+				</div>
 			</div>
 		);
 	}

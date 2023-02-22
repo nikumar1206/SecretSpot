@@ -4,9 +4,10 @@ import { Place } from "../types";
 import googleMapsStyle from "../utils/googleMaps";
 import MapPostModal from "./mapPostModal";
 
-const containerStyle = {
+const containerStyle: React.CSSProperties = {
 	width: "100vw",
 	height: "100vh",
+	overflow: "hidden",
 };
 
 const center = {

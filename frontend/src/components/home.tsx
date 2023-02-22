@@ -24,7 +24,7 @@ const Home = () => {
 	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
+		googleMapsApiKey: "",
 		libraries: libraries, // ,
 	});
 

@@ -2,6 +2,7 @@ import argon2 from "argon2";
 import express from "express";
 import { DI } from "../../app";
 import { COOKIE_NAME } from "../../constants";
+import Post from "../../entities/Post";
 import User from "../../entities/User";
 import {
 	newUserInsert,
@@ -18,14 +19,38 @@ userRouter.get("/", async (_, res) => {
 	return res.json({ data: users, errors: null, success: true });
 });
 
-userRouter.get("/user", async (req, res) => {
+userRouter.get("/profile", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
 		{
 			populate: ["places_been", "following", "followers", "feed"],
 		}
 	);
-	return res.json(user);
+	if (!user) {
+		return res.json({
+			errors: "User not found. Please ensured you are logged in.",
+			status: 401,
+			data: null,
+		});
+	}
+	const placeIDset = new Set();
+
+	const filteredPlacesBeenArr: Post[] = [];
+	for (const post of user.posts) {
+		if (!placeIDset.has(post.place.id)) {
+			placeIDset.add(post.place.id);
+			filteredPlacesBeenArr.push(post);
+		}
+	}
+	console.log("filteredPlacesBeenArr", filteredPlacesBeenArr);
+
+	const top5Spots = await user.posts.matching({
+		populate: ["place"],
+		limit: 5,
+		orderBy: { rating: "DESC" },
+	});
+
+	return res.json({ ...user, top5Spots });
 });
 
 userRouter.get("/lists", async (req, res) => {
@@ -50,7 +75,7 @@ userRouter.get("/lists", async (req, res) => {
 	}
 	const placeIDset = new Set();
 
-	const filteredPlacesBeenArr = [];
+	const filteredPlacesBeenArr: Post[] = [];
 	for (const post of user.posts) {
 		if (!placeIDset.has(post.place.id)) {
 			placeIDset.add(post.place.id);

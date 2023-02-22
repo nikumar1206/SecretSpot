@@ -10,6 +10,7 @@ export interface User {
 	places_to_go: Place[];
 	recs: Place[];
 	bookmarks: Place[];
+	top5Spots: Post[];
 }
 
 export interface Place {
