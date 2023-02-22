@@ -77,11 +77,11 @@ const UserProfilePage = () => {
 
 				<div>
 					<span>{`${data.username}'s top 5 spots`}</span>
-
-					{data.top5Spots.map((post: Post) => {
-						return <MiniPostCard key={post.id} post={post} type="been" />;
-					})}
-					{}
+					<div className="flex flex-col gap-y-2">
+						{data.top5Spots.map((post: Post) => {
+							return <MiniPostCard key={post.id} post={post} type="been" />;
+						})}
+					</div>
 				</div>
 			</div>
 		);

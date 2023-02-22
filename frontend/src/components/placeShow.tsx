@@ -5,9 +5,14 @@ import { getPlaceById } from "../utils/place_api";
 
 const PlaceShow = () => {
 	const placeId = useParams().placeId;
-
+	console.log(placeId);
 	const data: Place = useQuery("place", () => getPlaceById(placeId!)).data;
-	if (!data) return null;
+	if (!data)
+		return (
+			<div className="flex justify-center items-center h-screen bg-teal-100">
+				<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
+			</div>
+		);
 
 	return (
 		<div>

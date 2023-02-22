@@ -1,13 +1,11 @@
 import { Card, Typography } from "@material-tailwind/react";
-import { useState } from "react";
 import { CiSquareRemove } from "react-icons/ci";
 import { RiBookmarkFill } from "react-icons/ri";
 import { useMutation, useQueryClient } from "react-query";
 import { Place } from "../types";
-import { addBookmark, removeBookmark } from "../utils/bookmark_api";
+import { removeBookmark } from "../utils/bookmark_api";
 
 const MiniPlaceCard = ({ place, type }: { place: Place; type: string }) => {
-	const [errors, setErrors] = useState("");
 	const queryClient = useQueryClient();
 	const changeBorderColor = (rating: number) => {
 		if (rating >= 5.5) {
@@ -19,27 +17,11 @@ const MiniPlaceCard = ({ place, type }: { place: Place; type: string }) => {
 		}
 	};
 	const removeBookmarkMutation = useMutation(removeBookmark, {
-		onSuccess: () => queryClient.refetchQueries("feed"),
+		onSuccess: () => queryClient.refetchQueries("lists"),
 	});
-	const addBookmarkMutation = useMutation(addBookmark, {
-		onSettled: () => queryClient.refetchQueries("feed"),
-	});
-	const handleBookmarkAdd = async () => {
-		const res = await addBookmarkMutation.mutateAsync(place.id);
-		if (res.errors) {
-			setErrors(res.errors);
-		} else {
-			return console.log(res);
-		}
-	};
 
 	const handleBookmarkRemove = async () => {
-		const res = await removeBookmarkMutation.mutateAsync(place.id);
-		if (res.errors) {
-			setErrors(res.errors);
-		} else {
-			return console.log(res);
-		}
+		await removeBookmarkMutation.mutateAsync(place.id);
 	};
 	const handleWildCard = () => {
 		switch (type) {
