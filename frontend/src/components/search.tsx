@@ -1,4 +1,4 @@
-import { Input } from "@material-tailwind/react";
+import { Input, Radio } from "@material-tailwind/react";
 import { Autocomplete } from "@react-google-maps/api";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -6,6 +6,7 @@ import { getPlace } from "../utils/place_api";
 
 const Search = () => {
 	const [place, setPlace] = useState("");
+	const [followBool, setFollowBool] = useState(false);
 	const [placeLoaded, setplaceLoaded] = useState(true);
 	const navigate = useNavigate();
 	const [autocomplete, setAutocomplete] = useState<any>(null);
@@ -35,24 +36,61 @@ const Search = () => {
 		);
 	} else {
 		return (
-			<Autocomplete
-				types={["restaurant"]}
-				onPlaceChanged={handlePlaceChanged}
-				onLoad={handleLoad}
-			>
-				<Input
-					variant="outlined"
-					label="Search for a Place"
-					type="text"
-					size="md"
-					color="teal"
-					id="placeName"
-					className="w-3"
-					autoComplete="off"
-					onChange={handleUpdate}
-					value={place}
-				/>
-			</Autocomplete>
+			<div className="flex flex-col mt-10 gap-y-5">
+				<div className="flex gap-10">
+					<Radio
+						id="followers"
+						name="type"
+						label="Search for Followers"
+						onClick={() => setFollowBool(true)}
+						ripple={false}
+						color="teal"
+					/>
+					<Radio
+						id="place"
+						name="type"
+						label="Search for a Place"
+						onClick={() => setFollowBool(false)}
+						defaultChecked
+						ripple={false}
+						color="teal"
+					/>
+				</div>
+				{followBool ? (
+					<Input
+						variant="outlined"
+						label="Search for a Person"
+						type="text"
+						size="lg"
+						color="teal"
+						id="placeName"
+						className="w-3"
+						autoComplete="off"
+						onChange={handleUpdate}
+						value={place}
+					/>
+				) : (
+					<Autocomplete
+						types={["restaurant"]}
+						onPlaceChanged={handlePlaceChanged}
+						onLoad={handleLoad}
+						className=""
+					>
+						<Input
+							variant="outlined"
+							label="Search for a Place"
+							type="text"
+							size="lg"
+							color="teal"
+							id="placeName"
+							className="w-3"
+							autoComplete="off"
+							onChange={handleUpdate}
+							value={place}
+						/>
+					</Autocomplete>
+				)}
+			</div>
 		);
 	}
 };

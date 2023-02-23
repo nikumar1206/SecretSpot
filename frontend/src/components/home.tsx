@@ -1,4 +1,3 @@
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import { useJsApiLoader } from "@react-google-maps/api";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
@@ -20,7 +19,6 @@ type Libraries = (
 
 const libraries: Libraries = ["places"];
 const Home = () => {
-	const [parent] = useAutoAnimate<HTMLDivElement>();
 	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
@@ -66,10 +64,7 @@ const Home = () => {
 		return isFetched ? (
 			<div>
 				<Nav params={params} />
-				<div
-					className="bg-teal-50 w-full flex justify-center"
-					ref={params == "timeline" ? null : parent}
-				>
+				<div className="bg-teal-50 w-full flex justify-center h-[calc(100vh-80px)]">
 					{isLoaded ? component : <></>}
 				</div>
 			</div>

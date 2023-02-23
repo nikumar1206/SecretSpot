@@ -1,4 +1,3 @@
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 import {
 	Button,
 	Dialog,
@@ -18,7 +17,6 @@ interface createPostProps {
 	open: boolean;
 }
 const CreatePostForm = ({ open, setOpen }: createPostProps) => {
-	const [parent] = useAutoAnimate<HTMLDivElement>();
 	const queryClient = useQueryClient();
 	const [post, setPost] = useState<postForm>({
 		place: "",
@@ -69,7 +67,6 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 
 	return (
 		<Dialog
-			ref={parent}
 			dismiss={{
 				outsidePointerDown: false,
 				escapeKey: false,
