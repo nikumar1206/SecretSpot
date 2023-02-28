@@ -41,7 +41,7 @@ const Search = () => {
 					<Radio
 						id="followers"
 						name="type"
-						label="Search for Followers"
+						label="Search for a Person"
 						onClick={() => setFollowBool(true)}
 						ripple={false}
 						color="teal"

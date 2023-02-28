@@ -49,7 +49,7 @@ const Pagination = ({
 						<li
 							key={number}
 							className={`text-lg ${
-								currentPage === number ? "border-2 border-black" : ""
+								currentPage === number ? "border border-black rounded-lg" : ""
 							}`}
 						>
 							<button

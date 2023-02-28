@@ -7,7 +7,6 @@ import MiniPostCard from "./miniPostCard";
 
 const UserProfilePage = () => {
 	const data: User = useQuery("user", fetchCurrentUser).data;
-
 	const [username, setUsername] = useState("");
 	const [errors, setErrors] = useState([{ message: "" }]);
 
@@ -26,9 +25,11 @@ const UserProfilePage = () => {
 	};
 
 	if (data) {
+		console.log(data.top5Spots);
+
 		return (
-			<div className="pt-20 selection:flex flex-col items-center w-full h-screen bg-teal-50">
-				<div className="flex flex-col items-center w-full">
+			<div className="pt-10 selection:flex flex-col items-center w-full h-[calc(100vh+20px)] bg-teal-50">
+				<div className="flex flex-col items-center w-full ">
 					<Avatar
 						src={data.pfpURL}
 						variant="circular"
@@ -75,9 +76,15 @@ const UserProfilePage = () => {
 					})}
 				</ul>
 
-				<div>
-					<span>{`${data.username}'s top 5 spots`}</span>
+				<div className="flex flex-row justify-center gap-x-10 py-10">
 					<div className="flex flex-col gap-y-2">
+						<span className="text-center">{`${data.username}'s Top 5 Spots`}</span>
+						{data.top5Spots.map((post: Post) => {
+							return <MiniPostCard key={post.id} post={post} type="been" />;
+						})}
+					</div>
+					<div className="flex flex-col gap-y-2">
+						<span className="text-center">{`${data.username}'s Recent Activity`}</span>
 						{data.top5Spots.map((post: Post) => {
 							return <MiniPostCard key={post.id} post={post} type="been" />;
 						})}

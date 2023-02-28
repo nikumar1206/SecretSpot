@@ -64,7 +64,7 @@ const Home = () => {
 		return isFetched ? (
 			<div>
 				<Nav params={params} />
-				<div className="bg-teal-50 w-full flex justify-center h-[calc(100vh-80px)]">
+				<div className="w-full flex justify-center h-[calc(100vh-80px)]">
 					{isLoaded ? component : <></>}
 				</div>
 			</div>

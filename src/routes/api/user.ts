@@ -23,7 +23,14 @@ userRouter.get("/profile", async (req, res) => {
 	const user = await DI.userRepository.findOne(
 		{ id: req.session.userId },
 		{
-			populate: ["places_been", "following", "followers", "feed"],
+			populate: [
+				"places_been",
+				"following",
+				"followers",
+				"feed",
+				"posts",
+				"posts.place",
+			],
 		}
 	);
 	if (!user) {
@@ -44,12 +51,18 @@ userRouter.get("/profile", async (req, res) => {
 	}
 	console.log("filteredPlacesBeenArr", filteredPlacesBeenArr);
 
-	const top5Spots = await user.posts.matching({
-		populate: ["place"],
-		limit: 5,
-		orderBy: { rating: "DESC" },
-	});
-
+	const top5Spots = filteredPlacesBeenArr
+		.sort((a, b) => {
+			if (a.rating > b.rating) {
+				return -1;
+			}
+			if (a.rating < b.rating) {
+				return 1;
+			}
+			return 0;
+		})
+		.slice(0, 5);
+	console.log("top5Spots", top5Spots);
 	return res.json({ ...user, top5Spots });
 });
 

@@ -6,8 +6,7 @@ import MapPostModal from "./mapPostModal";
 
 const containerStyle: React.CSSProperties = {
 	width: "100vw",
-	height: "100vh",
-	overflow: "hidden",
+	height: "calc(100vh - 80px)",
 };
 
 const center = {
