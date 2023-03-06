@@ -49,7 +49,6 @@ userRouter.get("/profile", async (req, res) => {
 			filteredPlacesBeenArr.push(post);
 		}
 	}
-	console.log("filteredPlacesBeenArr", filteredPlacesBeenArr);
 
 	const top5Spots = filteredPlacesBeenArr
 		.sort((a, b) => {
@@ -62,7 +61,6 @@ userRouter.get("/profile", async (req, res) => {
 			return 0;
 		})
 		.slice(0, 5);
-	console.log("top5Spots", top5Spots);
 	return res.json({ ...user, top5Spots });
 });
 
