@@ -1,9 +1,5 @@
 import axios from "axios";
-
-interface userInterface {
-	username: string;
-	password: string;
-}
+import { editUserInterface, userInterface } from "./../types";
 
 export const loginUser = async (userInfo: userInterface) => {
 	try {
@@ -44,6 +40,15 @@ export const logoutUser = async () => {
 export const addFollower = async (username: string) => {
 	try {
 		let res = await axios.post(`/api/users/follow/${username}`);
+		return res.data;
+	} catch (error) {
+		throw new Error(`${error}`);
+	}
+};
+
+export const editUser = async (userInfo: editUserInterface) => {
+	try {
+		let res = await axios.patch(`/api/users/${userInfo.id}`, userInfo);
 		return res.data;
 	} catch (error) {
 		throw new Error(`${error}`);

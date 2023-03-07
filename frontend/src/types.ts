@@ -12,6 +12,15 @@ export interface User {
 	bookmarks: Place[];
 	top5Spots: Post[];
 }
+export interface userInterface {
+	username: string;
+	password: string;
+}
+export interface editUserInterface {
+	username: string;
+	favorite_cuisine: string;
+	id: string;
+}
 
 export interface Place {
 	id: string;

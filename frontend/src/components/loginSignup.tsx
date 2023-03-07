@@ -136,7 +136,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 							color="red"
 							variant="outlined"
 							ripple={false}
-							className="normal-case"
+							className="normal-case transition ease-in-out delay-75 hover:bg-red-500 hover:text-white duration-300 rounded-md"
 						>
 							Cancel
 						</Button>
