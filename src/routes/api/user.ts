@@ -181,6 +181,50 @@ userRouter.post("/logout", async (req, res) => {
 	return res.json(deleteCookie);
 });
 
+userRouter.patch("/:id", async (req, res) => {
+	console.log("yerr");
+	const [user, checkUserinDB] = await Promise.all([
+		DI.userRepository.findOne({ id: req.params.id }, { populate: ["posts"] }),
+		DI.userRepository.findOne(
+			{
+				username: req.body.username,
+			},
+			{ populate: ["posts"] }
+		),
+	]);
+
+	if (!user) {
+		return res.json({
+			errors: "User not found. Please ensured you are logged in.",
+			status: 401,
+			data: null,
+		});
+	}
+
+	if (checkUserinDB && checkUserinDB.id !== user.id) {
+		return res.json({
+			errors: [
+				{
+					field: "username",
+					message: "Username already exists!",
+				},
+			],
+			status: 401,
+			data: null,
+		});
+	}
+
+	user.username = req.body.username;
+	user.favorite_cuisine = req.body.favorite_cuisine;
+
+	await DI.em.flush();
+	return res.json({
+		data: user,
+		errors: null,
+		success: true,
+	});
+});
+
 userRouter.post("/follow/:username", async (req, res) => {
 	const [newFollower, currentUser] = await Promise.all([
 		DI.userRepository.findOne(
@@ -245,4 +289,67 @@ userRouter.post("/follow/:username", async (req, res) => {
 	return res.json({ success: true, errors: null, data: newFollower });
 });
 
+userRouter.post("/unfollow/:username", async (req, res) => {
+	const [unfollowUser, currentUser] = await Promise.all([
+		DI.userRepository.findOne(
+			{ username: req.params.username },
+			{ populate: ["followers"] }
+		),
+		DI.userRepository.findOne(
+			{ id: req.session.userId },
+			{ populate: ["following"] }
+		),
+	]);
+
+	if (!unfollowUser) {
+		return res.json({
+			errors: [
+				{
+					field: "username",
+					message: "Username does not exist!",
+				},
+			],
+		});
+	}
+
+	if (!currentUser) {
+		return res.json({
+			errors: [
+				{
+					field: "username",
+					message: "Username does not exist!",
+				},
+			],
+		});
+	}
+	if (currentUser.username === unfollowUser.username) {
+		return res.json({
+			success: false,
+			data: null,
+			errors: [
+				{
+					field: "username",
+					message: "You cannot unfollow yourself!",
+				},
+			],
+		});
+	}
+
+	if (!currentUser.following.contains(unfollowUser)) {
+		return res.json({
+			success: false,
+			data: null,
+			errors: [
+				{
+					field: "username",
+					message: "You are not following this user!",
+				},
+			],
+		});
+	}
+	currentUser.following.remove(unfollowUser);
+	unfollowUser.followers.remove(currentUser);
+	await DI.em.flush();
+	return res.json({ success: true, errors: null, data: unfollowUser });
+});
 export default userRouter;

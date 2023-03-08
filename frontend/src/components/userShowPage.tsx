@@ -8,8 +8,7 @@ import {
 	DialogHeader,
 	Input,
 } from "@material-tailwind/react";
-import React, { useState } from "react";
-import { CiForkAndKnife } from "react-icons/ci";
+import React, { useEffect, useState } from "react";
 import { IoIosSettings } from "react-icons/io";
 import { IoReturnUpBack } from "react-icons/io5";
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -20,21 +19,24 @@ import FollowerFollowingCard from "./followerfollowingcard";
 import MiniPostCard from "./miniPostCard";
 
 const UserProfilePage = () => {
-	const { data, isSuccess } = useQuery("user", fetchCurrentUser);
+	const { data, isFetched } = useQuery("user", fetchCurrentUser);
 
 	const [followUsername, setFollowUsername] = useState("");
 	const [userData, setUserData] = useState({
 		username: "",
 		favorite_cuisine: "",
-		id: data.id,
+		id: "",
 	});
-	if (isSuccess) {
-		setUserData({
-			username: data.username,
-			favorite_cuisine: data.favorite_cuisine,
-			id: data.id,
-		});
-	}
+
+	useEffect(() => {
+		if (isFetched) {
+			setUserData({
+				username: data.username,
+				favorite_cuisine: data.favorite_cuisine,
+				id: data.id,
+			});
+		}
+	}, [data]);
 
 	const [errors, setErrors] = useState([{ field: "", message: "" }]);
 	const [followsDialog, setFollowsDialog] = useState(false);
@@ -43,9 +45,16 @@ const UserProfilePage = () => {
 		"followers"
 	);
 
+	const handleEditUpdate = (field: string) => {
+		return (e: React.ChangeEvent<HTMLInputElement>) => {
+			setUserData({ ...userData, [field]: e.target.value });
+		};
+	};
+
 	const handleEditSubmit = (e: React.SyntheticEvent) => {
 		e.preventDefault();
 		editProfileMutation.mutateAsync(userData);
+		queryClient.invalidateQueries("user");
 	};
 	const queryClient = useQueryClient();
 	const editProfileMutation = useMutation(editUser, {
@@ -65,9 +74,6 @@ const UserProfilePage = () => {
 	const handleClick = (followerFollowing: "followers" | "following") => {
 		setFollowsDialog(true);
 		setModalType(followerFollowing);
-	};
-	const handleUpdate = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setFollowUsername(e.target.value);
 	};
 
 	const handleFollowSubmit = async (e: React.SyntheticEvent) => {
@@ -114,21 +120,23 @@ const UserProfilePage = () => {
 								size="md"
 								label="change username"
 								className="mb-4"
-								onChange={handleUpdate}
-								value={data.username}
+								onChange={handleEditUpdate("username")}
+								value={userData.username}
 							/>
 							<Input
 								type="text"
 								color="teal"
 								label="favorite cuisine"
 								className="mb-4"
-								onChange={handleUpdate}
-								value={data.favorite_cuisine}
-								icon={<CiForkAndKnife />}
+								onChange={handleEditUpdate("favorite_cuisine")}
+								value={userData.favorite_cuisine}
+								// icon={<CiForkAndKnife />}
 							/>
 
-							{errors.map((err) => (
-								<div className="text-red-500">{err.message}</div>
+							{errors.map((err, i) => (
+								<div key={i} className="text-red-500">
+									{err.message}
+								</div>
 							))}
 						</form>
 					</DialogBody>
@@ -142,7 +150,12 @@ const UserProfilePage = () => {
 						>
 							Cancel
 						</Button>
-						<Button color="teal" type="submit" ripple={false}>
+						<Button
+							color="teal"
+							type="button"
+							onClick={handleEditSubmit}
+							ripple={false}
+						>
 							Submit
 						</Button>
 					</DialogFooter>
@@ -155,7 +168,7 @@ const UserProfilePage = () => {
 						<Avatar
 							src={data.pfpURL}
 							variant="circular"
-							className="w-20 h-20 shadow-teal-700 shadow-sm cursor-pointer"
+							className="w-20 h-20 shadow-teal-700 shadow-sm"
 						/>
 						<h1 className="text-2xl font-bold">{"@" + data.username}</h1>
 					</div>
@@ -246,7 +259,7 @@ const UserProfilePage = () => {
 									<Input
 										type="text"
 										value={followUsername}
-										onChange={handleUpdate}
+										onChange={(e) => setFollowUsername(e.target.value)}
 										label="Follower Name"
 										color="teal"
 										error={errors[0].message ? true : false}

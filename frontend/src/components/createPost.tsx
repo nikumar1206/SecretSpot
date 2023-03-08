@@ -49,8 +49,8 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 		});
 	};
 	const handleUpdate = (field: string) => {
-		return (e: any) => {
-			setPost({ ...post, [field]: e.target.value });
+		return (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+			setPost({ ...post, [field]: e.currentTarget.value });
 		};
 	};
 
