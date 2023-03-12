@@ -1,30 +1,47 @@
 import { Input, Radio } from "@material-tailwind/react";
 import { Autocomplete } from "@react-google-maps/api";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { getPlace } from "../utils/place_api";
 
 const Search = () => {
-	const [place, setPlace] = useState("");
 	const [followBool, setFollowBool] = useState(false);
+	const [place, setPlace] = useState("");
+	const [placeData, setPlaceData] =
+		useState<google.maps.places.Autocomplete | null>(null);
 	const [placeLoaded, setplaceLoaded] = useState(true);
 	const navigate = useNavigate();
-	const [autocomplete, setAutocomplete] = useState<any>(null);
 	const handleUpdate = (e: React.SyntheticEvent) => {
 		setPlace((e.target as HTMLInputElement).value);
 	};
-	const handleLoad = (autocomplete: any) => {
-		setAutocomplete(autocomplete);
+	const queryClient = useQueryClient();
+	const placeMutation = useMutation(getPlace, {
+		onSuccess: () => {
+			queryClient.invalidateQueries(["feed", "lists"]);
+		},
+	});
+
+	const refinedPlaceObject = () => {
+		const placeObject = placeData?.getPlace();
+
+		return {
+			place_id: placeObject?.place_id,
+			place_name: placeObject?.name,
+			place_address: placeObject?.formatted_address,
+			place_rating: placeObject?.rating,
+			place_price_level: placeObject?.price_level,
+			maps_url: placeObject?.url,
+			place_lat: placeObject!.geometry!.location?.lat(),
+			place_lng: placeObject?.geometry?.location?.lng(),
+			photo_link: placeObject?.photos?.[0].getUrl(),
+		};
 	};
 
 	const handlePlaceChanged = async () => {
-		const placeName = document.getElementById("placeName") as HTMLInputElement;
 		setplaceLoaded(false);
-		autocomplete.getPlace();
-		console.log(autocomplete.getPlace().photos[0].getUrl());
+		const placeInfo = await placeMutation.mutateAsync(refinedPlaceObject());
 
-		setPlace(placeName.value);
-		const placeInfo = await getPlace(placeName.value);
 		setplaceLoaded(true);
 		navigate(`/place/${placeInfo.id}`);
 	};
@@ -73,8 +90,7 @@ const Search = () => {
 					<Autocomplete
 						types={["restaurant"]}
 						onPlaceChanged={handlePlaceChanged}
-						onLoad={handleLoad}
-						className=""
+						onLoad={(autocomplete) => setPlaceData(autocomplete)}
 					>
 						<Input
 							variant="outlined"

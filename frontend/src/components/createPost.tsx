@@ -24,6 +24,8 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 		caption: "",
 	});
 	const [errors, setErrors] = useState([{ message: "" }]);
+	const [placeData, setPlaceData] =
+		useState<google.maps.places.Autocomplete | null>(null);
 
 	const postMutation = useMutation(createPost, {
 		onSuccess: () => {
@@ -48,21 +50,39 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 			place: placeName.value,
 		});
 	};
+
 	const handleUpdate = (field: string) => {
 		return (e: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 			setPost({ ...post, [field]: e.currentTarget.value });
 		};
 	};
 
+	const refinedPlaceObject = () => {
+		const placeObject = placeData?.getPlace();
+		return {
+			place_id: placeObject?.place_id,
+			place_name: placeObject?.name,
+			place_address: placeObject?.formatted_address,
+			place_rating: placeObject?.rating,
+			place_price_level: placeObject?.price_level,
+			maps_url: placeObject?.url,
+			place_lat: placeObject!.geometry!.location?.lat(),
+			place_lng: placeObject?.geometry?.location?.lng(),
+			photo_link: placeObject?.photos?.[0].getUrl(),
+		};
+	};
+
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		postMutation.mutateAsync(post).then((res) => {
-			if (!res.errors) {
-				return setOpen(false);
-			} else {
-				return setErrors(res.errors);
-			}
+		const res = await postMutation.mutateAsync({
+			post,
+			place: refinedPlaceObject(),
 		});
+		if (res.errors) {
+			return setErrors(res.errors);
+		} else {
+			return setOpen(false);
+		}
 	};
 
 	return (
@@ -104,6 +124,9 @@ const CreatePostForm = ({ open, setOpen }: createPostProps) => {
 					<Autocomplete
 						types={["restaurant"]}
 						onPlaceChanged={handlePlaceChanged}
+						onLoad={(autocomplete) => {
+							setPlaceData(autocomplete);
+						}}
 					>
 						<Input
 							variant="outlined"

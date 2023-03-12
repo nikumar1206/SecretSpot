@@ -20,7 +20,7 @@ export default class Place extends Base {
 	@Property()
 	location!: string;
 
-	@Property({ default: "" })
+	@Property({ default: "", type: "text" })
 	imageURL!: string;
 
 	@Property({ default: 0.0, type: "float" })

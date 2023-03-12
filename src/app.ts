@@ -26,7 +26,6 @@ const main = async () => {
 	const RedisStore = connectRedis(session);
 	const redisClient = redis.createClient({ legacyMode: true }); // required to add support for date and int types
 	await redisClient.connect();
-
 	const sessOptions: SessionOptions = {
 		name: COOKIE_NAME,
 		store: new RedisStore({ client: redisClient, disableTouch: true }), //cookie will not refresh after action
@@ -58,7 +57,7 @@ const main = async () => {
 	app.use("/api/users", userRouter);
 	app.use("/api/posts", postRouter);
 	app.use("/api/maps", mapsRouter);
-	app.use("/api/place", placeRouter);
+	app.use("/api/places", placeRouter);
 
 	app.listen(port, () => {
 		console.log(`🚀 Server is running on port ${port}!`);

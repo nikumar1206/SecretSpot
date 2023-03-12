@@ -1,5 +1,4 @@
 import axios from "axios";
-import { postForm } from "../types";
 
 export const fetchPosts = async () => {
 	try {
@@ -18,9 +17,9 @@ export const fetchFeed = async () => {
 		console.log(error);
 	}
 };
-export const createPost = async (post: postForm) => {
+export const createPost = async (postplaceObj) => {
 	try {
-		let res = await axios.post("/api/posts/create", post);
+		let res = await axios.post("/api/posts/create", postplaceObj);
 
 		return res.data;
 	} catch (error) {

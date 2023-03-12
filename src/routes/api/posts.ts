@@ -3,11 +3,8 @@ import express from "express";
 import { DI } from "../../app";
 import Place from "../../entities/Place";
 import Post from "../../entities/Post";
-import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
 import { postInputValidator } from "../../validations/postValidator";
 const postRouter = express.Router();
-// type newPost =
-// 	Loaded<Post, "place" | "creator">[] | "bookmarmed" : boolean
 
 postRouter.get("/", async (req, res) => {
 	const user = await DI.userRepository.findOne(
@@ -57,8 +54,8 @@ postRouter.get("/:id", async (req, res) => {
 });
 
 postRouter.post("/create", async (req, res) => {
-	req.body.rating = parseFloat(req.body.rating);
-	const saveDataResult = postInputValidator(req.body);
+	req.body.post.rating = parseFloat(req.body.post.rating);
+	const saveDataResult = postInputValidator(req.body.post);
 	if (!saveDataResult.success) {
 		return res.json({ errors: saveDataResult.errors });
 	}
@@ -71,7 +68,8 @@ postRouter.post("/create", async (req, res) => {
 			{ populate: ["places_been", "bookmarks"] }
 		),
 		DI.placeRepository.findOne({
-			nameLocation: req.body.place,
+			nameLocation:
+				req.body.place.place_name + " " + req.body.place.place_address,
 		}),
 	]);
 
@@ -82,30 +80,32 @@ postRouter.post("/create", async (req, res) => {
 	}
 
 	if (!place) {
-		const [latlongObj, imageURL] = await Promise.all([
-			findLatLng(req),
-			findImageURL(req.body.place),
-		]);
-		const { name, location } = separateNameLocation(req.body.place);
+		// const [latlongObj, imageURL] = await Promise.all([
+		// 	findLatLng(req),
+		// 	findImageURL(req.body.place),
+		// ]);
+		// const { name, location } = separateNameLocation(req.body.place);
 
 		let newPlace = DI.em.create(Place, {
-			nameLocation: req.body.place,
-			name: name,
-			location: location,
-			lat: latlongObj.lat,
-			lng: latlongObj.lng,
-			imageURL: imageURL,
+			nameLocation:
+				req.body.place.place_name + " " + req.body.place.place_address,
+			name: req.body.place.place_name,
+			location: req.body.place.place_address,
+			lat: req.body.place.place_lat,
+			lng: req.body.place.place_lng,
+			imageURL: req.body.place.photo_link,
 		});
 		await DI.em.persistAndFlush(newPlace);
 		place = await DI.placeRepository.findOne({
-			nameLocation: req.body.place,
+			nameLocation:
+				req.body.place.place_name + " " + req.body.place.place_address,
 		});
 	}
 
 	const post = new Post();
 	wrap(post).assign({
-		caption: req.body.caption,
-		rating: req.body.rating,
+		caption: req.body.post.caption,
+		rating: req.body.post.rating,
 		creator: poster,
 		place: place,
 	});

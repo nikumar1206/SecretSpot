@@ -182,7 +182,6 @@ userRouter.post("/logout", async (req, res) => {
 });
 
 userRouter.patch("/:id", async (req, res) => {
-	console.log("yerr");
 	const [user, checkUserinDB] = await Promise.all([
 		DI.userRepository.findOne({ id: req.params.id }, { populate: ["posts"] }),
 		DI.userRepository.findOne(

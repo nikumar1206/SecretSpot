@@ -1,6 +1,6 @@
 import express from "express";
 import { DI } from "../../app";
-import { findImageURL, findLatLng, separateNameLocation } from "../../utils";
+import Place from "../../entities/Place";
 
 const placeRouter = express.Router();
 
@@ -12,31 +12,32 @@ placeRouter.get("/", async (_, res) => {
 	return res.json(places);
 });
 
-placeRouter.get("/:id", async (req, res) => {
-	const place = await DI.placeRepository.findOne({ id: req.params.id });
-	return res.json(place);
-});
-
-placeRouter.get("/search/:namelocation", async (req, res) => {
-	const place = await DI.placeRepository.findOne({
-		nameLocation: req.params.namelocation,
+placeRouter.post("/search/", async (req, res) => {
+	let place = await DI.placeRepository.findOne({
+		nameLocation: req.body.place_name + " " + req.body.place_address,
 	});
 
 	if (!place) {
-		const { name, location } = separateNameLocation(req.params.namelocation);
-		const { lat, lng } = await findLatLng(req);
-		const createdPlace = DI.placeRepository.create({
-			nameLocation: req.params.namelocation,
-			lat: lat,
-			lng: lng,
-			imageURL: await findImageURL(req.params.namelocation),
-			name: name,
-			location: location,
+		const createdPlace = DI.em.create(Place, {
+			nameLocation: req.body.place_name + " " + req.body.place_address,
+			name: req.body.place_name,
+			location: req.body.place_address,
+			lat: req.body.place_lat,
+			lng: req.body.place_lng,
+			imageURL: req.body.photo_link,
 		});
-		await DI.placeRepository.persistAndFlush(createdPlace);
+		await DI.em.persistAndFlush(createdPlace);
+		place = await DI.placeRepository.findOne({
+			nameLocation: req.body.place_name + " " + req.body.place_address,
+		});
 		return res.json(createdPlace);
 	}
 
+	return res.json(place);
+});
+
+placeRouter.get("/:id", async (req, res) => {
+	const place = await DI.placeRepository.findOne({ id: req.params.id });
 	return res.json(place);
 });
 

@@ -51,9 +51,13 @@ const UserProfilePage = () => {
 		};
 	};
 
-	const handleEditSubmit = (e: React.SyntheticEvent) => {
+	const handleEditSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		editProfileMutation.mutateAsync(userData);
+		const data = await editProfileMutation.mutateAsync(userData);
+		if (data.errors) {
+			setErrors(data.errors);
+		}
+
 		queryClient.invalidateQueries("user");
 	};
 	const queryClient = useQueryClient();
