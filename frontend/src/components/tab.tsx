@@ -19,11 +19,6 @@ const TabComponent = ({ params }: { params: string }) => {
 		},
 
 		{
-			label: "Search",
-			value: "search",
-		},
-
-		{
 			label: "Timeline",
 			value: "timeline",
 		},

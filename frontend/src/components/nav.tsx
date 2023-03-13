@@ -1,18 +1,24 @@
 import {
 	Button,
+	Dialog,
+	DialogBody,
+	DialogHeader,
 	IconButton,
 	MobileNav,
 	Navbar,
 	Typography,
 } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
+import { BiSearchAlt } from "react-icons/bi";
 import { IoCreateOutline } from "react-icons/io5";
 import CreatePostForm from "./createPost";
+import Search from "./search";
 import TabComponent from "./tab";
 import { UserProfile } from "./userProfile";
 
 export const Nav = ({ params }: { params: string }) => {
 	const [openNav, setOpenNav] = useState(false);
+	const [searchOpen, setSearchOpen] = useState(false);
 	const [open, setOpen] = useState(false);
 
 	useEffect(() => {
@@ -81,15 +87,27 @@ export const Nav = ({ params }: { params: string }) => {
 					<div className="hidden lg:block">
 						<TabComponent params={params} />
 					</div>
-					<Button
-						variant="outlined"
-						ripple={false}
-						size="sm"
-						className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none"
-						onClick={() => setOpen(!open)}
-					>
-						<IoCreateOutline className="text-teal-500 text-2xl" />
-					</Button>
+					<div className="flex">
+						<Button
+							variant="outlined"
+							ripple={false}
+							size="sm"
+							className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none"
+							onClick={() => setOpen(!open)}
+						>
+							<IoCreateOutline className="text-teal-500 text-2xl" />
+						</Button>
+
+						<Button
+							variant="outlined"
+							ripple={false}
+							size="sm"
+							className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none bg-none"
+							onClick={() => setSearchOpen(!searchOpen)}
+						>
+							<BiSearchAlt className="text-teal-500 text-2xl" />
+						</Button>
+					</div>
 					<IconButton
 						variant="text"
 						className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
@@ -135,6 +153,19 @@ export const Nav = ({ params }: { params: string }) => {
 						<span>Buy Now</span>
 					</Button>
 				</MobileNav>
+				<Dialog
+					handler={() => setSearchOpen(!setSearchOpen)}
+					open={searchOpen}
+					size="md"
+					className="h-60 flex flex-col justify-center items-center"
+				>
+					<DialogHeader className="text-center flex justify-center font-h1">
+						Search
+					</DialogHeader>
+					<DialogBody className="flex justify-center">
+						<Search />
+					</DialogBody>
+				</Dialog>
 			</Navbar>
 		</div>
 	);

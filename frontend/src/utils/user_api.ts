@@ -28,6 +28,15 @@ export const fetchCurrentUser = async () => {
 	}
 };
 
+export const fetchUser = async (username: string) => {
+	try {
+		let res = await axios.get(`/api/users/${username}`);
+		return res.data;
+	} catch (error) {
+		throw new Error(`${error}`);
+	}
+};
+
 export const logoutUser = async () => {
 	try {
 		let res = await axios.post("/api/users/logout");

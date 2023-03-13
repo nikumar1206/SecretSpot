@@ -1,4 +1,5 @@
 import { useJsApiLoader } from "@react-google-maps/api";
+import { motion } from "framer-motion";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 import { Place, Post } from "../types";
@@ -6,9 +7,7 @@ import { fetchFeed, fetchPosts } from "../utils/post_api";
 import Feed from "./feed";
 import Lists from "./lists";
 import Nav from "./nav";
-import Search from "./search";
 import Timeline from "./timeline";
-
 type Libraries = (
 	| "drawing"
 	| "geometry"
@@ -22,7 +21,7 @@ const Home = () => {
 	const params = useParams()["*"] as string;
 
 	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
+		googleMapsApiKey: "",
 		libraries: libraries, // ,
 	});
 
@@ -49,9 +48,6 @@ const Home = () => {
 		case "lists":
 			component = <Lists />;
 			break;
-		case "search":
-			component = <Search />;
-			break;
 		case "timeline":
 			component = <Timeline places={myPlaces} isLoaded={isLoaded} />;
 			break;
@@ -64,9 +60,13 @@ const Home = () => {
 		return isFetched ? (
 			<div>
 				<Nav params={params} />
-				<div className="w-full flex justify-center h-[calc(100vh-80px)]">
+				<motion.div
+					className="w-full flex justify-center h-[calc(100vh-80px)]"
+					initial={{ opacity: 0 }}
+					whileInView={{ opacity: 1 }}
+				>
 					{isLoaded ? component : <></>}
-				</div>
+				</motion.div>
 			</div>
 		) : (
 			<div className="flex justify-center items-center h-screen bg-teal-100">

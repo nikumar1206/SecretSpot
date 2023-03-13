@@ -180,6 +180,35 @@ userRouter.post("/logout", async (req, res) => {
 	);
 	return res.json(deleteCookie);
 });
+userRouter.get("/:username", async (req, res) => {
+	console.log(req.params.username);
+	const user = await DI.userRepository.findOne(
+		{ username: req.params.username },
+		{
+			populate: [
+				"places_been",
+				"following",
+				"followers",
+				"feed",
+				"posts",
+				"posts.place",
+			],
+		}
+	);
+	if (!user) {
+		return res.json({
+			errors: "User not found",
+			data: null,
+			status: 401,
+		});
+	}
+
+	return res.json({
+		data: user,
+		errors: null,
+		status: 200,
+	});
+});
 
 userRouter.patch("/:id", async (req, res) => {
 	const [user, checkUserinDB] = await Promise.all([

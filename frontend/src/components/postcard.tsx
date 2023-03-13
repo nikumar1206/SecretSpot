@@ -8,12 +8,13 @@ import { useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { useMutation, useQueryClient } from "react-query";
+import { useNavigate } from "react-router-dom";
 import { Post } from "../types";
 import { addBookmark, removeBookmark } from "../utils/bookmark_api";
 import { removePost } from "../utils/post_api";
 const PostCard = ({ post }: { post: Post }) => {
 	const [errors, setErrors] = useState([]);
-	// const [elongated, setElongated] = useState(false);
+	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const removeBookmarkMutation = useMutation(removeBookmark, {
 		onSuccess: () => queryClient.refetchQueries("feed"),
@@ -32,8 +33,13 @@ const PostCard = ({ post }: { post: Post }) => {
 			return console.log(res);
 		}
 	};
+	const handleCardClick = (e: React.SyntheticEvent) => {
+		navigate(`/place/${post.place.id}`);
+	};
 
-	const handleBookmarkAdd = async () => {
+	const handleBookmarkAdd = async (e: React.SyntheticEvent) => {
+		e.preventDefault();
+		e.stopPropagation();
 		const res = await addBookmarkMutation.mutateAsync(post.place.id);
 		if (res.errors) {
 			setErrors(res.errors);
@@ -42,7 +48,9 @@ const PostCard = ({ post }: { post: Post }) => {
 		}
 	};
 
-	const handleBookmarkRemove = async () => {
+	const handleBookmarkRemove = async (e: React.SyntheticEvent) => {
+		e.stopPropagation();
+		e.preventDefault();
 		const res = await removeBookmarkMutation.mutateAsync(post.place.id);
 		if (res.errors) {
 			setErrors(res.errors);
@@ -68,7 +76,10 @@ const PostCard = ({ post }: { post: Post }) => {
 		});
 	};
 	return (
-		<Card className=" w-[28rem] h-[29rem] m-0 mr-0">
+		<Card
+			className=" w-[28rem] h-[29rem] m-0 mr-0 cursor-pointer"
+			onClick={handleCardClick}
+		>
 			<div className=" flex flex-row space-x-[19rem] justify-center items-center py-2">
 				<section className="flex flex-row gap-x-1 items-center">
 					<img

@@ -1,12 +1,15 @@
-import { Input, Radio } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import { Autocomplete } from "@react-google-maps/api";
 import { useState } from "react";
-import { useMutation, useQueryClient } from "react-query";
+import { BiSearchAlt } from "react-icons/bi";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import { getPlace } from "../utils/place_api";
-
+import { fetchUser } from "../utils/user_api";
+import Checkbox from "./checkbox";
 const Search = () => {
 	const [followBool, setFollowBool] = useState(false);
+	const [username, setUsername] = useState("");
 	const [place, setPlace] = useState("");
 	const [placeData, setPlaceData] =
 		useState<google.maps.places.Autocomplete | null>(null);
@@ -21,7 +24,9 @@ const Search = () => {
 			queryClient.invalidateQueries(["feed", "lists"]);
 		},
 	});
-
+	const { refetch } = useQuery("user", () => fetchUser(username), {
+		enabled: false,
+	});
 	const refinedPlaceObject = () => {
 		const placeObject = placeData?.getPlace();
 
@@ -36,6 +41,14 @@ const Search = () => {
 			place_lng: placeObject?.geometry?.location?.lng(),
 			photo_link: placeObject?.photos?.[0].getUrl(),
 		};
+	};
+	const handleFindUser = async () => {
+		const res = await refetch();
+		if (res.data) {
+			console.log(res.data);
+
+			navigate(`/user/${res.data.data.id}`);
+		}
 	};
 
 	const handlePlaceChanged = async () => {
@@ -53,39 +66,52 @@ const Search = () => {
 		);
 	} else {
 		return (
-			<div className="flex flex-col mt-10 gap-y-5">
+			<div className="flex flex-col gap-y-5">
 				<div className="flex gap-10">
-					<Radio
-						id="followers"
-						name="type"
+					<Checkbox
 						label="Search for a Person"
-						onClick={() => setFollowBool(true)}
-						ripple={false}
-						color="teal"
+						onClick={() => {
+							setFollowBool(true);
+						}}
+						isChecked={followBool}
+						setIsChecked={setFollowBool}
 					/>
-					<Radio
-						id="place"
-						name="type"
+					<Checkbox
 						label="Search for a Place"
-						onClick={() => setFollowBool(false)}
-						defaultChecked
-						ripple={false}
-						color="teal"
+						onClick={() => {
+							setFollowBool(false);
+						}}
+						isChecked={!followBool}
+						setIsChecked={setFollowBool}
 					/>
 				</div>
 				{followBool ? (
-					<Input
-						variant="outlined"
-						label="Search for a Person"
-						type="text"
-						size="lg"
-						color="teal"
-						id="placeName"
-						className="w-3"
-						autoComplete="off"
-						onChange={handleUpdate}
-						value={place}
-					/>
+					<div className="inline-flex gap-x-5">
+						<Input
+							variant="outlined"
+							label="Search for a Person"
+							type="text"
+							size="lg"
+							color="teal"
+							id="placeName"
+							className="w-3"
+							autoComplete="off"
+							onChange={(e) => setUsername(e.target.value)}
+							value={username}
+							autoFocus
+						/>
+
+						<Button
+							variant="outlined"
+							className="flex items-center gap-x-3 normal-case"
+							color="teal"
+							ripple={false}
+							onClick={handleFindUser}
+						>
+							Search
+							<BiSearchAlt className="h-5 w-5" />
+						</Button>
+					</div>
 				) : (
 					<Autocomplete
 						types={["restaurant"]}
@@ -103,6 +129,7 @@ const Search = () => {
 							autoComplete="off"
 							onChange={handleUpdate}
 							value={place}
+							autoFocus
 						/>
 					</Autocomplete>
 				)}
