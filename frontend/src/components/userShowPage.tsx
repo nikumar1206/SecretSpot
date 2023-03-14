@@ -19,7 +19,7 @@ import FollowerFollowingCard from "./followerfollowingcard";
 import MiniPostCard from "./miniPostCard";
 
 const UserProfilePage = () => {
-	const { data, isFetched } = useQuery("user", fetchCurrentUser);
+	const { data, isFetched } = useQuery("currentUser", fetchCurrentUser);
 
 	const [followUsername, setFollowUsername] = useState("");
 	const [userData, setUserData] = useState({

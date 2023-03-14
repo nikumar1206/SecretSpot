@@ -8,6 +8,7 @@ import {
 	Navbar,
 	Typography,
 } from "@material-tailwind/react";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { BiSearchAlt } from "react-icons/bi";
 import { IoCreateOutline } from "react-icons/io5";
@@ -15,7 +16,6 @@ import CreatePostForm from "./createPost";
 import Search from "./search";
 import TabComponent from "./tab";
 import { UserProfile } from "./userProfile";
-
 export const Nav = ({ params }: { params: string }) => {
 	const [openNav, setOpenNav] = useState(false);
 	const [searchOpen, setSearchOpen] = useState(false);
@@ -87,26 +87,24 @@ export const Nav = ({ params }: { params: string }) => {
 					<div className="hidden lg:block">
 						<TabComponent params={params} />
 					</div>
-					<div className="flex">
-						<Button
-							variant="outlined"
-							ripple={false}
-							size="sm"
+					<div className="inline-flex gap-x-5">
+						<motion.button
+							whileHover={{ scale: 1.2 }}
+							whileTap={{ scale: 0.85 }}
 							className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none"
 							onClick={() => setOpen(!open)}
 						>
 							<IoCreateOutline className="text-teal-500 text-2xl" />
-						</Button>
+						</motion.button>
 
-						<Button
-							variant="outlined"
-							ripple={false}
-							size="sm"
+						<motion.button
+							whileHover={{ scale: 1.2 }}
+							whileTap={{ scale: 0.85 }}
 							className="hidden lg:inline-block lowercase active:lowercase border-none active:outline-0 focus:outline-0 rounded-none bg-none"
 							onClick={() => setSearchOpen(!searchOpen)}
 						>
 							<BiSearchAlt className="text-teal-500 text-2xl" />
-						</Button>
+						</motion.button>
 					</div>
 					<IconButton
 						variant="text"

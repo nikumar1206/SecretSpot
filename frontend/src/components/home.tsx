@@ -1,4 +1,3 @@
-import { useJsApiLoader } from "@react-google-maps/api";
 import { motion } from "framer-motion";
 import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
@@ -8,22 +7,9 @@ import Feed from "./feed";
 import Lists from "./lists";
 import Nav from "./nav";
 import Timeline from "./timeline";
-type Libraries = (
-	| "drawing"
-	| "geometry"
-	| "localContext"
-	| "places"
-	| "visualization"
-)[];
 
-const libraries: Libraries = ["places"];
 const Home = () => {
 	const params = useParams()["*"] as string;
-
-	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "",
-		libraries: libraries, // ,
-	});
 
 	const results = useQueries([
 		{
@@ -49,7 +35,7 @@ const Home = () => {
 			component = <Lists />;
 			break;
 		case "timeline":
-			component = <Timeline places={myPlaces} isLoaded={isLoaded} />;
+			component = <Timeline places={myPlaces} />;
 			break;
 		default:
 			component = null;
@@ -65,7 +51,7 @@ const Home = () => {
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 				>
-					{isLoaded ? component : <></>}
+					{component}
 				</motion.div>
 			</div>
 		) : (

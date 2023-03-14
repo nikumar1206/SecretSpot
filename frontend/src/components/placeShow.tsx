@@ -1,4 +1,4 @@
-import { GoogleMap, Marker, useJsApiLoader } from "@react-google-maps/api";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { Place } from "../types";
@@ -11,20 +11,7 @@ const PlaceShow = () => {
 		cacheTime: 0,
 		keepPreviousData: false,
 	}).data;
-	type Libraries = (
-		| "drawing"
-		| "geometry"
-		| "localContext"
-		| "places"
-		| "visualization"
-	)[];
-	console.log(data);
 
-	const libraries: Libraries = ["places"];
-	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
-		libraries: libraries, // ,
-	});
 	const containerStyle: React.CSSProperties = {
 		width: "100vw",
 		height: "100vh",
@@ -37,7 +24,7 @@ const PlaceShow = () => {
 			</div>
 		);
 
-	if (data && isLoaded) {
+	if (data) {
 		const center = {
 			lat: data.lat,
 			lng: data.lng + 0.015, //not the best solution, but it works on my screen

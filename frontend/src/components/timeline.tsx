@@ -14,13 +14,7 @@ const center = {
 	lng: -74.006,
 };
 
-const Timeline = ({
-	places,
-	isLoaded,
-}: {
-	places: Place[];
-	isLoaded: boolean;
-}) => {
+const Timeline = ({ places }: { places: Place[] }) => {
 	const renderMap = () => {
 		// const map = useGoogleMap();
 		const [open, setOpen] = useState(false);
@@ -69,7 +63,7 @@ const Timeline = ({
 		);
 	};
 
-	return isLoaded ? renderMap() : <div>Loading...</div>;
+	return renderMap();
 };
 
 export default memo(Timeline);
