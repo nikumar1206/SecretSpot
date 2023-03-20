@@ -1,6 +1,7 @@
-import { useJsApiLoader } from "@react-google-maps/api";
+import { LoadScriptNext } from "@react-google-maps/api";
 import { AnimatePresence } from "framer-motion";
 import React from "react";
+import { useQuery } from "react-query";
 import { useLocation, useRoutes } from "react-router-dom";
 import Home from "./components/home";
 import NotFound from "./components/notFound";
@@ -8,6 +9,7 @@ import PlaceShow from "./components/placeShow";
 import ProtectedRoute from "./components/protectedRoute";
 import Splash from "./components/splash";
 import UserProfilePage from "./components/userShowPage";
+import { fetchMapsKey } from "./utils/maps_api";
 
 type Libraries = (
 	| "drawing"
@@ -21,12 +23,7 @@ const libraries: Libraries = ["places"];
 
 const App = () => {
 	const location = useLocation();
-
-	const { isLoaded } = useJsApiLoader({
-		googleMapsApiKey: "AIzaSyDBq8CQhrMSr1j3c-U_u9pL0pFRk1QZdcg",
-		libraries: libraries, // ,
-	});
-
+	const { data } = useQuery("mapsKey", fetchMapsKey);
 	const element = useRoutes([
 		{ path: "*", element: <NotFound /> },
 		{ path: "/", element: <Splash /> },
@@ -56,12 +53,16 @@ const App = () => {
 		},
 	]);
 	if (!element) return null;
-	if (!isLoaded) return null;
 
-	return (
-		<AnimatePresence mode="wait">
-			{React.cloneElement(element, { key: location.pathname })}
-		</AnimatePresence>
-	);
+	if (data) {
+		return (
+			<LoadScriptNext googleMapsApiKey={data} libraries={libraries}>
+				<AnimatePresence mode="wait">
+					{React.cloneElement(element, { key: location.pathname })}
+				</AnimatePresence>
+			</LoadScriptNext>
+		);
+	}
+	return null;
 };
 export default App;

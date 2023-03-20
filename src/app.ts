@@ -1,8 +1,6 @@
 import { MikroORM } from "@mikro-orm/core";
-import dotenv from "dotenv";
-dotenv.config();
-
 import connectRedis from "connect-redis";
+import dotenv from "dotenv";
 import express, { Application } from "express";
 import session, { SessionOptions } from "express-session";
 import * as redis from "redis";
@@ -16,6 +14,8 @@ import placeRouter from "./routes/api/place";
 import postRouter from "./routes/api/posts";
 import userRouter from "./routes/api/user";
 import { DatabaseInterface } from "./types";
+dotenv.config();
+const expressListRoutes = require("express-list-routes");
 
 export const DI = {} as DatabaseInterface;
 
@@ -62,5 +62,7 @@ const main = async () => {
 	app.listen(port, () => {
 		console.log(`🚀 Server is running on port ${port}!`);
 	});
+
+	console.log(expressListRoutes(app));
 };
 main();

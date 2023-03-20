@@ -1,6 +1,6 @@
-import { motion } from "framer-motion";
+import { Variants, motion } from "framer-motion";
 
-const boxVariants = {
+const boxVariants: Variants = {
 	hover: { scale: 1.05, strokeWidth: 30 },
 	pressed: { scale: 0.95, strokeWidth: 35 },
 	checked: { stroke: "rgb(20 184 166)" },

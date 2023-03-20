@@ -3,6 +3,7 @@ import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 import { Place, Post } from "../types";
 import { fetchFeed, fetchPosts } from "../utils/post_api";
+import { fetchCurrentUser } from "../utils/user_api";
 import Feed from "./feed";
 import Lists from "./lists";
 import Nav from "./nav";
@@ -19,6 +20,10 @@ const Home = () => {
 		{
 			queryKey: "myPosts",
 			queryFn: fetchPosts,
+		},
+		{
+			queryKey: "currentUser",
+			queryFn: fetchCurrentUser, // I think its silly not to call this once user is logged in, perhaps this should happen earlier
 		},
 	]);
 
@@ -42,9 +47,9 @@ const Home = () => {
 			break;
 	}
 
-	{
-		return isFetched ? (
-			<div>
+	if (isFetched) {
+		return (
+			<>
 				<Nav params={params} />
 				<motion.div
 					className="w-full flex justify-center h-[calc(100vh-80px)]"
@@ -53,12 +58,9 @@ const Home = () => {
 				>
 					{component}
 				</motion.div>
-			</div>
-		) : (
-			<div className="flex justify-center items-center h-screen bg-teal-100">
-				<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-			</div>
+			</>
 		);
 	}
+	return null;
 };
 export default Home;

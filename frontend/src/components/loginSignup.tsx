@@ -6,9 +6,8 @@ import {
 	DialogHeader,
 	Input,
 } from "@material-tailwind/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import userContext from "../utils/userContext";
 
 interface fieldError {
 	field: string;
@@ -29,8 +28,6 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		username: "",
 		password: "",
 	});
-
-	const { setCurrentUser } = useContext(userContext);
 
 	const { action, formType, setOpen, setModal, open } = props;
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
@@ -73,8 +70,6 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		if (data.errors) {
 			return setErrors(data.errors);
 		}
-
-		setCurrentUser(data);
 		navigate("/home/feed");
 	};
 

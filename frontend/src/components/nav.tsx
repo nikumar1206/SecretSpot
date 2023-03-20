@@ -155,7 +155,7 @@ export const Nav = ({ params }: { params: string }) => {
 					handler={() => setSearchOpen(!setSearchOpen)}
 					open={searchOpen}
 					size="md"
-					className="h-60 flex flex-col justify-center items-center"
+					className="h-60 flex flex-col justify-center items-center overflow-visible"
 				>
 					<DialogHeader className="text-center flex justify-center font-h1">
 						Search

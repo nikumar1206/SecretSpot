@@ -27,12 +27,21 @@ export const fetchCurrentUser = async () => {
 		throw new Error(`${error}`);
 	}
 };
+export const fetchAllUsers = async () => {
+	try {
+		let res = await axios.get("/api/users");
+		return res.data;
+	} catch (error) {
+		throw new Error(`${error}`);
+	}
+};
 
 export const fetchUser = async (username: string) => {
 	try {
-		let res = await axios.get(`/api/users/${username}`);
+		let res = await axios.post("/api/users/find", { username });
 		return res.data;
 	} catch (error) {
+		console.log(error);
 		throw new Error(`${error}`);
 	}
 };
