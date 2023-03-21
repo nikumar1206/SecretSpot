@@ -4,7 +4,7 @@ import { fetchCurrentUser } from "../utils/user_api";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 	const { isFetched, data } = useQuery("currentUser", fetchCurrentUser);
-	if (isFetched && !data) {
+	if (isFetched && data.errors) {
 		return <Navigate to={"/"} replace />;
 	}
 

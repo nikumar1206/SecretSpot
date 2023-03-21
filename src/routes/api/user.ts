@@ -83,7 +83,11 @@ userRouter.get("/profile", async (req, res) => {
 			return 0;
 		})
 		.slice(0, 5);
-	return res.json({ ...user, top5Spots });
+	return res.json({
+		errors: null,
+		data: { ...user, top5Spots },
+		status: "success",
+	});
 });
 
 userRouter.get("/lists", async (req, res) => {

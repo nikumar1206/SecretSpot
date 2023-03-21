@@ -1,75 +1,22 @@
 const SplashSpinner = ({ loaded }: { loaded: boolean }) => {
 	return (
-		<div
-			className={`bg-gray-50 w-full min-h-screen flex justify-center items-center opacity-70 ${
-				loaded ? "opacity-0 transition-opacity duration-200 invisible" : ""
-			}`}
-		>
-			<div className="bg-teal-50 opacity-70 p-10 shadow-md rounded-xl relative">
+		<div className="absolute top-1/2 left-1/2 -mt-4 -ml-2 h-8 w-4 text-teal-500">
+			<div className="absolute z-10 -ml-2 h-8 w-8 animate-bounce">
 				<svg
-					className="w-12 h-12 animate-spin text-teal-400"
-					viewBox="0 0 24 24"
-					fill="none"
 					xmlns="http://www.w3.org/2000/svg"
+					className="animate-spin"
+					fill="currentColor"
+					stroke="currentColor"
+					stroke-width="0"
+					width={50}
+					height={50}
+					viewBox="0 0 16 16"
 				>
-					<path
-						d="M12 4.75V6.25"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M17.1266 6.87347L16.0659 7.93413"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M19.25 12L17.75 12"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M17.1266 17.1265L16.0659 16.0659"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M12 17.75V19.25"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M7.9342 16.0659L6.87354 17.1265"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M6.25 12L4.75 12"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
-					<path
-						d="M7.9342 7.93413L6.87354 6.87347"
-						stroke="currentColor"
-						strokeWidth="1.5"
-						strokeLinecap="round"
-						strokeLinejoin="round"
-					></path>
+					<path d="M8 0c-4.418 0-8 3.582-8 8s3.582 8 8 8 8-3.582 8-8-3.582-8-8-8zM8 4c2.209 0 4 1.791 4 4s-1.791 4-4 4-4-1.791-4-4 1.791-4 4-4zM12.773 12.773c-1.275 1.275-2.97 1.977-4.773 1.977s-3.498-0.702-4.773-1.977-1.977-2.97-1.977-4.773c0-1.803 0.702-3.498 1.977-4.773l1.061 1.061c0 0 0 0 0 0-2.047 2.047-2.047 5.378 0 7.425 0.992 0.992 2.31 1.538 3.712 1.538s2.721-0.546 3.712-1.538c2.047-2.047 2.047-5.378 0-7.425l1.061-1.061c1.275 1.275 1.977 2.97 1.977 4.773s-0.702 3.498-1.977 4.773z"></path>
 				</svg>
 			</div>
+			<div className="absolute top-4 h-5 w-4 animate-bounce border-l-2 border-gray-200 -rotate-90"></div>
+			<div className="absolute top-4 h-5 w-4 animate-bounce border-r-2 border-gray-200 -rotate-90"></div>
 		</div>
 	);
 };

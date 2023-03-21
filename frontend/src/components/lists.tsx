@@ -9,14 +9,16 @@ const Lists = () => {
 
 	if (data) {
 		return (
-			<div className="flex flex-row gap-x-10 justify-center mt-10 w-5/6">
-				<BeenList list={data["places_been"]} />
-				<BookmarkList list={data["bookmarks"]} />
-				<RecList list={data["recs"]} />
+			<div className="w-full h-fit bg-teal-50">
+				<div className="flex flex-row gap-x-10 justify-center mt-10 mx-auto w-5/6 ">
+					<BeenList list={data["places_been"]} />
+					<BookmarkList list={data["bookmarks"]} />
+					<RecList list={data["recs"]} />
+				</div>
 			</div>
 		);
-	} else {
-		return <></>;
 	}
+	return null;
 };
+
 export default Lists;

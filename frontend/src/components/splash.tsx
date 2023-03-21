@@ -1,20 +1,12 @@
 import { Button } from "@material-tailwind/react";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useRef, useState } from "react";
 import { loginUser, registerUser } from "../utils/user_api";
 import LoginSignup from "./loginSignup";
-import SplashSpinner from "./splashSpinner";
-
 const Splash = () => {
 	const [open, setOpen] = useState(false);
-	const [loaded, setLoaded] = useState(false);
 	const [modal, setModal] = useState("");
 	const backgroundVideoRef = useRef<HTMLVideoElement>(null);
-
-	useEffect(() => {
-		backgroundVideoRef.current?.addEventListener("loadeddata", () =>
-			setLoaded(true)
-		);
-	}, []);
 
 	const handleOpen = (formType: string) => {
 		setModal(formType);
@@ -23,9 +15,11 @@ const Splash = () => {
 
 	return (
 		<>
-			{loaded ? null : <SplashSpinner loaded={loaded} />}
-			<video
+			<motion.video
 				src="https://streetsmart-safeassets.s3.amazonaws.com/diningout_broll.mp4"
+				animate={{ opacity: 1 }}
+				initial={{ opacity: 0 }}
+				transition={{ delay: 0.15, duration: 0.75 }}
 				autoPlay={true}
 				muted
 				loop
@@ -33,15 +27,14 @@ const Splash = () => {
 				playsInline
 				preload="true"
 				onContextMenu={(e) => e.preventDefault()}
-				onLoadedData={() => setLoaded(true)}
-				className={`absolute top-0 left-0 w-full h-auto overflow-hidden z-0  m-0 ${
-					loaded
-						? "opacity-1 transition-opacity duration-200 visible"
-						: "opacity-0 invisible"
-				}`}
-			></video>
+				className={`absolute top-0 left-0 w-full h-auto overflow-hidden z-0  m-0 `}
+			></motion.video>
 
-			<div className="relative m-auto text-center z-1 text-white top-44 overflow-hidden">
+			<motion.div
+				animate={{ opacity: 1 }}
+				initial={{ opacity: 0 }}
+				className="relative m-auto text-center z-1 text-white top-44 overflow-hidden"
+			>
 				<div className="flex flex-col items-center justify-center">
 					<article className="bg-black bg-opacity-40 flex flex-col items-center justify-center mx-auto rounded-xl pt-15 pb-11 px-20">
 						<h1 className="font-h1 text-9xl mt-5 mb-5 font-thin">
@@ -81,7 +74,7 @@ const Splash = () => {
 						</div>
 					</article>
 				</div>
-			</div>
+			</motion.div>
 		</>
 	);
 };

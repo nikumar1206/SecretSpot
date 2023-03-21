@@ -3,7 +3,6 @@ import { useQueries } from "react-query";
 import { useParams } from "react-router-dom";
 import { Place, Post } from "../types";
 import { fetchFeed, fetchPosts } from "../utils/post_api";
-import { fetchCurrentUser } from "../utils/user_api";
 import Feed from "./feed";
 import Lists from "./lists";
 import Nav from "./nav";
@@ -20,10 +19,6 @@ const Home = () => {
 		{
 			queryKey: "myPosts",
 			queryFn: fetchPosts,
-		},
-		{
-			queryKey: "currentUser",
-			queryFn: fetchCurrentUser, // I think its silly not to call this once user is logged in, perhaps this should happen earlier
 		},
 	]);
 
@@ -52,7 +47,7 @@ const Home = () => {
 			<>
 				<Nav params={params} />
 				<motion.div
-					className="w-full flex justify-center h-[calc(100vh-80px)]"
+					className="w-full flex justify-center h-[calc(100vh-80px)] bg-teal-50"
 					initial={{ opacity: 0 }}
 					whileInView={{ opacity: 1 }}
 				>

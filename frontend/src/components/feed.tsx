@@ -13,7 +13,7 @@ const Feed = ({ posts }: { posts: Post[] }) => {
 	);
 
 	return (
-		<div className="flex flex-col mb-5 pt-10 items-center">
+		<div className="flex flex-col mb-5 pt-10 items-center bg-teal-50 w-full h-full">
 			<div className="grid grid-cols-1 gap-5">
 				{paginatedPosts.map((post) => {
 					return <PostCard post={post} key={post.id} />;
