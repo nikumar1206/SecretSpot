@@ -1,5 +1,5 @@
 import { Tab, Tabs, TabsHeader } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 const TabComponent = ({ params }: { params: string }) => {
 	const navigate = useNavigate();

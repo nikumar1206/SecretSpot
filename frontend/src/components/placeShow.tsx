@@ -1,6 +1,6 @@
 import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useQuery } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Place } from "../types";
 import googleMapsStyle from "../utils/googleMaps";
 import { getPlaceById } from "../utils/place_api";

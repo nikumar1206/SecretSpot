@@ -36,9 +36,9 @@ export const fetchAllUsers = async () => {
 	}
 };
 
-export const fetchUser = async (username: string) => {
+export const fetchUser = async (email: string) => {
 	try {
-		let res = await axios.post("/api/users/find", { username });
+		let res = await axios.post("/api/users/find", { email });
 		return res.data;
 	} catch (error) {
 		console.log(error);
@@ -55,9 +55,9 @@ export const logoutUser = async () => {
 	}
 };
 
-export const addFollower = async (username: string) => {
+export const addFollower = async (email: string) => {
 	try {
-		let res = await axios.post(`/api/users/follow/${username}`);
+		let res = await axios.post(`/api/users/follow/${email}`);
 		return res.data;
 	} catch (error) {
 		throw new Error(`${error}`);

@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useQueries } from "react-query";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import { Place, Post } from "../types";
 import { fetchFeed, fetchPosts } from "../utils/post_api";
 import Feed from "./feed";

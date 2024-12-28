@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@material-tailwind/react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router";
 import App from "./App";
 import "./assets/application.css";
 

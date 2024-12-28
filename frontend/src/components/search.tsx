@@ -7,7 +7,7 @@ import { BiSearchAlt } from "react-icons/bi";
 import { HiChevronUpDown } from "react-icons/hi2";
 import { IoMdCheckmark } from "react-icons/io";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { User } from "../types";
 import { getPlace } from "../utils/place_api";
 import { fetchAllUsers, fetchUser } from "../utils/user_api";
@@ -27,7 +27,7 @@ const Search = () => {
 		return query === ""
 			? users.data
 			: users.data.filter((follower: User) => {
-					return follower.username.toLowerCase().includes(query.toLowerCase());
+					return follower.email.toLowerCase().includes(query.toLowerCase());
 			  });
 	};
 	const handleUpdate = (e: React.SyntheticEvent) => {
@@ -68,7 +68,7 @@ const Search = () => {
 	};
 	useEffect(() => {
 		if (users) {
-			setselectedFollower(users.data[0].username);
+			setselectedFollower(users.data[0].email);
 		}
 	}, [users]);
 	const handlePlaceChanged = async () => {
@@ -112,7 +112,7 @@ const Search = () => {
 								<Combobox.Input
 									autoFocus
 									className=" focus:border-transparent focus:outline-none w-full border-none py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-									displayValue={(person: User) => person.username}
+									displayValue={(person: User) => person.email}
 									onChange={(e) => setQuery(e.currentTarget.value)}
 									value={query}
 									placeholder="Search for a person"
@@ -154,7 +154,7 @@ const Search = () => {
 																selected ? "font-medium" : "font-normal"
 															}`}
 														>
-															{person.username}
+															{person.email}
 														</span>
 														{selected ? (
 															<span

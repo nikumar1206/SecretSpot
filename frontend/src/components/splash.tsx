@@ -15,21 +15,22 @@ const Splash = () => {
 
 	return (
 		<>
-			<motion.video
-				src="https://streetsmart-safeassets.s3.amazonaws.com/diningout_broll.mp4"
-				animate={{ opacity: 1 }}
-				initial={{ opacity: 0 }}
-				transition={{ delay: 0.15, duration: 0.75 }}
-				autoPlay={true}
-				muted
-				loop
-				ref={backgroundVideoRef}
-				playsInline
-				preload="true"
-				onContextMenu={(e) => e.preventDefault()}
-				className={`absolute top-0 left-0 w-full h-auto overflow-hidden z-0  m-0 `}
-			></motion.video>
-
+			<div className="absolute top-0 bottom-0 w-full h-full overflow-hidden">
+				<motion.video
+					src="http://localhost:3000/api/assets/intro-broll.mp4"
+					animate={{ opacity: 1 }}
+					initial={{ opacity: 0 }}
+					transition={{ delay: 0.15, duration: 0.75 }}
+					autoPlay={true}
+					muted
+					loop
+					ref={backgroundVideoRef}
+					playsInline
+					preload="true"
+					onContextMenu={(e) => e.preventDefault()}
+					className="absolute top-0 left-0 w-screen h-screen overflow-hidden z-0 m-0 min-w-screen min-h-screen object-cover"
+				></motion.video>
+			</div>
 			<motion.div
 				animate={{ opacity: 1 }}
 				initial={{ opacity: 0 }}

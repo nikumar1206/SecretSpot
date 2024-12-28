@@ -5,7 +5,7 @@ import {
 	MenuItem,
 	MenuList,
 } from "@material-tailwind/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { logoutUser } from "../utils/user_api";
 
 export const UserProfile = () => {

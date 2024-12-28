@@ -1,5 +1,5 @@
 import { useQuery } from "react-query";
-import { Navigate } from "react-router-dom";
+import { Navigate } from "react-router";
 import { fetchCurrentUser } from "../utils/user_api";
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {

@@ -13,7 +13,7 @@ import React, { useEffect, useState } from "react";
 import { IoIosSettings } from "react-icons/io";
 import { IoReturnUpBack } from "react-icons/io5";
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { Link } from "react-router-dom";
+import { Link } from "react-router";
 import { Post, User } from "../types";
 import { addFollower, editUser, fetchCurrentUser } from "../utils/user_api";
 import FollowerFollowingCard from "./followerfollowingcard";
@@ -22,9 +22,9 @@ import MiniPostCard from "./miniPostCard";
 const UserProfilePage = () => {
 	const { data, isFetched } = useQuery("currentUser", fetchCurrentUser);
 
-	const [followUsername, setFollowUsername] = useState("");
+	const [followemail, setFollowemail] = useState("");
 	const [userData, setUserData] = useState({
-		username: "",
+		email: "",
 		favorite_cuisine: "",
 		id: "",
 	});
@@ -32,7 +32,7 @@ const UserProfilePage = () => {
 	useEffect(() => {
 		if (isFetched) {
 			setUserData({
-				username: data.username,
+				email: data.email,
 				favorite_cuisine: data.favorite_cuisine,
 				id: data.id,
 			});
@@ -70,7 +70,7 @@ const UserProfilePage = () => {
 
 	const followMutation = useMutation(addFollower, {
 		onSuccess: () => {
-			setFollowUsername("");
+			setFollowemail("");
 			setErrors([{ field: "", message: "" }]);
 			queryClient.invalidateQueries("user");
 		},
@@ -83,7 +83,7 @@ const UserProfilePage = () => {
 
 	const handleFollowSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		const data = await followMutation.mutateAsync(followUsername);
+		const data = await followMutation.mutateAsync(followemail);
 		if (data.errors) {
 			setErrors(data.errors);
 		}
@@ -131,10 +131,10 @@ const UserProfilePage = () => {
 									type="text"
 									color="teal"
 									size="md"
-									label="change username"
+									label="change email"
 									className="mb-4"
-									onChange={handleEditUpdate("username")}
-									value={userData.username}
+									onChange={handleEditUpdate("email")}
+									value={userData.email}
 								/>
 								<Input
 									type="text"
@@ -183,7 +183,7 @@ const UserProfilePage = () => {
 								variant="circular"
 								className="w-20 h-20 shadow-teal-700 shadow-sm"
 							/>
-							<h1 className="text-2xl font-bold">{"@" + data.username}</h1>
+							<h1 className="text-2xl font-bold">{"@" + data.email}</h1>
 						</div>
 						<div className="flex flex-row gap-x-10 justify-center text-center mt-5">
 							<button
@@ -219,13 +219,13 @@ const UserProfilePage = () => {
 				</button> */}
 					<div className="flex flex-row justify-center gap-x-10 py-10">
 						<div className="flex flex-col gap-y-2">
-							<span className="text-center">{`${data.username}'s Top 5 Spots`}</span>
+							<span className="text-center">{`${data.email}'s Top 5 Spots`}</span>
 							{data.top5Spots.map((post: Post) => {
 								return <MiniPostCard key={post.id} post={post} type="been" />;
 							})}
 						</div>
 						<div className="flex flex-col gap-y-2">
-							<span className="text-center">{`${data.username}'s Recent Activity`}</span>
+							<span className="text-center">{`${data.email}'s Recent Activity`}</span>
 							{data.top5Spots.map((post: Post) => {
 								return <MiniPostCard key={post.id} post={post} type="been" />;
 							})}
@@ -275,8 +275,8 @@ const UserProfilePage = () => {
 									<div className="flex gap-x-5 mb-5 justify-center w-[22rem] m-auto">
 										<Input
 											type="text"
-											value={followUsername}
-											onChange={(e) => setFollowUsername(e.target.value)}
+											value={followemail}
+											onChange={(e) => setFollowemail(e.target.value)}
 											label="Follower Name"
 											color="teal"
 											error={errors[0].message ? true : false}

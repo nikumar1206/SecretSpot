@@ -1,6 +1,6 @@
 export interface User {
 	id: string;
-	username: string;
+	email: string;
 	pfpURL: string;
 	favorite_cuisine: string;
 	followers: User[];
@@ -13,11 +13,11 @@ export interface User {
 	top5Spots: Post[];
 }
 export interface userInterface {
-	username: string;
+	email: string;
 	password: string;
 }
 export interface editUserInterface {
-	username: string;
+	email: string;
 	favorite_cuisine: string;
 	id: string;
 }

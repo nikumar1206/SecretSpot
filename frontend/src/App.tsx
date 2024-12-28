@@ -2,7 +2,7 @@ import { LoadScriptNext } from "@react-google-maps/api";
 import { AnimatePresence } from "framer-motion";
 import React from "react";
 import { useQuery } from "react-query";
-import { useLocation, useRoutes } from "react-router-dom";
+import { useLocation, useRoutes } from "react-router";
 import Home from "./components/home";
 import NotFound from "./components/notFound";
 import PlaceShow from "./components/placeShow";
@@ -56,7 +56,7 @@ const App = () => {
 
 	if (data) {
 		return (
-			<LoadScriptNext googleMapsApiKey={data} libraries={libraries}>
+			<LoadScriptNext googleMapsApiKey={data.key} libraries={libraries}>
 				<AnimatePresence mode="wait">
 					{React.cloneElement(element, { key: location.pathname })}
 				</AnimatePresence>

@@ -9,7 +9,7 @@ import { useState } from "react";
 import { BiHide } from "react-icons/bi";
 import { RiBookmarkFill, RiBookmarkLine } from "react-icons/ri";
 import { useMutation, useQueryClient } from "react-query";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 import { Post } from "../types";
 import { addBookmark, removeBookmark } from "../utils/bookmark_api";
 import { removePost } from "../utils/post_api";
@@ -94,7 +94,7 @@ const PostCard = ({ post }: { post: Post }) => {
 							className="w-9 h-9 rounded-full"
 						/>
 						<span className="text-gray-700 font-semibold text-sm">
-							{post.creator.username}
+							{post.creator.email}
 						</span>
 					</section>
 					<div className="flex flex-row gap-x-3 text-[20px]">

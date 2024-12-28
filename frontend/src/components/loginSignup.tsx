@@ -7,7 +7,7 @@ import {
 	Input,
 } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 
 interface fieldError {
 	field: string;
@@ -22,10 +22,10 @@ interface LoginSignupProps {
 	open: boolean;
 }
 
-type fieldInput = "username" | "password";
+type fieldInput = "email" | "password";
 const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	const [user, setUser] = useState({
-		username: "",
+		email: "",
 		password: "",
 	});
 
@@ -42,7 +42,7 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	// const handleDemoUser = async (e: React.SyntheticEvent) => {
 	// 	e.preventDefault();
 	// 	setUser({
-	// 		username: "test1",
+	// 		email: "test1",
 	// 		password: "password",
 	// 	});
 	// 	await loginUser(user);
@@ -105,13 +105,13 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 				<DialogBody divider className="flex flex-col gap-4">
 					<Input
 						variant="outlined"
-						label="Username"
+						label="email"
 						type="text"
 						size="md"
-						id="username"
+						id="email"
 						color="teal"
 						className="w-3"
-						onChange={handleUpdate("username")}
+						onChange={handleUpdate("email")}
 					/>
 					<Input
 						variant="outlined"
