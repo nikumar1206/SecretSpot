@@ -1,8 +1,7 @@
-import { GoogleMap, Marker } from "@react-google-maps/api";
+import { GoogleMap } from "@react-google-maps/api";
 import { memo, useState } from "react";
 import { Place } from "../types";
 import googleMapsStyle from "../utils/googleMaps";
-import MapPostModal from "./mapPostModal";
 
 const containerStyle: React.CSSProperties = {
 	width: "100vw",
@@ -16,9 +15,8 @@ const center = {
 
 const Timeline = ({ places }: { places: Place[] }) => {
 	const renderMap = () => {
-		// const map = useGoogleMap();
 		const [open, setOpen] = useState(false);
-		const [place, setPlace] = useState<Place>(places[0]);
+		const [place, setPlace] = useState<Place>(null);
 
 		const handleDialogOpen = (place: Place) => {
 			setOpen(true);
@@ -40,7 +38,7 @@ const Timeline = ({ places }: { places: Place[] }) => {
 					clickableIcons: false,
 				}}
 			>
-				{places.map((place) => {
+				{/* {places.map((place) => {
 					return (
 						<Marker
 							key={place.id}
@@ -57,8 +55,8 @@ const Timeline = ({ places }: { places: Place[] }) => {
 							}}
 						/>
 					);
-				})}
-				<MapPostModal open={open} setOpen={setOpen} place={place} />
+				})} */}
+				{/* <MapPostModal open={open} setOpen={setOpen} place={place} /> */}
 			</GoogleMap>
 		);
 	};

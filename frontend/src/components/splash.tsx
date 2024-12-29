@@ -1,4 +1,3 @@
-import { Button } from "@material-tailwind/react";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { loginUser, registerUser } from "../utils/user_api";
@@ -7,11 +6,6 @@ const Splash = () => {
 	const [open, setOpen] = useState(false);
 	const [modal, setModal] = useState("");
 	const backgroundVideoRef = useRef<HTMLVideoElement>(null);
-
-	const handleOpen = (formType: string) => {
-		setModal(formType);
-		setOpen(!open);
-	};
 
 	return (
 		<>
@@ -28,7 +22,7 @@ const Splash = () => {
 					playsInline
 					preload="true"
 					onContextMenu={(e) => e.preventDefault()}
-					className="absolute top-0 left-0 w-screen h-screen overflow-hidden z-0 m-0 min-w-screen min-h-screen object-cover"
+					className="absolute top-0 left-0 w-screen h-screen overflow-hidden z-[-1] m-0 min-w-screen min-h-screen object-cover"
 				></motion.video>
 			</div>
 			<motion.div
@@ -45,33 +39,13 @@ const Splash = () => {
 							Find the best food spots, with friends!
 						</span>
 						<div className="flex gap-2 justify-center mt-5">
-							<Button
-								variant="outlined"
-								size="md"
-								color="white"
-								ripple={false}
-								onClick={() => handleOpen("Login")}
-								className="border-2"
-							>
-								Login
-							</Button>
-							<Button
-								variant="outlined"
-								size="md"
-								color="white"
-								ripple={false}
-								onClick={() => handleOpen("Register")}
-								className="border-2"
-							>
-								Sign Up
-							</Button>
 							<LoginSignup
 								action={modal == "Login" ? loginUser : registerUser}
 								formType={modal}
 								setModal={setModal}
 								setOpen={setOpen}
 								open={open}
-							></LoginSignup>
+							/>
 						</div>
 					</article>
 				</div>

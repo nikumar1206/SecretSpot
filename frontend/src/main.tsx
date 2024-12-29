@@ -1,4 +1,3 @@
-import { ThemeProvider } from "@material-tailwind/react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { BrowserRouter } from "react-router";
@@ -12,12 +11,11 @@ const queryClient = new QueryClient({
 		},
 	},
 });
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
 	<QueryClientProvider client={queryClient} contextSharing={true}>
-		<ThemeProvider>
-			<BrowserRouter>
-				<App />
-			</BrowserRouter>
-		</ThemeProvider>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
 	</QueryClientProvider>
 );

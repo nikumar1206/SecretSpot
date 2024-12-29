@@ -6,7 +6,6 @@ import { useLocation, useRoutes } from "react-router";
 import Home from "./components/home";
 import NotFound from "./components/notFound";
 import PlaceShow from "./components/placeShow";
-import ProtectedRoute from "./components/protectedRoute";
 import Splash from "./components/splash";
 import UserProfilePage from "./components/userShowPage";
 import { fetchMapsKey } from "./utils/maps_api";
@@ -29,27 +28,15 @@ const App = () => {
 		{ path: "/", element: <Splash /> },
 		{
 			path: "/home/*",
-			element: (
-				<ProtectedRoute>
-					<Home />
-				</ProtectedRoute>
-			),
+			element: <Home />,
 		},
 		{
 			path: "/user/*",
-			element: (
-				<ProtectedRoute>
-					<UserProfilePage />
-				</ProtectedRoute>
-			),
+			element: <UserProfilePage />,
 		},
 		{
 			path: "/place/:placeId",
-			element: (
-				<ProtectedRoute>
-					<PlaceShow />
-				</ProtectedRoute>
-			),
+			element: <PlaceShow />,
 		},
 	]);
 	if (!element) return null;

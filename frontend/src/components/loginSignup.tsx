@@ -1,13 +1,24 @@
+import { Button } from "@/components/ui/button";
 import {
-	Button,
 	Dialog,
-	DialogBody,
+	DialogClose,
+	DialogContent,
 	DialogFooter,
-	DialogHeader,
-	Input,
-} from "@material-tailwind/react";
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Text } from "@radix-ui/themes";
+
+import * as Toggle from "@radix-ui/react-toggle";
 import React, { useEffect, useState } from "react";
+import { AiOutlineMail } from "react-icons/ai";
+import { MdOutlinePerson, MdOutlinePersonAdd } from "react-icons/md";
+import { PiPasswordLight } from "react-icons/pi";
+
+import { loginUser, registerUser } from "@/utils/user_api";
+import { DialogTitle } from "@radix-ui/react-dialog";
 import { useNavigate } from "react-router";
+type FormType = "Login" | "Sign Up";
 
 interface fieldError {
 	field: string;
@@ -29,7 +40,9 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		password: "",
 	});
 
-	const { action, formType, setOpen, setModal, open } = props;
+	const [formType, setFormType] = useState<FormType>("Login");
+
+	const { open } = props;
 	const [errors, setErrors] = useState<null | fieldError[]>(null);
 	const navigate = useNavigate();
 
@@ -39,26 +52,6 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 		}
 	}, [open]);
 
-	// const handleDemoUser = async (e: React.SyntheticEvent) => {
-	// 	e.preventDefault();
-	// 	setUser({
-	// 		email: "test1",
-	// 		password: "password",
-	// 	});
-	// 	await loginUser(user);
-	// 	navigate("/home/feed");
-	// };
-
-	const handleOpen = (formType: string) => {
-		setModal(formType);
-		setOpen(!open);
-	};
-	const handleCancel = (): void => {
-		setOpen(false);
-		setErrors(null);
-		return;
-	};
-
 	const handleUpdate = (field: fieldInput) => {
 		return (e: React.FormEvent<HTMLInputElement>): void =>
 			setUser({ ...user, [field]: e.currentTarget.value });
@@ -66,7 +59,8 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 
 	const handleSubmit = async (e: React.SyntheticEvent) => {
 		e.preventDefault();
-		let data = await action(user);
+		let data =
+			formType === "Login" ? await loginUser(user) : await registerUser(user);
 		if (data.errors) {
 			return setErrors(data.errors);
 		}
@@ -74,91 +68,85 @@ const LoginSignup = (props: LoginSignupProps): JSX.Element => {
 	};
 
 	return (
-		<Dialog
-			open={open}
-			handler={handleOpen}
-			animate={{
-				mount: {
-					animation: "transition.slideUpBigIn",
-					duration: 300,
-				},
-				unmount: {
-					animation: "transition.slideDownBigOut",
-					duration: 300,
-				},
-			}}
-			size="xs"
-		>
-			<form onSubmit={handleSubmit}>
-				<DialogHeader className="flex justify-center text-4xl font-light to-black items-end ">
-					{formType == "Login" ? "Log In" : "Sign Up"}
-				</DialogHeader>
-				{errors ? (
-					errors.map((error, i) => (
-						<div className="flex flex-col items-center my-2" key={i}>
-							<div className="text-red-500 text-sm">{error.message}</div>
-						</div>
-					))
-				) : (
-					<div className="text-red-500 text-sm"></div>
-				)}
-				<DialogBody divider className="flex flex-col gap-4">
-					<Input
-						variant="outlined"
-						label="email"
-						type="text"
-						size="md"
-						id="email"
-						color="teal"
-						className="w-3"
-						onChange={handleUpdate("email")}
-					/>
-					<Input
-						variant="outlined"
-						label="Password"
-						type="password"
-						size="md"
-						id="password"
-						color="teal"
-						onChange={handleUpdate("password")}
-						autoComplete="on"
-					/>
-				</DialogBody>
-				<DialogFooter className="flex flex-col items-end gap-2">
-					<div className="flex flex-row justify-end gap-2">
-						<Button
-							onClick={handleCancel}
-							color="red"
-							variant="outlined"
-							ripple={false}
-							className="normal-case transition ease-in-out delay-75 hover:bg-red-500 hover:text-white duration-300 rounded-md"
+		<Dialog>
+			{console.log(formType)}
+			<DialogTrigger>
+				<Button color="teal" variant="default">
+					<Text size={"2"}>Login / Sign-Up</Text>
+				</Button>
+			</DialogTrigger>
+			<DialogContent
+				className="flex flex-col gap-4 max-w-[350px]"
+				size={"2"}
+				aria-describedby="Login or Signup"
+			>
+				<form onSubmit={handleSubmit}>
+					<DialogTitle className="flex justify-center text-4xl font-light to-black items-end mb-6">
+						{formType == "Login" ? "Log In" : "Sign Up"}
+					</DialogTitle>
+					{errors ? (
+						errors.map((error, i) => (
+							<div className="flex flex-col items-center my-2" key={i}>
+								<div className="text-red-500 text-sm">{error.message}</div>
+							</div>
+						))
+					) : (
+						<div className="text-red-500 text-sm"></div>
+					)}
+					<div className="w-[95%] flex justify-end">
+						<Toggle.Root
+							className="flex gap-x-2 py-1 px-2 justify-center rounded-sm  leading-4  text-sm border-gray-400 bg-black text-white"
+							onClick={() =>
+								setFormType(formType === "Login" ? "Sign Up" : "Login")
+							}
 						>
-							Cancel
-						</Button>
+							{formType === "Login" ? <MdOutlinePersonAdd size={16} /> : <></>}
+							{formType === "Sign Up" ? <MdOutlinePerson size={16} /> : <></>}
+							{formType === "Login" ? "New to SecretSpot?" : "Existing User ?"}
+						</Toggle.Root>
+					</div>
+
+					<div className="flex flex-col gap-y-3 my-4 items-center">
+						<Input
+							placeholder="email"
+							id="email"
+							onChange={handleUpdate("email")}
+							autoComplete="on"
+							className="w-[90%] transition-colors ease-in-out duration-300"
+							icon={AiOutlineMail}
+							iconProps={{ behavior: "prepend" }}
+						/>
+						<Input
+							placeholder="password"
+							type="password"
+							id="password"
+							className="w-[90%] transition-colors ease-in-out duration-300"
+							onChange={handleUpdate("password")}
+							autoComplete="on"
+							icon={PiPasswordLight}
+							iconProps={{ behavior: "prepend" }}
+						/>
+					</div>
+					<DialogFooter className="flex flex-row justify-end gap-2 mt-6 w-[95%]">
+						<DialogClose>
+							<Button
+								color="red"
+								variant="destructive"
+								className="normal-case transition ease-in-out delay-75 hover:bg-red-500 hover:text-white duration-300 cursor-pointer"
+							>
+								Cancel
+							</Button>
+						</DialogClose>
 
 						<Button
-							size="md"
-							ripple={false}
 							type="submit"
-							color="teal"
-							className="normal-case"
+							className="normal-case bg-teal-500 hover:bg-teal-500 transition-colors ease-in-out"
 						>
 							{formType} User!
 						</Button>
-					</div>
-					{/* <Button
-						size="md"
-						variant="outlined"
-						ripple={false}
-						type="button"
-						onClick={handleDemoUser}
-						color="teal"
-						className="normal-case hover:shadow-none"
-					>
-						Demo User login
-					</Button> */}
-				</DialogFooter>
-			</form>
+					</DialogFooter>
+				</form>
+			</DialogContent>
 		</Dialog>
 	);
 };
